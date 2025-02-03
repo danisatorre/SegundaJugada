@@ -3,7 +3,7 @@ use online_shop;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "00:00";
+SET time_zone = "+00:00";
 
 -- USUARIOS
 
@@ -574,105 +574,67 @@ ALTER TABLE 'players'
 
 ALTER TABLE 'favoritos'
     ADD CONSTRAINT 'user_fav' FOREIGN KEY ('users') REFERENCES 'users' ('id_user'),
+    ADD CONSTRAINT 'producto_fav' FOREIGN KEY ('productos') REFERENCES 'productos' ('id_producto');
 
 -- COMPRAS
 
 ALTER TABLE 'compras'
-    ADD PRIMARY KEY ('id_compra'),
-    ADD UNIQUE KEY 'id_compra' ('id_compra');
+    ADD CONSTRAINT 'user_compra' FOREIGN KEY ('users') REFERENCES 'users' ('id_user'),
+    ADD CONSTRAINT 'producto_compra' FOREIGN KEY ('productos') REFERENCES 'productos' ('id_producto');
 
 -- CARRITO
 
 ALTER TABLE 'carrito'
-    ADD PRIMARY KEY ('id_carrito'),
-    ADD UNIQUE KEY 'id_carrito' ('id_carrito');
+    ADD CONSTRAINT 'user_carrito' FOREIGN KEY ('users') REFERENCES 'users' ('id_user'),
+    ADD CONSTRAINT 'producto_carrito' FOREIGN KEY ('productos') REFERENCES 'productos' ('id_producto');
 
 -- PRODUCTOS
 
 ALTER TABLE 'productos'
-    ADD PRIMARY KEY ('id_producto'),
-    ADD UNIQUE KEY 'id_producto' ('id_producto');
+    ADD CONSTRAINT 'id_vendedor' FOREIGN KEY ('users') REFERENCES 'users' ('id_user'),
+    ADD CONSTRAINT 'marca' FOREIGN KEY ('marcas') REFERENCES 'marcas' ('id_marca'),
+    ADD CONSTRAINT 'categoria' FOREIGN KEY ('categorias') REFERENCES 'categorias' ('id_categoria'),
+    ADD CONSTRAINT 'tipo' FOREIGN KEY ('tipo') REFERENCES 'tipo' ('id_tipo');
 
 -- PRODUCT IMAGES
 
 ALTER TABLE 'product_img'
-    ADD PRIMARY KEY ('id_pimg'),
-    ADD UNIQUE KEY 'id_pimg', ('id_pimg');
-
--- CATEGORIAS
-
-ALTER TABLE 'categorias'
-    ADD PRIMARY KEY ('id_categoria'),
-    ADD UNIQUE KEY 'id_categoria' ('id_categoria');
-
--- TIPO
-
-ALTER TABLE 'tipo'
-    ADD PRIMARY KEY ('id_tipo'),
-    ADD UNIQUE KEY 'id_tipo' ('id_tipo');
+    ADD CONSTRAINT 'pimage_product' FOREIGN KEY ('productos') REFERENCES 'productos' ('id_producto');
 
 -- IMAGES
 
 ALTER TABLE 'images'
-    ADD PRIMARY KEY ('id_image'),
-    ADD UNIQUE KEY 'id_image' ('id_image');
+    ADD CONSTRAINT 'image_product' FOREIGN KEY ('productos') REFERENCES 'productos' ('id_producto');
 
 -- RESEÑAS
 
 ALTER TABLE 'resenas'
-    ADD PRIMARY KEY ('id_resena'),
-    ADD UNIQUE KEY 'id_resena' ('id_resena');
-
--- MARCAS
-
-ALTER TABLE 'marcas'
-    ADD PRIMARY KEY ('id_marca'),
-    ADD UNIQUE KEY 'id_marca' ('id_marca');
+    ADD CONSTRAINT 'user_resena' FOREIGN KEY ('users') REFERENCES 'users' ('id_user'),
+    ADD CONSTRAINT 'product_resena' FOREIGN KEY ('productos') REFERENCES 'productos' ('id_producto');
 
 -- DEVOLUCIONES
 
 ALTER TABLE 'devoluciones'
-    ADD PRIMARY KEY ('id_dev'),
-    ADD UNIQUE KEY 'id_dev' ('id_dev');
+    ADD CONSTRAINT 'user_dev' FOREIGN KEY ('users') REFERENCES 'users' ('id_user'),
+    ADD CONSTRAINT 'product_dev' FOREIGN KEY ('productos') REFERENCES 'productos' ('id_producto'),
+    ADD CONSTRAINT 'motivo' FOREIGN KEY ('motivos') REFERENCES 'motivos' ('id_motivo');
 
 -- PAGOS
 
 ALTER TABLE 'pagos'
-    ADD PRIMARY KEY ('id_pago')
-    ADD UNIQUE KEY 'id_pago' ('id_pago');
-
--- MOTIVOS
-
-ALTER TABLE 'motivos'
-    ADD PRIMARY KEY ('id_motivo'),
-    ADD UNIQUE KEY 'id_motivo' ('id_motivo');
+    ADD CONSTRAINT 'metodo_pago' FOREIGN KEY ('metodos_pago') REFERENCES 'metodos_pago' ('id_metodo'),
+    ADD CONSTRAINT 'producto_pago' FOREIGN KEY ('productos') REFERENCES 'productos' ('id_producto'),
+    ADD CONSTRAINT 'user_pago' FOREIGN KEY ('users') REFERENCES 'users' ('id_user');
 
 -- CHATS
 
 ALTER TABLE 'chats'
-    ADD PRIMARY KEY ('id_chat'),
-    ADD UNIQUE KEY 'id_chat' ('id_chat');
+    ADD CONSTRAINT 'cliente_chat' FOREIGN KEY ('users') REFERENCES 'users' ('id_user'),
+    ADD CONSTRAINT 'vendedor_chat' FOREIGN KEY ('users') REFERENCES 'users' ('id_user'),
+    ADD CONSTRAINT 'producto_chat' FOREIGN KEY ('productos') REFERENCES 'productos' ('id_producto');
 
 -- SUBASTAS
 
 ALTER TABLE 'subastas'
-    ADD PRIMARY KEY ('id_subasta'),
-    ADD UNIQUE KEY 'id_subasta' ('id_subasta');
-
--- METODOS DE PAGO
-
-ALTER TABLE 'metodos_pago'
-    ADD PRIMARY KEY ('id_metodo'),
-    ADD UNIQUE KEY 'id_metodo' ('id_metodo');
-
--- TEAMS
-
-ALTER TABLE 'teams'
-    ADD PRIMARY KEY ('id_team'),
-    ADD UNIQUE KEY 'id_team' ('id_team');
-
--- PLAYERS
-
-ALTER TABLE 'players'
-    ADD PRIMARY KEY ('id_player'),
-    ADD UNIQUE KEY 'id_player' ('id_player');
+    ADD CONSTRAINT 'user_sub' FOREIGN KEY ('users') REFERENCES 'users' ('id_user'),
+    ADD CONSTRAINT 'producto_sub' FOREIGN KEY ('productos') REFERENCES 'productos' ('id_producto');
