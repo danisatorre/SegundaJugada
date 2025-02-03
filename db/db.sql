@@ -43,13 +43,13 @@ INSERT INTO 'direccion'('id_dir', 'ciudad', 'calle', 'pais', 'cp') VALUES
 
 -- FAVORITOS
 
-CREATE TABLE favoritos(
+CREATE TABLE 'favoritos'(
     id_fav int(20) UNSIGNED NOT NULL,
     user_fav int(20) UNSIGNED NOT NULL,
     producto_fav int(20) UNSIGNED NOT NULL
 );
 
-INSERT INTO favoritos(id_fav, user_fav, producto_fav) VALUES
+INSERT INTO 'favoritos'('id_fav', 'user_fav', 'producto_fav') VALUES
 (1, 1, 1),
 (2, 4, 2),
 (3, 2, 3),
@@ -84,8 +84,8 @@ CREATE TABLE 'carrito'(
 INSERT INTO 'carrito' ('id_carrito', 'user_carrito', 'producto_carrito', 'cantidad_carrito') VALUES
 (1, 1, 1, 1),
 (2, 2, 2, 1),
-(3, 3, 3, 1),
-(4, 4, 4, 1),
+(3, 3, 3, 4),
+(4, 4, 4, 2),
 (5, 5, 5, 1);
 
 -- PRODUCTOS
@@ -95,6 +95,7 @@ CREATE TABLE 'productos'(
     'id_vendedor' int(20) UNSIGNED NOT NULL,
     'marca' int(50) UNSIGNED NOT NULL,
     'categoria' int(20) UNSIGNED NOT NULL,
+    'tipo' int(20) UNSIGNED NOT NULL,
     'nom_prod' varchar(40) NOT NULL,
     'sexo_prod' varchar(20) NOT NULL,
     'talla' varchar(10) NOT NULL,
@@ -106,12 +107,12 @@ CREATE TABLE 'productos'(
     'precio' int(5) NOT NULL
 );
 
-INSERT INTO 'productos' ('id_producto', 'id_vendedor', 'marca', 'categoria', 'nom_prod', 'sexo_prod', 'talla', 'entrega', 'oferta', 'descripcion', 'condicion', 'stock', 'precio') VALUES
-(1, 1, 1, 1, 'producto1', 'masculino', 'M', 'persona', 'no', 'descripcion1', 'nuevo', 3, 10),
-(2, 2, 2, 2, 'producto2', 'femenino', 'S', 'domicilio', 'si', 'descripcion2', 'desgastado', 5, 20),
-(3, 3, 3, 3, 'producto3', 'femenino', 'L', 'domicilio', 'no', 'descripcion3', 'roto', 3, 30),
-(4, 4, 4, 4, 'producto4', 'masculino', 'XL', 'persona', 'si', 'descripcion4', 'bueno', 1, 40),
-(5, 5, 5, 5, 'producto5', 'masculino', 'M', 'domicilio', 'no', 'descripcion5', 'nuevo', 1, 50);
+INSERT INTO 'productos' ('id_producto', 'id_vendedor', 'marca', 'categoria', 'tipo', 'nom_prod', 'sexo_prod', 'talla', 'entrega', 'oferta', 'descripcion', 'condicion', 'stock', 'precio') VALUES
+(1, 1, 1, 1, 1, 'producto1', 'masculino', 'M', 'persona', 'no', 'descripcion1', 'nuevo', 3, 10),
+(2, 2, 2, 2, 2, 'producto2', 'femenino', 'S', 'domicilio', 'si', 'descripcion2', 'desgastado', 5, 20),
+(3, 3, 3, 3, 3, 'producto3', 'femenino', 'L', 'tienda', 'no', 'descripcion3', 'roto', 3, 30),
+(4, 4, 4, 4, 2, 'producto4', 'masculino', 'XL', 'persona', 'si', 'descripcion4', 'bueno', 1, 40),
+(5, 5, 5, 5, 3, 'producto5', 'masculino', 'M', 'tienda', 'no', 'descripcion5', 'nuevo', 1, 50);
 
 -- PRODUCT IMAGES
 
@@ -132,10 +133,22 @@ INSERT INTO 'product_img' ('id_pimg', 'pimage_product', 'pimage_route') VALUES
 
 CREATE TABLE 'categorias'(
     'id_categoria' int(20) UNSIGNED NOT NULL,
-    'categoria' varchar(50) NOT NULL
+    'categoria' varchar(30) NOT NULL
 );
 
 INSERT INTO 'categorias' ('id_categoria', 'categoria') VALUES
+(1, '5x5'),
+(2, '3x3'),
+(3, 'solo');
+
+-- TIPO
+
+CREATE TABLE 'tipo'(
+    'id_tipo' int(20) UNSIGNED NOT NULL,
+    'tipo' varchar(30) NOT NULL
+);
+
+INSERT INTO 'tipo' ('id_tipo', 'tipo') VALUES
 (1, 'cancha'),
 (2, 'calle'),
 (3, 'zapatos'),
@@ -144,10 +157,8 @@ INSERT INTO 'categorias' ('id_categoria', 'categoria') VALUES
 (6, 'pantalones'),
 (7, 'camisetas'),
 (8, 'accesorios'),
-(9, 'calcetines'),
-(10, 'sudadera'),
-(11, 'NBA'),
-(12, 'ACB'),
+(9, 'sudadera'),
+(10, 'chaqueta');
 
 -- IMAGES
 
@@ -186,20 +197,21 @@ INSERT INTO 'resenas' ('id_resena', 'user_resena', 'product_resena', 'puntuacion
 
 CREATE TABLE 'marcas'(
     'id_marca' int(20) UNSIGNED NOT NULL,
-    'nom_marca' varchar(30) NOT NULL
+    'nom_marca' varchar(30) NOT NULL,
+    'img_marca' varchar(255) NOT NULL
 );
 
-INSERT INTO 'marcas' ('id_marca', 'nom_marca') VALUES
-(1, 'Puma'),
-(2, 'Adidas'),
-(3, 'Nike'),
-(4, 'Jordan'),
-(5, 'Reebok'),
-(6, 'Luanvi'),
-(7, 'Spalding'),
-(8, 'Wilson'),
-(9, 'Tenth'),
-(10, 'Joma');
+INSERT INTO 'marcas' ('id_marca', 'nom_marca', 'img_marca') VALUES
+(1, 'Puma', 'puma.jpg'),
+(2, 'Adidas', 'adidas.jpg'),
+(3, 'Nike', 'nike.jpg'),
+(4, 'Jordan', 'jordan.jpg'),
+(5, 'Reebok', 'reebok.jpg'),
+(6, 'Luanvi', 'luanvi.jpg'),
+(7, 'Spalding', 'spalding.jpg'),
+(8, 'Wilson', 'wilson.jpg'),
+(9, 'Tenth', 'tenth.jpg'),
+(10, 'Joma', 'joma.jpg');
 
 -- DEVOLUCIONES
 
@@ -327,3 +339,340 @@ INSERT INTO 'players' ('id_player', 'name_player') VALUES
 (3, 'Jaime Pradilla'),
 (4, 'Stephen Curry'),
 (5, 'Devin Booker');
+
+----- ALTER TABLES -----
+
+--- PRIMARY KEYS ---
+
+-- USERS
+
+ALTER TABLE 'users'
+    ADD PRIMARY KEY ('id_user'),
+    ADD UNIQUE KEY 'id_user' ('id_user');
+
+-- DIRECCION
+
+ALTER TABLE 'direccion'
+    ADD PRIMARY KEY ('id_dir'),
+    ADD UNIQUE KEY 'id_dir' ('id_dir');
+
+-- FAVORITOS
+
+ALTER TABLE 'favoritos'
+    ADD PRIMARY KEY ('id_fav'),
+    ADD UNIQUE KEY 'id_fav' ('id_fav');
+
+-- COMPRAS
+
+ALTER TABLE 'compras'
+    ADD PRIMARY KEY ('id_compra'),
+    ADD UNIQUE KEY 'id_compra' ('id_compra');
+
+-- CARRITO
+
+ALTER TABLE 'carrito'
+    ADD PRIMARY KEY ('id_carrito'),
+    ADD UNIQUE KEY 'id_carrito' ('id_carrito');
+
+-- PRODUCTOS
+
+ALTER TABLE 'productos'
+    ADD PRIMARY KEY ('id_producto'),
+    ADD UNIQUE KEY 'id_producto' ('id_producto');
+
+-- PRODUCT IMAGES
+
+ALTER TABLE 'product_img'
+    ADD PRIMARY KEY ('id_pimg'),
+    ADD UNIQUE KEY 'id_pimg', ('id_pimg');
+
+-- CATEGORIAS
+
+ALTER TABLE 'categorias'
+    ADD PRIMARY KEY ('id_categoria'),
+    ADD UNIQUE KEY 'id_categoria' ('id_categoria');
+
+-- TIPO
+
+ALTER TABLE 'tipo'
+    ADD PRIMARY KEY ('id_tipo'),
+    ADD UNIQUE KEY 'id_tipo' ('id_tipo');
+
+-- IMAGES
+
+ALTER TABLE 'images'
+    ADD PRIMARY KEY ('id_image'),
+    ADD UNIQUE KEY 'id_image' ('id_image');
+
+-- RESEÑAS
+
+ALTER TABLE 'resenas'
+    ADD PRIMARY KEY ('id_resena'),
+    ADD UNIQUE KEY 'id_resena' ('id_resena');
+
+-- MARCAS
+
+ALTER TABLE 'marcas'
+    ADD PRIMARY KEY ('id_marca'),
+    ADD UNIQUE KEY 'id_marca' ('id_marca');
+
+-- DEVOLUCIONES
+
+ALTER TABLE 'devoluciones'
+    ADD PRIMARY KEY ('id_dev'),
+    ADD UNIQUE KEY 'id_dev' ('id_dev');
+
+-- PAGOS
+
+ALTER TABLE 'pagos'
+    ADD PRIMARY KEY ('id_pago')
+    ADD UNIQUE KEY 'id_pago' ('id_pago');
+
+-- MOTIVOS
+
+ALTER TABLE 'motivos'
+    ADD PRIMARY KEY ('id_motivo'),
+    ADD UNIQUE KEY 'id_motivo' ('id_motivo');
+
+-- CHATS
+
+ALTER TABLE 'chats'
+    ADD PRIMARY KEY ('id_chat'),
+    ADD UNIQUE KEY 'id_chat' ('id_chat');
+
+-- SUBASTAS
+
+ALTER TABLE 'subastas'
+    ADD PRIMARY KEY ('id_subasta'),
+    ADD UNIQUE KEY 'id_subasta' ('id_subasta');
+
+-- METODOS DE PAGO
+
+ALTER TABLE 'metodos_pago'
+    ADD PRIMARY KEY ('id_metodo'),
+    ADD UNIQUE KEY 'id_metodo' ('id_metodo');
+
+-- TEAMS
+
+ALTER TABLE 'teams'
+    ADD PRIMARY KEY ('id_team'),
+    ADD UNIQUE KEY 'id_team' ('id_team');
+
+-- PLAYERS
+
+ALTER TABLE 'players'
+    ADD PRIMARY KEY ('id_player'),
+    ADD UNIQUE KEY 'id_player' ('id_player');
+
+------------------------------
+--- ID's AUTOINCREMENTALES ---
+------------------------------
+
+ALTER TABLE 'users'
+    MODIFY 'id_user' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+
+-- DIRECCION
+
+ALTER TABLE 'direccion'
+    MODIFY 'id_dir' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
+
+-- FAVORITOS
+
+ALTER TABLE 'favoritos'
+    MODIFY 'id_fav' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
+
+-- COMPRAS
+
+ALTER TABLE 'compras'
+    MODIFY 'id_compra' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=400;
+
+-- CARRITO
+
+ALTER TABLE 'carrito'
+    MODIFY 'id_carrito' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=500;
+
+-- PRODUCTOS
+
+ALTER TABLE 'productos'
+    MODIFY 'id_producto' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=600;
+
+-- PRODUCT IMAGES
+
+ALTER TABLE 'product_img'
+    MODIFY 'id_pimg' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=700;
+
+-- CATEGORIAS
+
+ALTER TABLE 'categorias'
+    MODIFY 'id_categoria' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=800;
+
+-- TIPO
+
+ALTER TABLE 'tipo'
+    MODIFY 'id_tipo' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=900;
+
+-- IMAGES
+
+ALTER TABLE 'images'
+    MODIFY 'id_images' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000;
+
+-- RESEÑAS
+
+ALTER TABLE 'resenas'
+    MODIFY 'id_resena' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1100;
+
+-- MARCAS
+
+ALTER TABLE 'marcas'
+    MODIFY 'id_marca' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1200;
+
+-- DEVOLUCIONES
+
+ALTER TABLE 'devoluciones'
+    MODIFY 'id_dev' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1300;
+
+-- PAGOS
+
+ALTER TABLE 'pagos'
+    MODIFY 'id_pago' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1400;
+
+-- MOTIVOS
+
+ALTER TABLE 'motivos'
+    MODIFY 'id_motivo' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1500;
+
+-- CHATS
+
+ALTER TABLE 'chats'
+    MODIFY 'id_chat' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1600;
+
+-- SUBASTAS
+
+ALTER TABLE 'subastas'
+    MODIFY 'id_user' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1700;
+
+-- METODOS DE PAGO
+
+ALTER TABLE 'metodos_pago'
+    MODIFY 'id_metodo' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1800;
+
+-- TEAMS
+
+ALTER TABLE 'teams'
+    MODIFY 'id_team' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1900;
+
+-- PLAYERS
+
+ALTER TABLE 'players'
+    MODIFY 'id_player' int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2000;
+
+----------------------
+--- CLAVES AJENAS ---
+----------------------
+
+--FAVORITOS
+
+ALTER TABLE 'favoritos'
+    ADD CONSTRAINT 'user_fav' FOREIGN KEY ('users') REFERENCES 'users' ('id_user'),
+
+-- COMPRAS
+
+ALTER TABLE 'compras'
+    ADD PRIMARY KEY ('id_compra'),
+    ADD UNIQUE KEY 'id_compra' ('id_compra');
+
+-- CARRITO
+
+ALTER TABLE 'carrito'
+    ADD PRIMARY KEY ('id_carrito'),
+    ADD UNIQUE KEY 'id_carrito' ('id_carrito');
+
+-- PRODUCTOS
+
+ALTER TABLE 'productos'
+    ADD PRIMARY KEY ('id_producto'),
+    ADD UNIQUE KEY 'id_producto' ('id_producto');
+
+-- PRODUCT IMAGES
+
+ALTER TABLE 'product_img'
+    ADD PRIMARY KEY ('id_pimg'),
+    ADD UNIQUE KEY 'id_pimg', ('id_pimg');
+
+-- CATEGORIAS
+
+ALTER TABLE 'categorias'
+    ADD PRIMARY KEY ('id_categoria'),
+    ADD UNIQUE KEY 'id_categoria' ('id_categoria');
+
+-- TIPO
+
+ALTER TABLE 'tipo'
+    ADD PRIMARY KEY ('id_tipo'),
+    ADD UNIQUE KEY 'id_tipo' ('id_tipo');
+
+-- IMAGES
+
+ALTER TABLE 'images'
+    ADD PRIMARY KEY ('id_image'),
+    ADD UNIQUE KEY 'id_image' ('id_image');
+
+-- RESEÑAS
+
+ALTER TABLE 'resenas'
+    ADD PRIMARY KEY ('id_resena'),
+    ADD UNIQUE KEY 'id_resena' ('id_resena');
+
+-- MARCAS
+
+ALTER TABLE 'marcas'
+    ADD PRIMARY KEY ('id_marca'),
+    ADD UNIQUE KEY 'id_marca' ('id_marca');
+
+-- DEVOLUCIONES
+
+ALTER TABLE 'devoluciones'
+    ADD PRIMARY KEY ('id_dev'),
+    ADD UNIQUE KEY 'id_dev' ('id_dev');
+
+-- PAGOS
+
+ALTER TABLE 'pagos'
+    ADD PRIMARY KEY ('id_pago')
+    ADD UNIQUE KEY 'id_pago' ('id_pago');
+
+-- MOTIVOS
+
+ALTER TABLE 'motivos'
+    ADD PRIMARY KEY ('id_motivo'),
+    ADD UNIQUE KEY 'id_motivo' ('id_motivo');
+
+-- CHATS
+
+ALTER TABLE 'chats'
+    ADD PRIMARY KEY ('id_chat'),
+    ADD UNIQUE KEY 'id_chat' ('id_chat');
+
+-- SUBASTAS
+
+ALTER TABLE 'subastas'
+    ADD PRIMARY KEY ('id_subasta'),
+    ADD UNIQUE KEY 'id_subasta' ('id_subasta');
+
+-- METODOS DE PAGO
+
+ALTER TABLE 'metodos_pago'
+    ADD PRIMARY KEY ('id_metodo'),
+    ADD UNIQUE KEY 'id_metodo' ('id_metodo');
+
+-- TEAMS
+
+ALTER TABLE 'teams'
+    ADD PRIMARY KEY ('id_team'),
+    ADD UNIQUE KEY 'id_team' ('id_team');
+
+-- PLAYERS
+
+ALTER TABLE 'players'
+    ADD PRIMARY KEY ('id_player'),
+    ADD UNIQUE KEY 'id_player' ('id_player');
