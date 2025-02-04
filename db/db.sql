@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS `online_shop`;
+DROP DATABASE IF EXISTS `second_ballers`;
 
-create database online_shop;
-use online_shop;
+create database second_ballers;
+use second_ballers;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
