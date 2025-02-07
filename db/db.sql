@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS `second_ballers`;
+DROP DATABASE IF EXISTS `segunda_jugada`;
 
-create database second_ballers;
-use second_ballers;
+create database segunda_jugada;
+use segunda_jugada;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,20 +40,19 @@ CREATE TABLE `productos`(
     `sexo_prod` varchar(20) NOT NULL,
     `talla` varchar(10) NOT NULL,
     `entrega` varchar(40) NOT NULL,
-    `oferta` varchar(3) NOT NULL,
     `descripcion` varchar(1000) NOT NULL,
     `condicion` varchar(20) NOT NULL,
     `stock` int(50) NOT NULL,
     `precio` int(5) NOT NULL,
-    `img_producto` varchar(255) NOT NULL,
+    `img_producto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `productos` (`id_producto`, `id_vendedor`, `marca`, `categoria`, `tipo`, `nom_prod`, `sexo_prod`, `talla`, `entrega`, `oferta`, `descripcion`, `condicion`, `stock`, `precio`, `img_producto`) VALUES
-(1, 1, 1, 1, 1, 'producto1', 'masculino', 'M', 'persona', 'no', 'descripcion1', 'nuevo', 3, 10, `prod1.jpg`),
-(2, 2, 2, 2, 2, 'producto2', 'femenino', 'S', 'domicilio', 'si', 'descripcion2', 'desgastado', 5, 20, `prod2.jpg`),
-(3, 3, 3, 3, 3, 'producto3', 'femenino', 'L', 'tienda', 'no', 'descripcion3', 'roto', 3, 30, `prod3.jpg`),
-(4, 4, 4, 1, 4, 'producto4', 'masculino', 'XL', 'persona', 'si', 'descripcion4', 'bueno', 1, 40, `prod4.jpg`),
-(5, 5, 5, 2, 5, 'producto5', 'masculino', 'M', 'tienda', 'no', 'descripcion5', 'nuevo', 1, 50, `prod5.jpg`);
+INSERT INTO `productos` (`id_producto`, `id_vendedor`, `marca`, `categoria`, `tipo`, `nom_prod`, `sexo_prod`, `talla`, `entrega`, `descripcion`, `condicion`, `stock`, `precio`, `img_producto`) VALUES
+(1, 1, 1, 1, 1, 'producto1', 'masculino', 'M', 'persona', 'descripcion1', 'nuevo', 3, 10, 'prod1.jpg'),
+(2, 2, 2, 2, 2, 'producto2', 'femenino', 'S', 'domicilio', 'descripcion2', 'desgastado', 5, 20, 'prod2.jpg'),
+(3, 3, 3, 3, 3, 'producto3', 'femenino', 'L', 'tienda', 'descripcion3', 'roto', 3, 30, 'prod3.jpg'),
+(4, 4, 4, 1, 4, 'producto4', 'masculino', 'XL', 'persona', 'descripcion4', 'bueno', 1, 40, 'prod4.jpg'),
+(5, 5, 5, 2, 5, 'producto5', 'masculino', 'M', 'tienda', 'descripcion5', 'nuevo', 1, 50, 'prod5.jpg');
 
 -- PRODUCT IMAGES
 
@@ -268,66 +267,9 @@ INSERT INTO `players` (`id_player`, `nom_player`) VALUES
 (4, 'Stephen Curry'),
 (5, 'Devin Booker');
 
---
--- MANY TO MANY TABLES
---
-
--- PRODUCTOS & MARCAS
-
-DROP TABLE IF EXISTS productos_marcas;
-
-CREATE TABLE `productos_marcas`(
-    -- PRODUCTOS
-    `id_producto` int(20) UNSIGNED NOT NULL,
-    -- MARCAS
-    `id_marca` int(20) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `productos_marcas` (`id_producto`,`id_marca`) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5);
-
--- PRODUCTOS & CATEGIRIAS
-
-DROP TABLE IF EXISTS productos_categorias;
-
-CREATE TABLE `productos_categorias`(
-    -- PRODUCTOS
-    `id_producto` int(20) UNSIGNED NOT NULL,
-    -- CATEGORIAS
-    `id_categoria` int(20) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-INSERT INTO `productos_categorias` (`id_producto`,`id_categoria`) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(2, 1),
-(2, 3),
-(3, 3);
-
--- PRODUCTOS & TIPO
-
-DROP TABLE IF EXISTS `productos_tipo`(
-    -- PRODUCTOS
-    `id_producto` int(20) UNSIGNED NOT NULL,
-    -- TIPO
-    `id_tipo` int(20) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `productos_tipo` (`id_producto`,`id_tipo`) VALUES
-(1, 1),
-(5, 2),
-(1, 2),
-(2, 7),
-(2, 5),
-(3, 8);
-
 -- ALTER TABLES
+
+-- PRIMARY KEYS
 
 -- DIRECCION
 
@@ -513,3 +455,87 @@ ALTER TABLE `devoluciones`
 ALTER TABLE `subastas`
     -- ADD CONSTRAINT `FK_user_sub` FOREIGN KEY (`user_sub`) REFERENCES `users` (`id_user`),
     ADD CONSTRAINT `FK_producto_sub` FOREIGN KEY (`producto_sub`) REFERENCES `productos` (`id_producto`);
+
+--
+-- MANY TO MANY TABLES
+--
+
+-- PRODUCTOS & MARCAS
+
+DROP TABLE IF EXISTS productos_marcas;
+
+CREATE TABLE `productos_marcas`(
+    -- PRODUCTOS
+    `id_producto` int(20) UNSIGNED NOT NULL,
+    -- MARCAS
+    `id_marca` int(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `productos_marcas` (`id_producto`,`id_marca`) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5);
+
+-- PRODUCTOS & CATEGIRIAS
+
+DROP TABLE IF EXISTS productos_categorias;
+
+CREATE TABLE `productos_categorias`(
+    -- PRODUCTOS
+    `id_producto` int(20) UNSIGNED NOT NULL,
+    -- CATEGORIAS
+    `id_categoria` int(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+INSERT INTO `productos_categorias` (`id_producto`,`id_categoria`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 1),
+(2, 3),
+(3, 3);
+
+-- PRODUCTOS & TIPO
+
+DROP TABLE IF EXISTS productos_tipo;
+
+CREATE TABLE `productos_tipo`(
+    -- PRODUCTOS
+    `id_producto` int(20) UNSIGNED NOT NULL,
+    -- TIPO
+    `id_tipo` int(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `productos_tipo` (`id_producto`,`id_tipo`) VALUES
+(1, 1),
+(5, 2),
+(1, 2),
+(2, 7),
+(2, 5),
+(3, 8);
+
+-- ALTER MM TABLES
+
+-- CALVES AJENAS
+
+-- PRODUCTOS & MARCAS
+
+ALTER TABLE `productos_marcas`
+    ADD CONSTRAINT `FK_prod_marca` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`),
+    ADD CONSTRAINT `FK_marca_prod` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id_marca`);
+
+-- PRODUCTOS & CATEGORIAS
+
+
+ALTER TABLE `productos_categorias`
+    ADD CONSTRAINT `FK_prod_categoria` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`),
+    ADD CONSTRAINT `FK_categoria_prod` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`);
+
+-- PRODUCTOS & TIPO
+
+ALTER TABLE `productos_tipo`
+    ADD CONSTRAINT `FK_prod_tipo` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`),
+    ADD CONSTRAINT `FK_tipo_prod` FOREIGN KEY (`id_tipo`) REFERENCES `tipo` (`id_tipo`);
