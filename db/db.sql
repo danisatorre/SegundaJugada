@@ -82,9 +82,11 @@ CREATE TABLE `categorias`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `categorias` (`id_categoria`, `categoria`, `img_categoria`) VALUES
-(1, '5x5', '5x5.png'),
-(2, '3x3', '3x3.png'),
-(3, 'solo', 'solo.png');
+(1, 'hombre', 'view/images/categorias/hombre.png'),
+(2, 'mujer', 'view/images/categorias/mujer.png'),
+(3, 'niños', 'view/images/categorias/ninos.png'),
+(4, 'adolescentes', 'view/images/categorias/adolescentes.png'),
+(5, 'bebes', 'view/images/categorias/bebes.png');
 
 -- TIPO
 
