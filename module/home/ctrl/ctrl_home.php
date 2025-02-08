@@ -7,48 +7,48 @@
             include ('module/home/view/home.html');
         break;
 
-        case 'Carrousel_Brand';
+        case 'Carrousel_Marcas';
             try{
                 $daohome = new DAOHome();
-                $SelectBrand = $daohome->select_marca();
+                $selectmarca = $daohome->select_marca();
             } catch(Exception $e){
                 echo json_encode("error");
             }
             
-            if(!empty($SelectBrand)){
-                echo json_encode($SelectBrand); 
+            if(!empty($selectmarca)){
+                echo json_encode($selectmarca); 
             }
             else{
                 echo json_encode("error");
             }
         break;
 
-        case 'homePageCategory';
+        case 'homePageCategoria';
             try{
                 $daohome = new DAOHome();
-                $SelectCategory = $daohome->select_categoria();
+                $selectcategoria = $daohome->select_categoria();
             } catch(Exception $e){
                 echo json_encode("error");
             }
             
-            if(!empty($SelectCategory)){
-                echo json_encode($SelectCategory); 
+            if(!empty($selectcategoria)){
+                echo json_encode($selectcategoria); 
             }
             else{
                 echo json_encode("error");
             }
         break;
 
-        case 'homePageType';
+        case 'homePageTipo';
             try{
                 $daohome = new DAOHome();
-                $SelectType = $daohome->select_tipo();
+                $selecttipo = $daohome->select_tipo();
             } catch(Exception $e){
                 echo json_encode("error");
             }
             
-            if(!empty($SelectType)){
-                echo json_encode($SelectType); 
+            if(!empty($selecttipo)){
+                echo json_encode($selecttipo); 
             }
             else{
                 echo json_encode("error");

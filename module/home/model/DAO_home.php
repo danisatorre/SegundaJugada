@@ -20,7 +20,7 @@
 		}
 
 		function select_categoria() {
-			$sql= "SELECT *FROM categorias";
+			$sql= "SELECT * FROM categorias";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
@@ -36,7 +36,7 @@
 		}
 
 		function select_tipo() {
-			$sql= "SELECT *FROM tipo ORDER BY id_tipo DESC";
+			$sql= "SELECT * FROM tipo ORDER BY id_tipo DESC";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);

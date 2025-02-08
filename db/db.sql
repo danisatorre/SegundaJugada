@@ -77,13 +77,14 @@ DROP TABLE IF EXISTS categorias;
 
 CREATE TABLE `categorias`(
     `id_categoria` int(20) UNSIGNED NOT NULL,
-    `categoria` varchar(30) NOT NULL
+    `categoria` varchar(30) NOT NULL,
+    `img_categoria` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `categorias` (`id_categoria`, `categoria`) VALUES
-(1, '5x5'),
-(2, '3x3'),
-(3, 'solo');
+INSERT INTO `categorias` (`id_categoria`, `categoria`, `img_categoria`) VALUES
+(1, '5x5', '5x5.png'),
+(2, '3x3', '3x3.png'),
+(3, 'solo', 'solo.png');
 
 -- TIPO
 
@@ -91,20 +92,21 @@ DROP TABLE IF EXISTS tipo;
 
 CREATE TABLE `tipo`(
     `id_tipo` int(20) UNSIGNED NOT NULL,
-    `tipo` varchar(30) NOT NULL
+    `tipo` varchar(30) NOT NULL,
+    `img_tipo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `tipo` (`id_tipo`, `tipo`) VALUES
-(1, 'cancha'),
-(2, 'calle'),
-(3, 'zapatos'),
-(4, 'gorras'),
-(5, 'balones'),
-(6, 'pantalones'),
-(7, 'camisetas'),
-(8, 'accesorios'),
-(9, 'sudadera'),
-(10, 'chaqueta');
+INSERT INTO `tipo` (`id_tipo`, `tipo`, `img_tipo`) VALUES
+(1, 'cancha', 'cancha.png'),
+(2, 'calle', 'calle.png'),
+(3, 'zapatos', 'zapatos.png'),
+(4, 'gorras', 'gorras.png'),
+(5, 'balones', 'balones.png'),
+(6, 'pantalones', 'pantalones.png'),
+(7, 'camisetas', 'camisetas.png'),
+(8, 'accesorios', 'accesorios.png'),
+(9, 'sudadera', 'sudadera.png'),
+(10, 'chaqueta', 'chaqueta.png');
 
 -- IMAGES
 
