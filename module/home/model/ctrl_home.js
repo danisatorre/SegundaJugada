@@ -1,31 +1,37 @@
-function carouselMarcas() {
-    ajaxPromise('module/home/ctrl/ctrl_home.php?op=Carrousel_Marcas','GET', 'JSON')
-    .then(function(data) {
-            for (row in data) {
-                $('<div></div>').attr('class', "carousel__elements").attr('id', data[row].nom_marca).appendTo(".carousel__list")
-                .html(
-                    "<img class='carousel__img' id='' src='" + data[row].img_marca + "' alt='' >"
-                )
-            }
-            new Glider(document.querySelector('.carousel__list'), {
-                slidesToShow: 3,
-                dots: '.carousel__indicator',
-                draggable: true,
-                arrows: {
-                    prev: '.carousel__prev',
-                    next: '.carousel__next'
-                }
-            });
-        })
-        .catch(function() {
-            window.location.href = "index.php?module=ctrl_exceptions&op=503&type=503&lugar=Carrusel_Marcas HOME";
-        });
-}
+
+// console.log("hola ctrl home js");
+// return false;
+
+// function carouselMarcas() {
+//     ajaxPromise('module/home/ctrl/ctrl_home.php?op=Carrousel_Marcas','GET', 'JSON')
+//     .then(function(data) {
+//             for (row in data) {
+//                 $('<div></div>').attr('class', "carousel__elements").attr('id', data[row].nom_marca).appendTo(".carousel__list")
+//                 .html(
+//                     "<img class='carousel__img' id='' src='" + data[row].img_marca + "' alt='' >"
+//                 )
+//             }
+//             new Glider(document.querySelector('.carousel__list'), {
+//                 slidesToShow: 3,
+//                 dots: '.carousel__indicator',
+//                 draggable: true,
+//                 arrows: {
+//                     prev: '.carousel__prev',
+//                     next: '.carousel__next'
+//                 }
+//             });
+//         })
+//         .catch(function() {
+//             window.location.href = "index.php?module=ctrl_exceptions&op=503&type=503&lugar=Carrusel_Marcas HOME";
+//         });
+// }
 
 function loadCategorias() {
     ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageCategoria','GET', 'JSON')
     .then(function(data) {
         for (row in data) {
+            console.log("hola data");
+            return false;
             $('<div></div>').attr('class', "div_cate").attr({ 'id': data[row].categoria }).appendTo('#containerCategories')
                 .html(
                     "<li class='portfolio-item'>" +
@@ -65,7 +71,7 @@ function loadCatTipos() {
 }
 
 $(document).ready(function() {
-    carouselMarcas();
+    // carouselMarcas();
     loadCategorias();
     loadCatTipos();
 });

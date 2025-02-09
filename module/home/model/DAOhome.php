@@ -1,10 +1,12 @@
 <?php
-	$path = $_SERVER['DOCUMENT_ROOT'] . '/0_intro/8_MVC_CRUD/Programacion-PHP/';
+	$path = $_SERVER['DOCUMENT_ROOT'] . '/0_intro/wallapop/Wallapop-PHP/';
 	include($path . "/model/connect.php");
     
 	class DAOHome {
 		function select_marca() {
 			$sql= "SELECT * FROM `marcas` ORDER BY nom_marca ASC LIMIT 30;";
+
+			// die('<script>console.log('.json_encode( $sql ) .');</script>');
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
@@ -22,6 +24,8 @@
 		function select_categoria() {
 			$sql= "SELECT * FROM categorias";
 
+			// die('<script>console.log('.json_encode( $sql ) .');</script>');
+
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
 			connect::close($conexion);
@@ -37,6 +41,8 @@
 
 		function select_tipo() {
 			$sql= "SELECT * FROM tipo ORDER BY id_tipo DESC";
+
+			// die('<script>console.log('.json_encode( $sql ) .');</script>');
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);

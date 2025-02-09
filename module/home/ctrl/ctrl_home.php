@@ -1,6 +1,6 @@
 <?php
-    $path = $_SERVER['DOCUMENT_ROOT'] . '/0_intro/8_MVC_CRUD/Programacion-PHP/';
-    include($path . "/module/home/model/DAO_home.php");
+    $path = $_SERVER['DOCUMENT_ROOT'] . '/0_intro/wallapop/Wallapop-PHP/';
+    include($path . "/module/home/model/DAOhome.php");
 
     switch ($_GET['op']) {
         case 'list';
@@ -9,7 +9,7 @@
 
         case 'Carrousel_Marcas';
             try{
-                $daohome = new DAOHome();
+                $daohome = new DAOhome();
                 $selectmarca = $daohome->select_marca();
             } catch(Exception $e){
                 echo json_encode("error");
@@ -24,24 +24,32 @@
         break;
 
         case 'homePageCategoria';
+            // $data = 'hola crtl home CATEGORIA';
+            // die('<script>console.log('.json_encode( $data ) .');</script>');
             try{
-                $daohome = new DAOHome();
+                $daohome = new DAOhome();
                 $selectcategoria = $daohome->select_categoria();
             } catch(Exception $e){
+                $data = 'hola crtl home EXCEPTIO CATEGORIA';
+                die('<script>console.log('.json_encode( $data ) .');</script>');
                 echo json_encode("error");
             }
             
             if(!empty($selectcategoria)){
+                $data = 'hola crtl home !EMPTY SELECTCAGTGORIA';
+                die('<script>console.log('.json_encode( $data ) .');</script>');
                 echo json_encode($selectcategoria); 
             }
             else{
+                $data = 'hola crtl home ELSE SELECTCAGTGORIA';
+                die('<script>console.log('.json_encode( $data ) .');</script>');
                 echo json_encode("error");
             }
         break;
 
         case 'homePageTipo';
             try{
-                $daohome = new DAOHome();
+                $daohome = new DAOhome();
                 $selecttipo = $daohome->select_tipo();
             } catch(Exception $e){
                 echo json_encode("error");

@@ -1,6 +1,6 @@
 <?php
-    if ((isset($_GET['page'])) && ($_GET['page']==="controller_course") ){
-		include("view/inc/top_page_course.php");
+    if ((isset($_GET['module'])) && ($_GET['module']==="ctrl_home") ){
+		include("view/inc/top_page.html");
 	}else{
 		include("view/inc/top_page.html");
 	}
@@ -19,7 +19,7 @@
     </div>	
     <div id="">
     	<?php 
-		    include("view/inc/pages.php"); 
+		    include("view/inc/modules.php"); 
 		?>        
         <br style="clear:both;" />
     </div>
