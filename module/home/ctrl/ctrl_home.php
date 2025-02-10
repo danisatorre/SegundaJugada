@@ -1,5 +1,5 @@
 <?php
-    $path = $_SERVER['DOCUMENT_ROOT'] . '/0_intro/wallapop/Wallapop-PHP/';
+    $path = $_SERVER['DOCUMENT_ROOT'] . '/0_intro/online_shop/SegundaJugada/';
     include($path . "/module/home/model/DAOhome.php");
 
     switch ($_GET['op']) {
