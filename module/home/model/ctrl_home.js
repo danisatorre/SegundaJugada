@@ -27,12 +27,19 @@
 // }
 
 function loadCategorias() {
+    // console.log("hola LOADCATEGORIAS");
+    // return false;
+    // var id_categoria = this.getAttribute('id_categoria');
+    // console.log(id_categoria);
+    // return false;
     ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageCategoria','GET', 'JSON')
-    .then(function(data) {
+    .then(function(data) { 
+        // console.log("hola data FUNCTION");
+        // return false;
         for (row in data) {
-            console.log("hola data");
-            return false;
-            $('<div></div>').attr('class', "div_cate").attr({ 'id': data[row].categoria }).appendTo('#containerCategories')
+            // console.log("hola data");
+            // return false;
+            $('<div></div>').attr('class', "div_cate").attr({ 'id_categoria': data[row].id_categoria }).appendTo('#containerCategories')
                 .html(
                     "<li class='portfolio-item'>" +
                     "<div class='item-main'>" +

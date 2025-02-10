@@ -1,7 +1,7 @@
 function ajaxPromise(sUrl, sType, sTData, sData = undefined) {
     console.log("hola ajaxPromise");
     console.log("sUrl -> " + sUrl + " sType -> " + sType + " sTData -> " + sTData + " sData -> " + sData);
-    return false;
+    // return false;
     return new Promise((resolve, reject) => {
         $.ajax({ // dirige al servidor
             url: sUrl, // url del servidor

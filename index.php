@@ -1,8 +1,8 @@
 <?php
     if ((isset($_GET['module'])) && ($_GET['module']==="ctrl_home") ){
-		include("view/inc/top_page.html");
+		include("view/inc/top_page.php");
 	}else{
-		include("view/inc/top_page.html");
+		include("view/inc/top_page.php");
 	}
 	//session_start();
 ?>

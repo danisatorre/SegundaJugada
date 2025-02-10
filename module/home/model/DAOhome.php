@@ -28,15 +28,31 @@
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
+			// die('<script>console.log('.json_encode( $res ) .');</script>');
 			connect::close($conexion);
 
 			$retrArray = array();
+			// die('<script>console.log('.json_encode( $retrArray ) .');</script>');
 			if (mysqli_num_rows($res) > 0) {
+				// die('<script>console.log('.json_encode( mysqli_num_rows($res) ) .');</script>');
 				while ($row = mysqli_fetch_assoc($res)) {
+					// die('<script>console.log('.json_encode( mysqli_num_rows($res) ) .');</script>');
+					// die('<script>console.log('.json_encode( $res ) .');</script>');
+					// die('<script>console.log('.json_encode( $row ) .');</script>');
+					// if(mysqli_num_rows($res) > 3){
+					// 	// die('<script>console.log('.json_encode( mysqli_num_rows($res) ) .');</script>');
+					// 	// die('<script>console.log('.json_encode( $row ) .');</script>');
+					// }
 					$retrArray[] = $row;
+					// die('<script>console.log('.json_encode( $retrArray ) .');</script>');
+					// die('<script>console.log('.json_encode( $row ) .');</script>');
+					// return $retrArray;
+					return $row;
 				}
 			}
-			return $retrArray;
+			// die('<script>console.log('.json_encode( $retrArray ) .');</script>');
+			// die('<script>console.log('.json_encode( $row ) .');</script>');
+			// return $retrArray;
 		}
 
 		function select_tipo() {

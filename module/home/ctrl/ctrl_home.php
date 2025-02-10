@@ -29,20 +29,22 @@
             try{
                 $daohome = new DAOhome();
                 $selectcategoria = $daohome->select_categoria();
+                // die('<script>console.log('.json_encode( $selectcategoria ) .');</script>');
             } catch(Exception $e){
-                $data = 'hola crtl home EXCEPTIO CATEGORIA';
-                die('<script>console.log('.json_encode( $data ) .');</script>');
+                // $data = 'hola crtl home EXCEPTION CATEGORIA';
+                // die('<script>console.log('.json_encode( $data ) .');</script>');
                 echo json_encode("error");
             }
             
             if(!empty($selectcategoria)){
-                $data = 'hola crtl home !EMPTY SELECTCAGTGORIA';
-                die('<script>console.log('.json_encode( $data ) .');</script>');
+                // $data = 'hola crtl home !EMPTY SELECTCAGTGORIA';
+                // die('<script>console.log('.json_encode( $data ) .');</script>');
+                // die('<script>console.log('.json_encode( $selectcategoria ) .');</script>');
                 echo json_encode($selectcategoria); 
             }
             else{
-                $data = 'hola crtl home ELSE SELECTCAGTGORIA';
-                die('<script>console.log('.json_encode( $data ) .');</script>');
+                // $data = 'hola crtl home ELSE SELECTCAGTGORIA';
+                // die('<script>console.log('.json_encode( $data ) .');</script>');
                 echo json_encode("error");
             }
         break;
