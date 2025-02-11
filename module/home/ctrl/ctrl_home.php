@@ -17,8 +17,7 @@
             
             if(!empty($selectmarca)){
                 echo json_encode($selectmarca); 
-            }
-            else{
+            }else{
                 echo json_encode("error");
             }
         break;
@@ -41,8 +40,7 @@
                 // die('<script>console.log('.json_encode( $data ) .');</script>');
                 // die('<script>console.log('.json_encode( $selectcategoria ) .');</script>');
                 echo json_encode($selectcategoria); 
-            }
-            else{
+            }else{
                 // $data = 'hola crtl home ELSE SELECTCAGTGORIA';
                 // die('<script>console.log('.json_encode( $data ) .');</script>');
                 echo json_encode("error");
@@ -59,8 +57,7 @@
             
             if(!empty($selecttipo)){
                 echo json_encode($selecttipo); 
-            }
-            else{
+            }else{
                 echo json_encode("error");
             }
         break;

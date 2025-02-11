@@ -10,7 +10,7 @@
 			case "ctrl_exceptions";
 				// $data = 'hola crtl MODULE EXCEPTIONS';
             	// die('<script>console.log('.json_encode( $data ) .');</script>');
-				include("module/exceptions/views/pages/".$_GET['op'].".php");
+				include("module/exceptions/ctrl/".$_GET['module']."php");
 				break;
 		}
 	}else{

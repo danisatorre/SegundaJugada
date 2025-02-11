@@ -1,0 +1,34 @@
+.div_tipo, .div_categoria{
+    display:inline-block;
+    width:20%;
+}
+.container{
+    width:100%;
+}
+.rod-pad-row{
+    margin-left:20%;
+    background-color: red;
+}
+.div_tipo img, .div_categoria img{
+    width:100%;
+}
+#containerTipo{
+    /* background-color:blue; */
+}
+#containerCategoria{
+    /* background-color:blueviolet; */
+}
+#containerTipo, #containerCategoria{
+    margin-top:2%;
+}
+.portfolio-items2-col-3{
+    margin-top:8%;
+    /* background-color: skyblue; */
+}
+.portfolio-items-col-3{
+    margin-top:2%;
+    border-top: 3px solid slategrey;
+}
+.portfolio-image2{
+    margin-top:10%;
+}

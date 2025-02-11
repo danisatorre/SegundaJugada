@@ -29,9 +29,6 @@
 function loadCategorias() {
     // console.log("hola LOADCATEGORIAS");
     // return false;
-    // var id_categoria = this.getAttribute('id_categoria');
-    // console.log(id_categoria);
-    // return false;
     ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageCategoria','GET', 'JSON')
     .then(function(data) { 
         // console.log("hola data FUNCTION");
@@ -39,7 +36,7 @@ function loadCategorias() {
         for (row in data) {
             // console.log("hola data");
             // return false;
-            $('<div></div>').attr('class', "div_cate").attr({ 'id_categoria': data[row].id_categoria }).appendTo('#containerCategories')
+            $('<div></div>').attr('class', "div_categoria").attr({ 'id_categoria': data[row].id_categoria }).appendTo('#containerCategoria')
                 .html(
                     "<li class='portfolio-item'>" +
                     "<div class='item-main'>" +
@@ -52,7 +49,9 @@ function loadCategorias() {
                 )
         }
     }).catch(function() {
-        window.location.href = "index.php?module=ctrl_exceptions&op=503&type=503&lugar=Type_Categories HOME";
+        // console.log("ERROR loadCategorias");
+        // return false;
+        window.location.href = "index.php?module=ctrl_exceptions&op=503";
     });
 }
 
@@ -60,7 +59,7 @@ function loadCatTipos() {
     ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageTipo','GET', 'JSON')
     .then(function(data) {
         for (row in data) {
-            $('<div></div>').attr('class', "div_motor").attr({ 'id': data[row].tipo }).appendTo('#containerTypecar')
+            $('<div></div>').attr('class', "div_tipo").attr({ 'id_tipo': data[row].id_tipo }).appendTo('#containerTipo')
                 .html(
                     "<li class='portfolio-item2'>" +
                     "<div class='item-main2'>" +
@@ -73,7 +72,9 @@ function loadCatTipos() {
                 )
         }
     }).catch(function() {
-        window.location.href = "index.php?module=ctrl_exceptions&op=503&type=503&lugar=Types_car HOME";
+        // console.log("ERROR loadCatTipos");
+        // return false;
+        window.location.href = "index.php?module=ctrl_exceptions&op=503";
     });
 }
 

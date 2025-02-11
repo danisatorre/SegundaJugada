@@ -22,11 +22,14 @@
     <!-- JavaScript MVC files -->
     <script src = "view/js/ajaxpromise.js"></script>
     <script src = "module/home/model/ctrl_home.js"></script>
+    <!-- CSS MIO -->
+    <link rel="stylesheet" type="text/css" href="view/css/styles.css">
+    <link rel="stylesheet" href="view/css/home.css">
 
     <title>Hexashop Ecommerce HTML CSS Template</title>
 
 
-    <!-- Additional CSS Files -->
+    <!-- CSS PLANTILLA -->
     <link rel="stylesheet" type="text/css" href="view/css/bootstrap.min.css">
 
     <link rel="stylesheet" type="text/css" href="view/css/font-awesome.css">
@@ -36,8 +39,6 @@
     <link rel="stylesheet" href="view/css/owl-carousel.css">
 
     <link rel="stylesheet" href="view/css/lightbox.css">
-
-    <link rel="stylesheet" href="view/css/home.css">
 <!--
 
 TemplateMo 571 Hexashop
