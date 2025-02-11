@@ -61,6 +61,21 @@
                 echo json_encode("error");
             }
         break;
+        
+        case 'homePageMarca';
+            try{
+                $daohome = new DAOhome();
+                $selectmarca = $daohome->select_marca();
+            } catch(Exception $e){
+                echo json_encode("error");
+            }
+
+            if(!empty($selectmarca)){
+                echo json_encode("$selectmarca");
+            }else{
+                echo json_encode("error");
+            }
+        break;
 
         default;
             include("module/exceptions/views/pages/error404.html");

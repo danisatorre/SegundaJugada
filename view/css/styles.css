@@ -1,4 +1,4 @@
-.div_tipo, .div_categoria{
+.div_tipo, .div_categoria, .div_marca{
     display:inline-block;
     width:20%;
 }
@@ -21,7 +21,7 @@
 #containerTipo, #containerCategoria{
     margin-top:2%;
 }
-.portfolio-items2-col-3{
+.portfolio-items2-col-1{
     margin-top:8%;
     /* background-color: skyblue; */
 }

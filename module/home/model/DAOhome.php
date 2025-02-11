@@ -4,7 +4,7 @@
     
 	class DAOHome {
 		function select_marca() {
-			$sql= "SELECT * FROM `marcas` ORDER BY nom_marca ASC LIMIT 30;";
+			$sql= "SELECT * FROM marcas ORDER BY nom_marca ASC LIMIT 30;";
 
 			// die('<script>console.log('.json_encode( $sql ) .');</script>');
 
@@ -16,6 +16,7 @@
 			if (mysqli_num_rows($res) > 0) {
 				while ($row = mysqli_fetch_assoc($res)) {
 					$retrArray[] = $row;
+					// die('<script>console.log('.json_encode( $retrArray ) .');</script>');
 				}
 			}
 			return $retrArray;

@@ -8,8 +8,8 @@
 
     switch ($_GET['op']) {
         case '503';
-            $data = 'hola crtl exceptions ERROR 503';
-            die('<script>console.log('.json_encode( $data ) .');</script>');
+            // $data = 'hola crtl exceptions ERROR 503';
+            // die('<script>console.log('.json_encode( $data ) .');</script>');
             include ('module/exceptions/view/pages/error503.html');
         break;
 
