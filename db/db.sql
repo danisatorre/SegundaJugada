@@ -38,6 +38,7 @@ CREATE TABLE `productos`(
     `tipo` int(20) UNSIGNED NOT NULL,
     `nom_prod` varchar(40) NOT NULL,
     `sexo_prod` varchar(20) NOT NULL,
+    `color` varchar(50) NOT NULL,
     `talla` varchar(10) NOT NULL,
     `entrega` varchar(40) NOT NULL,
     `descripcion` varchar(1000) NOT NULL,
@@ -47,12 +48,12 @@ CREATE TABLE `productos`(
     `img_producto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `productos` (`id_producto`, `id_vendedor`, `marca`, `categoria`, `tipo`, `nom_prod`, `sexo_prod`, `talla`, `entrega`, `descripcion`, `condicion`, `stock`, `precio`, `img_producto`) VALUES
-(1, 1, 1, 1, 1, 'producto1', 'masculino', 'M', 'persona', 'descripcion1', 'nuevo', 3, 10, 'prod1.jpg'),
-(2, 2, 2, 2, 2, 'producto2', 'femenino', 'S', 'domicilio', 'descripcion2', 'desgastado', 5, 20, 'prod2.jpg'),
-(3, 3, 3, 3, 3, 'producto3', 'femenino', 'L', 'tienda', 'descripcion3', 'roto', 3, 30, 'prod3.jpg'),
-(4, 4, 4, 1, 4, 'producto4', 'masculino', 'XL', 'persona', 'descripcion4', 'bueno', 1, 40, 'prod4.jpg'),
-(5, 5, 5, 2, 5, 'producto5', 'masculino', 'M', 'tienda', 'descripcion5', 'nuevo', 1, 50, 'prod5.jpg');
+INSERT INTO `productos` (`id_producto`, `id_vendedor`, `marca`, `categoria`, `tipo`, `nom_prod`, `sexo_prod`, `color`, `talla`, `entrega`, `descripcion`, `condicion`, `stock`, `precio`, `img_producto`) VALUES
+(1, 1, 1, 1, 1, 'producto1', 'masculino', 'Blanco', 'M', 'persona', 'descripcion1', 'nuevo', 3, 10, 'prod1.jpg'),
+(2, 2, 2, 2, 2, 'producto2', 'femenino', 'Amarillo', 'S', 'domicilio', 'descripcion2', 'desgastado', 5, 20, 'prod2.jpg'),
+(3, 3, 3, 3, 3, 'producto3', 'femenino', 'Azul', 'L', 'tienda', 'descripcion3', 'roto', 3, 30, 'prod3.jpg'),
+(4, 4, 4, 1, 4, 'producto4', 'masculino', 'Negro', 'XL', 'persona', 'descripcion4', 'bueno', 1, 40, 'prod4.jpg'),
+(5, 5, 5, 2, 5, 'producto5', 'masculino', 'Naranja', 'M', 'tienda', 'descripcion5', 'nuevo', 1, 50, 'prod5.jpg');
 
 -- PRODUCT IMAGES
 
