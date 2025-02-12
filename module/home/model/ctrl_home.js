@@ -27,7 +27,9 @@ function carouselMarcas() {
                   items: 3,
                   margin: 10,
                   loop: true,
-                  nav: true
+                  nav: true,
+                  autoplay: true,
+                  autoplaySpeed: 2500,
                 });
               });
             // console.log("hola end OWL CAROUSELMARCAS");
