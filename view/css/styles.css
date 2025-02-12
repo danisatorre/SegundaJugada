@@ -1,4 +1,4 @@
-.div_tipo, .div_categoria, .div_marca{
+.div_tipo, .div_categoria, .div_marca, .carousel__elements{
     display:inline-block;
     width:20%;
 }
@@ -7,9 +7,9 @@
 }
 .rod-pad-row{
     margin-left:20%;
-    background-color: red;
+    /* background-color: red; */
 }
-.div_tipo img, .div_categoria img, .div_marca img{
+.div_tipo img, .div_categoria img, .div_marca img, .carousel__elements img{
     width:100%;
 }
 #containerTipo{
@@ -21,7 +21,7 @@
 #containerTipo, #containerCategoria{
     margin-top:2%;
 }
-.portfolio-items2-col-1{
+.portfolio-items2-col-1, .glider-contain{
     margin-top:8%;
     /* background-color: skyblue; */
 }

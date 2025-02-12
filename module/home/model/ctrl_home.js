@@ -2,29 +2,43 @@
 // console.log("hola ctrl home js");
 // return false;
 
-// function carouselMarcas() {
-//     ajaxPromise('module/home/ctrl/ctrl_home.php?op=Carrousel_Marcas','GET', 'JSON')
-//     .then(function(data) {
-//             for (row in data) {
-//                 $('<div></div>').attr('class', "carousel__elements").attr('id', data[row].nom_marca).appendTo(".carousel__list")
-//                 .html(
-//                     "<img class='carousel__img' id='' src='" + data[row].img_marca + "' alt='' >"
-//                 )
-//             }
-//             new Glider(document.querySelector('.carousel__list'), {
-//                 slidesToShow: 3,
-//                 dots: '.carousel__indicator',
-//                 draggable: true,
-//                 arrows: {
-//                     prev: '.carousel__prev',
-//                     next: '.carousel__next'
-//                 }
-//             });
-//         })
-//         .catch(function() {
-//             window.location.href = "index.php?module=ctrl_exceptions&op=503&type=503&lugar=Carrusel_Marcas HOME";
-//         });
-// }
+function carouselMarcas() {
+    // console.log("hola CAROUSELMARCAS");
+    // return false;
+    ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageMarca','GET', 'JSON')
+    .then(function(data) {
+            for (row in data) {
+                // console.log("hola data FUNCTION CAROUSELMARCAS");
+                // console.log(data);
+                // return false;
+                $('<div></div>').attr('class', "item").attr('id', data[row].id_marca).appendTo(".carousel_content")
+                .html(
+                    "<img src='" + data[row].img_marca + "' alt='foto' >"
+                )
+            }
+
+            // console.log("hola end FOR row in data CAROUSELMARCAS");
+            // return false;
+
+              $(function() {
+                // Owl Carousel
+                var owl = $(".owl-carousel");
+                owl.owlCarousel({
+                  items: 3,
+                  margin: 10,
+                  loop: true,
+                  nav: true
+                });
+              });
+            // console.log("hola end OWL CAROUSELMARCAS");
+            // return false;
+        })
+        .catch(function() {
+            // console.log("hola CATCH CAROUSELMARCAS");
+            // return false;
+            window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+        });
+}
 
 function loadMarcas() {
     // console.log("hola MARCAS");
@@ -108,7 +122,7 @@ function loadCatTipos() {
 }
 
 $(document).ready(function() {
-    // carouselMarcas();
+    carouselMarcas();
     loadMarcas();
     loadCategorias();
     loadCatTipos();
