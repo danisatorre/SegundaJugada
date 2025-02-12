@@ -21,7 +21,7 @@
 #containerTipo, #containerCategoria{
     margin-top:2%;
 }
-.portfolio-items2-col-1, .glider-contain{
+.portfolio-items2-col-1, .home-demo{
     margin-top:8%;
     /* background-color: skyblue; */
 }
@@ -31,4 +31,7 @@
 }
 .portfolio-image2{
     margin-top:10%;
+}
+#title-carousel-home{
+    margin-left:15%;
 }

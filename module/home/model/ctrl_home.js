@@ -11,7 +11,7 @@ function carouselMarcas() {
                 // console.log("hola data FUNCTION CAROUSELMARCAS");
                 // console.log(data);
                 // return false;
-                $('<div></div>').attr('class', "item").attr('id', data[row].id_marca).appendTo(".carousel_content")
+                $('<div></div>').attr('class', "item").attr('id', data[row].id_marca).appendTo(".carousel-home")
                 .html(
                     "<img src='" + data[row].img_marca + "' alt='foto' >"
                 )
@@ -38,35 +38,6 @@ function carouselMarcas() {
             // return false;
             window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
         });
-}
-
-function loadMarcas() {
-    // console.log("hola MARCAS");
-    // return false;
-    ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageMarca','GET', 'JSON')
-    .then(function(data) { 
-        // console.log("hola data FUNCTION MARCA");
-        // return false;
-        for (row in data) {
-            // console.log("hola data MARCA");
-            // return false;
-            $('<div></div>').attr('class', "div_marca").attr({ 'id_marca': data[row].id_marca }).appendTo('#containerMarca')
-                .html(
-                    "<li class='portfolio-item3'>" +
-                    "<div class='item-main3'>" +
-                    "<div class='portfolio-image3'>" +
-                    "<img src = " + data[row].img_marca + " alt='foto' </img> " +
-                    "</div>" +
-                    "<h5>" + data[row].nom_marca + "</h5>" +
-                    "</div>" +
-                    "</li>"
-                )
-        }
-    }).catch(function() {
-        // console.log("ERROR loadMarca");
-        // return false;
-        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
-    });
 }
 
 function loadCategorias() {
@@ -123,7 +94,6 @@ function loadCatTipos() {
 
 $(document).ready(function() {
     carouselMarcas();
-    loadMarcas();
     loadCategorias();
     loadCatTipos();
 });
