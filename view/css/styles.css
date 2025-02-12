@@ -9,7 +9,7 @@
     margin-left:20%;
     background-color: red;
 }
-.div_tipo img, .div_categoria img{
+.div_tipo img, .div_categoria img, .div_marca img{
     width:100%;
 }
 #containerTipo{
@@ -25,7 +25,7 @@
     margin-top:8%;
     /* background-color: skyblue; */
 }
-.portfolio-items-col-3{
+.portfolio-items-col-3, .portfolio-items2-col-3{
     margin-top:2%;
     border-top: 3px solid slategrey;
 }

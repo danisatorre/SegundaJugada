@@ -71,7 +71,7 @@
             }
 
             if(!empty($selectmarca)){
-                echo json_encode("$selectmarca");
+                echo json_encode($selectmarca);
             }else{
                 echo json_encode("error");
             }

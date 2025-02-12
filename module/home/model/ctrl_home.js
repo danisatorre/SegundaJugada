@@ -51,7 +51,7 @@ function loadMarcas() {
     }).catch(function() {
         // console.log("ERROR loadMarca");
         // return false;
-        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php&op=503";
+        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
     });
 }
 
@@ -80,7 +80,7 @@ function loadCategorias() {
     }).catch(function() {
         // console.log("ERROR loadCategorias");
         // return false;
-        window.location.href = "index.php?module=ctrl_exceptions&op=503";
+        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
     });
 }
 
@@ -103,7 +103,7 @@ function loadCatTipos() {
     }).catch(function() {
         // console.log("ERROR loadCatTipos");
         // return false;
-        window.location.href = "index.php?module=ctrl_exceptions&op=503";
+        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
     });
 }
 
