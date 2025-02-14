@@ -110,8 +110,50 @@ function loadCatTipos() {
         });
 }
 
+function loadProductos() {
+    // console.log("hola loadProductos");
+    // return false;
+    ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageProductos','GET', 'JSON')
+    .then(function(data) {
+        // console.log("hola loadProductos then function data");
+        // return false;
+            for (row in data) {
+                // console.log("hola data FUNCTION loadProductos");
+                // console.log(data);
+                // return false;
+                $('<div></div>').attr('class', "div_producto").attr('id', data[row].id_producto).appendTo(".carousel-producto")
+                .html(
+                    "<img src='" + data[row].img_producto + "' alt='foto' >" +
+                    "<h5>" + data[row].nom_prod + "</h5>"
+                );
+            }
+
+            // console.log("hola end FOR row in data loadProductos");
+            // return false;
+
+              $(function() {
+                // Owl Carousel
+                var owl = $(".carousel-producto");
+                owl.owlCarousel({
+                  items: 4,
+                  margin: 10,
+                  loop: true,
+                  nav: true,
+                });
+              });
+            // console.log("hola end OWL loadProductos");
+            // return false;
+        })
+        .catch(function() {
+            // console.log("hola CATCH loadProductos");
+            // return false;
+            window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+        });
+}
+
 $(document).ready(function() {
     carouselMarcas();
     loadCategorias();
     loadCatTipos();
+    loadProductos();
 });

@@ -3,7 +3,7 @@
     width: 20%;
 }
 
-.div_tipo{
+.div_tipo, .div_producto{
     width:80%;
     margin-left:20%;
 }
@@ -17,7 +17,7 @@
     /* background-color: red; */
 }
 
-.div_tipo img, .div_categoria img, .div_marca img, .carousel__elements img {
+.div_tipo img, .div_categoria img, .div_marca img, .carousel__elements img, .div_producto img {
     width: 100%;
 }
 
@@ -40,6 +40,6 @@
     margin-top: 10%;
 }
 
-#title-carousel-home, #title-carousel-tipo {
+#title-carousel-home, #title-carousel-tipo, #title-carousel-producto{
     margin-left: 15%;
 }

@@ -58,22 +58,23 @@
 			return $retrArray;
 		}
 
-		function select_product(){
-			$sql= "SELECT * FROM productos ORDER BY precio ASC LIMIT 10";
-			
-			// die('<script>console.log('.json_encode($sql) .');</script>');
+		function select_productos(){
+			$sql= "SELECT * FROM productos ORDER BY id_producto DESC LIMIT 6";
+
+			// die('<script>console.log('.json_encode( $sql ) .');</script>');
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
 			connect::close($conexion);
 
 			$retrArray = array();
-			if(mysqli_num_rows($res) > 0){
-				while ($row = mysqli_fetch_assoc($res)){
+			if (mysqli_num_rows($res) > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
 					$retrArray[] = $row;
 				}
 			}
 			return $retrArray;
+			
 		}
 	
 		

@@ -77,17 +77,21 @@
             }
         break;
 
-        case 'homePageProducts';
+        case 'homePageProductos';
             try{
                 $daohome = new DAOhome();
-                $selectproduct = $daohome->select_product();
+                $selectproducto = $daohome->select_productos();
             } catch(Exception $e){
+                // $data = 'hola crtl home homePageProductos ERROR catch Exception e';
+                // die('<script>console.log('.json_encode( $data ) .');</script>');
                 echo json_encode("error");
             }
 
-            if(!empty($selectmarca)){
-                echo json_encode($selectproduct);
+            if(!empty($selectproducto)){
+                echo json_encode($selectproducto);
             }else{
+                // $data = 'hola crtl home homePageProductos ERROR !EMPTY';
+                // die('<script>console.log('.json_encode( $data ) .');</script>');
                 echo json_encode("error");
             }
         break;
