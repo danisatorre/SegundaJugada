@@ -1,37 +1,45 @@
-.div_tipo, .div_categoria, .div_marca, .carousel__elements{
-    display:inline-block;
-    width:20%;
+.div_categoria, .div_marca, .carousel__elements {
+    display: inline-block;
+    width: 20%;
 }
-.container{
-    width:100%;
-}
-.rod-pad-row{
+
+.div_tipo{
+    width:80%;
     margin-left:20%;
+}
+
+.container {
+    width: 100%;
+}
+
+.rod-pad-row {
+    margin-left: 20%;
     /* background-color: red; */
 }
-.div_tipo img, .div_categoria img, .div_marca img, .carousel__elements img{
-    width:100%;
+
+.div_tipo img, .div_categoria img, .div_marca img, .carousel__elements img {
+    width: 100%;
 }
-#containerTipo{
-    /* background-color:blue; */
+
+#containerCategoria {
+    /* background-color: blueviolet; */
+    margin-top: 2%;
 }
-#containerCategoria{
-    /* background-color:blueviolet; */
-}
-#containerTipo, #containerCategoria{
-    margin-top:2%;
-}
-.portfolio-items2-col-1, .home-demo{
-    margin-top:8%;
+
+.portfolio-items2-col-1, .home-demo {
+    margin-top: 8%;
     /* background-color: skyblue; */
 }
-.portfolio-items-col-3, .portfolio-items2-col-3{
-    margin-top:2%;
+
+.portfolio-items-col-3, .portfolio-items2-col-3 {
+    margin-top: 2%;
     border-top: 3px solid slategrey;
 }
-.portfolio-image2{
-    margin-top:10%;
+
+.portfolio-image2 {
+    margin-top: 10%;
 }
-#title-carousel-home{
-    margin-left:15%;
+
+#title-carousel-home, #title-carousel-tipo {
+    margin-left: 15%;
 }

@@ -22,7 +22,7 @@ function carouselMarcas() {
 
               $(function() {
                 // Owl Carousel
-                var owl = $(".owl-carousel");
+                var owl = $(".carousel-home");
                 owl.owlCarousel({
                   items: 3,
                   margin: 10,
@@ -72,26 +72,42 @@ function loadCategorias() {
 }
 
 function loadCatTipos() {
+    // console.log("hola loadCatTipos");
+    // return false;
     ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageTipo','GET', 'JSON')
     .then(function(data) {
-        for (row in data) {
-            $('<div></div>').attr('class', "div_tipo").attr({ 'id_tipo': data[row].id_tipo }).appendTo('#containerTipo')
+            for (row in data) {
+                // console.log("hola data FUNCTION loadCatTipos");
+                // console.log(data);
+                // return false;
+                $('<div></div>').attr('class', "div_tipo").attr('id', data[row].id_tipo).appendTo(".carousel-tipo")
                 .html(
-                    "<li class='portfolio-item2'>" +
-                    "<div class='item-main2'>" +
-                    "<div class='portfolio-image2'>" +
-                    "<img src = " + data[row].img_tipo + " alt='foto'" +
-                    "</div>" +
-                    "<h5>" + data[row].tipo + "</h5>" +
-                    "</div>" +
-                    "</li>"
+                    "<img src='" + data[row].img_tipo + "' alt='foto' >" +
+                    "<h5>" + data[row].tipo + "</h5>"
                 )
-        }
-    }).catch(function() {
-        // console.log("ERROR loadCatTipos");
-        // return false;
-        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
-    });
+            }
+
+            // console.log("hola end FOR row in data loadCatTipos");
+            // return false;
+
+              $(function() {
+                // Owl Carousel
+                var owl = $(".carousel-tipo");
+                owl.owlCarousel({
+                  items: 3,
+                  margin: 10,
+                  loop: true,
+                  nav: true,
+                });
+              });
+            // console.log("hola end OWL loadCatTipos");
+            // return false;
+        })
+        .catch(function() {
+            // console.log("hola CATCH CAROUSELMARCAS");
+            // return false;
+            window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+        });
 }
 
 $(document).ready(function() {
