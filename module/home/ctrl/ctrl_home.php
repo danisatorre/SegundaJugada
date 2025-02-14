@@ -77,8 +77,23 @@
             }
         break;
 
+        case 'homePageProducts';
+            try{
+                $daohome = new DAOhome();
+                $selectproduct = $daohome->select_product();
+            } catch(Exception $e){
+                echo json_encode("error");
+            }
+
+            if(!empty($selectmarca)){
+                echo json_encode($selectproduct);
+            }else{
+                echo json_encode("error");
+            }
+        break;
+
         default;
-            include("module/exceptions/views/pages/error404.html");
+            include("module/exceptions/ctrl/ctrl_exceptions.php?&op=404");
         break;
     }
 ?>
