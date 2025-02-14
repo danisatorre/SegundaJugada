@@ -94,7 +94,7 @@ function loadCatTipos() {
                 // Owl Carousel
                 var owl = $(".carousel-tipo");
                 owl.owlCarousel({
-                  items: 3,
+                  items: 4,
                   margin: 10,
                   loop: true,
                   nav: true,
