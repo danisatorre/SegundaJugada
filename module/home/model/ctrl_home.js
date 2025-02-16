@@ -151,9 +151,40 @@ function loadProductos() {
         });
 }
 
+function loadAccesorios(){
+    // console.log("hola loadAccesorios");
+    // return false;
+    ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageAccesorios', 'GET', 'JSON')
+    .then(function(data){
+        for (row in data){
+            $('<div></div>').attr('class', "div_accesorio").attr('id', data[row].id_producto).appendTo(".carousel-accesorio")
+            .html(
+                "<img src=' " + data[row].img_producto + " 'alt='foto'>" +
+                "<h5>" + data[row].nom_prod + "</h5>"
+            )
+        }
+
+        // CAROUSEL
+
+        $(function(){
+            var owl = $(".carousel-accesorio");
+            owl.owlCarousel({
+                items: 4,
+                margin: 10,
+                loop: true,
+                nav: true,
+            }); // END owl.owlCarousel
+        }); // END FUNCTION OWL
+    }) // END FUNCTION DATA
+    .catch(function(){
+        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+    })
+}
+
 $(document).ready(function() {
     carouselMarcas();
     loadCategorias();
     loadCatTipos();
     loadProductos();
+    loadAccesorios();
 });

@@ -76,6 +76,22 @@
 			return $retrArray;
 			
 		}
+
+		function select_accesorios(){
+			$sql= "SELECT * FROM productos WHERE tipo = 8 ORDER BY nom_prod LIMIT 10";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$retrArray = array();
+			if (mysqli_num_rows($res) > 0){
+				while($row = mysqli_fetch_assoc($res)){
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
+		}
 	
 		
 	}

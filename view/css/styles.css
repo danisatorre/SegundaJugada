@@ -17,7 +17,7 @@
     /* background-color: red; */
 }
 
-.div_tipo img, .div_categoria img, .div_marca img, .carousel__elements img, .div_producto img {
+.div_tipo img, .div_categoria img, .div_marca img, .carousel__elements img{
     width: 100%;
 }
 
@@ -40,6 +40,11 @@
     margin-top: 10%;
 }
 
-#title-carousel-home, #title-carousel-tipo, #title-carousel-producto{
+#title-carousel-home, #title-carousel-tipo, #title-carousel-producto, #title-carousel-accesorio{
     margin-left: 15%;
+}
+.div_producto img, .div_accesorio img{
+    width:512px;
+    height:512px;
+    object-fit:contain;
 }

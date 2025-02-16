@@ -96,6 +96,21 @@
             }
         break;
 
+        case 'homePageAccesorios';
+            try{
+                $daohome = new DAOhome();
+                $selectaccesorio = $daohome->select_accesorios();
+            }catch(Exception $e){
+                echo json_encode("error");
+            }
+
+            if(!empty($selectaccesorio)){
+                echo json_encode($selectaccesorio);
+            }else{
+                echo json_encode("error");
+            }
+        break;
+
         default;
             include("module/exceptions/ctrl/ctrl_exceptions.php?&op=404");
         break;
