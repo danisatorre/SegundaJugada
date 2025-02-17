@@ -11,7 +11,7 @@ function carouselMarcas() {
                 // console.log("hola data FUNCTION CAROUSELMARCAS");
                 // console.log(data);
                 // return false;
-                $('<div></div>').attr('class', "item").attr('id', data[row].id_marca).appendTo(".carousel-home")
+                $('<div></div>').attr('class', "div_marca").attr('id', data[row].id_marca).appendTo(".carousel-home")
                 .html(
                     "<img src='" + data[row].img_marca + "' alt='foto' >"
                 )
@@ -24,7 +24,7 @@ function carouselMarcas() {
                 // Owl Carousel
                 var owl = $(".carousel-home");
                 owl.owlCarousel({
-                  items: 3,
+                  items: 2,
                   margin: 10,
                   loop: true,
                   nav: true,

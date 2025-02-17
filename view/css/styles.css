@@ -3,9 +3,20 @@
     width: 20%;
 }
 
+.div_marca{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
 .div_tipo, .div_producto{
     width:80%;
     margin-left:20%;
+}
+
+.div_categoria, .div_tipo, .div_producto, .div_accesorio{
+    margin-top:4%;
 }
 
 .container {
@@ -19,6 +30,10 @@
 
 .div_tipo img, .div_categoria img, .div_marca img, .carousel__elements img{
     width: 100%;
+}
+
+#carousel-principal{
+    height:230px;
 }
 
 #containerCategoria {
@@ -43,8 +58,13 @@
 #title-carousel-home, #title-carousel-tipo, #title-carousel-producto, #title-carousel-accesorio{
     margin-left: 15%;
 }
+
 .div_producto img, .div_accesorio img{
     width:512px;
     height:512px;
     object-fit:contain;
+}
+
+#title-categoria{
+    margin-top:3%;
 }

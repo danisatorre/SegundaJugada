@@ -1,6 +1,8 @@
 <?php
     if ((isset($_GET['module'])) && ($_GET['module']==="ctrl_home") ){
 		include("view/inc/top_page_home.html");
+	}else if((isset($_GET['module'])) && ($_GET['module']==="ctrl_shop")){
+		include("view/inc/top_page_shop.html");
 	}else{
 		include("view/inc/top_page_home.html");
 	}
