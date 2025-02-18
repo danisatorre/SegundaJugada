@@ -24,6 +24,30 @@
             }
         break;
 
+        case 'details';
+            $id_producto=($_GET['id_producto']);
+            // die('<script>console.log('.json_encode( $id_producto ) .');</script>');
+
+            try{
+                $daoshop = new DAOshop();
+                $select_producto = $daoshop->select_producto();
+            }catch(Exception $e){
+                echo json_encode("error");
+            }
+
+            if(!empty($select_producto)){
+                echo json_encode($select_producto);
+            }else{
+                echo json_encode("error");
+            }
+            if(!$select_producto){
+                $callback = 'module/exceptions/ctrl/ctrl_exceptions.php?&op=503';
+    			die('<script>window.location.href="'.$callback .'";</script>');
+            }else{
+                include('module/shop/view/details.html');
+            }
+        break;
+
     }
 
 ?>

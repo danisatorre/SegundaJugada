@@ -9,12 +9,14 @@ function loadProductos(){
         // console.log(data);
         // return false;
         for (row in data){
-            $('<div></div>').attr('class', "producto").attr({'id': data[row].id_tipo}).appendTo('.container-productos')
+            $('<div></div>').attr('class', "producto").attr({'id': data[row].id_producto}).appendTo('.container-productos')
                 .html(
-                    "<img src = " + data[row].img_tipo + " alt='foto' </img> " +
+                    "<a href='index.php?module=ctrl_shop&op=details&id_producto="+ data[row].id_producto + "'>" +
+                    "<img src = " + data[row].img_producto + " alt='foto' </img> " +
+                    "</a>" +
                     "<div class='inf-producto'>" +
-                    "<h3>" + data[row].tipo + "</h5>" +
-                    "<p class='precio'>" + data[row].id_tipo + "€</p>" +
+                    "<h3>" + data[row].nom_prod + "</h5>" +
+                    "<p class='precio'>" + data[row].precio + "€</p>" +
                     "</div>"
                 ) // end .html
         } // end row in data

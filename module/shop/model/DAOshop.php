@@ -6,7 +6,7 @@
     class DAOshop{
 
         function get_all(){
-            $sql= "SELECT * FROM tipo ORDER BY id_tipo DESC";
+            $sql= "SELECT * FROM productos ORDER BY id_producto DESC";
 
 			// die('<script>console.log('.json_encode( $sql ) .');</script>');
 
@@ -22,5 +22,23 @@
 			}
 			return $retrArray;
         }
+
+		function select_producto($id_producto){
+			$sql= "SELECT * FROM productos WHERE id_producto = $id_producto";
+
+			// die('<script>console.log('.json_encode( $sql ) .');</script>');
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$retrArray = array();
+			if (mysqli_num_rows($res) > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
+		}
 
     }
