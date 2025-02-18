@@ -5,14 +5,14 @@
 
     switch($_GET['op']){
 
-        case 'list_all';
-            include('module/shop/view/list_all.html')
+        case 'list';
+            include('module/shop/view/shop.html');
         break;
 
-        case 'get_all';
+        case 'getall';
             try{
                 $daoshop = new DAOshop();
-                $select_all = $dahoshop->get_all();
+                $select_all = $daoshop->get_all();
             }catch(Exception $e){
                 echo json_encode("error");
             }

@@ -13,7 +13,7 @@
 				include("module/exceptions/ctrl/".$_GET['module'].".php");
 				break;
 			case "ctrl_shop";
-				include("module/exceptions/ctrl/".$_GET['module'].".php");
+				include("module/shop/ctrl/".$_GET['module'].".php");
 				break;
 		}
 	}else{
