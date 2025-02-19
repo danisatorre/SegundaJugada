@@ -45,12 +45,6 @@
             }else{
                 echo json_encode("error");
             }
-            if(!$select_producto){
-                $callback = 'module/exceptions/ctrl/ctrl_exceptions.php?&op=503';
-    			die('<script>window.location.href="'.$callback .'";</script>');
-            }else{
-                include('module/shop/view/details.html');
-            }
         break;
 
     }

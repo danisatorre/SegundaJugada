@@ -11,14 +11,16 @@ function loadProductos(){
         for (row in data){
             $('<div></div>').attr('class', "producto").attr({'id': data[row].id_producto}).appendTo('.container-productos')
                 .html(
-                    "<a href='index.php?module=ctrl_shop&op=details&id_producto="+ data[row].id_producto + "'>" +
                     "<img src = " + data[row].img_producto + " alt='foto' </img> " +
-                    "</a>" +
                     "<div class='inf-producto'>" +
                     "<h3>" + data[row].nom_prod + "</h5>" +
                     "<p class='precio'>" + data[row].precio + "€</p>" +
                     "</div>"
                 ) // end .html
+                .on('click', function() {
+                    const id_producto = $(this).attr('id');
+                    loadProductoDetails(id_producto);
+                }); // end .on
         } // end row in data
     }).catch(function(){
         window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
@@ -26,13 +28,16 @@ function loadProductos(){
 } // funcion loadProductos
 
 function loadProductoDetails(id_producto){
-    // console.log("hola loadProductoDetails");
+    console.log("hola loadProductoDetails");
     // return false;
+    $('.container-productos').empty();
+    // Limpiar el contenedor de detalles
+    $('.container-details').empty();
     ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=details&id_producto=' + id_producto, 'GET', 'JSON')
     .then(function(data){
         console.log(data);
         // return false;
-            $('<div></div>').attr('class', "producto").attr({'id': data.id_producto}).appendTo('.container-details')
+            $('<div></div>').attr('class', "details").attr({'id': data.id_producto}).appendTo('.container-details')
                 .html(
                     "<img src = " + data.img_producto + " alt='foto' </img> " +
                     "<div class='inf-producto'>" +
@@ -47,5 +52,4 @@ function loadProductoDetails(id_producto){
 
 $(document).ready(function(){
     loadProductos();
-    loadProductoDetails(id_producto);
 });
