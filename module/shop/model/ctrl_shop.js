@@ -25,6 +25,27 @@ function loadProductos(){
     })
 } // funcion loadProductos
 
+function loadProductoDetails(id_producto){
+    // console.log("hola loadProductoDetails");
+    // return false;
+    ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=details&id_producto=' + id_producto, 'GET', 'JSON')
+    .then(function(data){
+        console.log(data);
+        // return false;
+            $('<div></div>').attr('class', "producto").attr({'id': data.id_producto}).appendTo('.container-details')
+                .html(
+                    "<img src = " + data.img_producto + " alt='foto' </img> " +
+                    "<div class='inf-producto'>" +
+                    "<h3>" + data.nom_prod + "</h5>" +
+                    "<p class='precio'>" + data.precio + "€</p>" +
+                    "</div>"
+                ) // end .html
+    }).catch(function(){
+        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+    })
+} // funcion loadProductoDetails
+
 $(document).ready(function(){
     loadProductos();
+    loadProductoDetails(id_producto);
 });
