@@ -24,15 +24,27 @@
         }
 
 		function select_producto($id_producto){
-			$sql= "SELECT * FROM productos WHERE id_producto = $id_producto";
+			// $sql= "SELECT * FROM productos WHERE id_producto = $id_producto";
+			$sql="SELECT *
+			FROM productos p
+			LEFT JOIN marcas m ON p.marca = m.id_marca
+			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN producto_img pi ON p.id_producto = pi.pimage_producto
+			WHERE p.id_producto = $id_producto";
 
 			// die('<script>console.log('.json_encode( $sql ) .');</script>');
 
 			$conexion = connect::con();
-			$res = mysqli_query($conexion, $sql)->fetch_object();
+			$res = mysqli_query($conexion, $sql);
 			connect::close($conexion);
 
-			return $res;
+			$retrArray = array();
+			if (mysqli_num_rows($res) > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
 		}
 
     }

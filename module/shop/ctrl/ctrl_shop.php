@@ -34,14 +34,12 @@
                 $select_producto = $daoshop->select_producto($id_producto);
                 // die('<script>console.log('.json_encode( $id_producto ) .');</script>');
                 // die('<script>console.log('.json_encode( $select_producto ) .');</script>');
-                $producto=get_object_vars($select_producto);
-                // die('<script>console.log('.json_encode( $producto ) .');</script>');
             }catch(Exception $e){
                 echo json_encode("error");
             }
 
-            if(!empty($producto)){
-                echo json_encode($producto);
+            if(!empty($select_producto)){
+                echo json_encode($select_producto);
             }else{
                 echo json_encode("error");
             }
