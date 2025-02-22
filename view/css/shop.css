@@ -71,35 +71,40 @@ body {
     padding:auto;
 }
 /* DETAILS */
-.details{
-    padding-top:3%;
+.details {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 3%;
 }
-.details img{
-    width:512px;
-    height:512px;
+
+.owl-carousel, .owl-item, .owl-item img {
+    width: 512px;
+    height: 512px;
 }
-.img-details{
-    display:block;
-    float:left;
+
+.pimg, .pimg img {
+    width: 512px;
+    height: 512px;
 }
-.img-details, .inf-details{
-    display:inline-block;
+
+.inf-details {
+    width: 512px;
+    height: 512px;
+    margin-left: 10%;
+    /* background-color: red; */
 }
-.inf-details{
-    width:512px;
-    height:512px;
-    margin-left:10%;
-    /* background-color:red; */
+
+.img-producto-border {
+    border-radius: 10px;
 }
-.img-producto-border{
-    border-radius:10px;
-}
-.precio-details{
+
+.precio-details {
     font-size: 30px;
-    color:goldenrod;
+    color: goldenrod;
     font-weight: bolder;
-    margin-top:3%;
+    margin-top: 3%;
 }
-.desc-details{
-    margin-top:3%;
+
+.desc-details {
+    margin-top: 3%;
 }

@@ -29,7 +29,6 @@
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
 			LEFT JOIN teams t ON p.equipo = t.id_team
-			LEFT JOIN producto_img pi ON p.id_producto = pi.pimage_producto
 			WHERE p.id_producto = $id_producto";
 
 			// die('<script>console.log('.json_encode( $sql ) .');</script>');
@@ -45,6 +44,24 @@
 				}
 			}
 			return $retrArray;
+		}
+
+		function select_pimg($id_producto){
+			$sql="SELECT pi.pimage_producto, pi.pimage_route
+				FROM producto_img pi
+				WHERE pi.pimage_producto = '$id_producto'";
+			
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$arrayimg = array();
+			if(mysqli_num_rows($res) > 0){
+				foreach ($res as $row){
+					array_push($arrayimg, $row);
+				}
+			}
+			return $arrayimg;
 		}
 
     }
