@@ -29,6 +29,7 @@
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
 			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 			WHERE p.id_producto = $id_producto";
 
 			// die('<script>console.log('.json_encode( $sql ) .');</script>');

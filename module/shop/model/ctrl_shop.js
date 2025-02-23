@@ -42,15 +42,42 @@ function loadProductoDetails(id_producto){
                 .html(
                     "<div class='content-img-details'>" +
                     "<img src= '" + data[1][0][row].pimage_route + "'" + "</img>" +
-                    "</div>"
+                    "</div>" // end .content-img-details
                 )
         }
+        const entrega_icon = data[0][0].entrega === 'domicilio' ? '<i class="fa-solid fa-truck fa-2xl extra-icons" style="color: #077bd5;"></i>' : '';   
             $('<div></div>').attr({'id': data[0][0].id_producto, class: 'inf-producto-details'}).appendTo('.inf-details')
                 .html(
                     "<div class='inf-prod'>" +
                     "<h3>" + data[0][0].nom_prod + "</h5>" +
                     "<p class='precio-details'>" + data[0][0].precio + "€</p>" +
+                    "<p class='marca-details'>" + data[0][0].nom_marca + "</p>" +
+                    "<p class='sexo-details'>" + data[0][0].sexo_prod + "</p>" +
+                    "<p class='tipo-details'>" + data[0][0].tipo + "</p>" +
+                    "<p class='talla-details'>" + data[0][0].talla + "</p>" +
+                    "<b class='letrero-condicion-details'>Condición del producto</b>" +
+                    "<a class='condicion-details'> &nbsp;" + data[0][0].condicion + "</a>" +
+                    "<p class='color-details'>" + data[0][0].color + "</p>" +
                     "<p class='desc-details'>" + data[0][0].descripcion + "</p>" +
+                    "<p class='stock-details'>Hay " + data[0][0].stock + " unidades dispobibles</p>" +
+                    "<p class='entrega-details'>" + data[0][0].entrega + "</p>" +
+                    "<div class='extras-details'>" +
+                    "<div class='icon-container-details'>" +
+                    "<p class='entrega-icon-details'>" + entrega_icon + "</p>" +
+                    "</div>" + // end .icon-container (truck)
+                    "<div class='icon-container-details'>" +
+                    "<p class='paypal-icon-details'> <i class='fa-brands fa-paypal fa-2xl' style='color: #077bd5;'></i> </p>" +
+                    "</div>" + // end .icon-container (paypal)
+                    "<div class='icon-container-details'>" +
+                    "<p class='creditcard-icon-details'> <i class='fa-solid fa-credit-card fa-2xl' style='color: #077bd5;'></i> </p>" +
+                    "</div>" + // end .icon-container (credit-card)
+                    "<div class='icon-container-details'>" +
+                    "<p class='gpay-icon-details'> <i class='fa-brands fa-google-pay fa-2xl' style='color: #077bd5;'></i> </p>" +
+                    "</div>" + // end .icon-container (google-pay)
+                    "<div class='icon-container-details'>" +
+                    "<p class='applepay-icon-details'> <i class='fa-brands fa-apple-pay fa-2xl' style='color: #077bd5;'></i> </p>" +
+                    "</div>" + // end .icon-container (apple-pay)
+                    "</div" + // end .extras-details
                     "</div>" // end .inf-prod
                 ) // end .html
             // Owl Carousel
