@@ -45,7 +45,7 @@ function loadProductoDetails(id_producto){
                     "</div>"
                 )
         }
-            $('<div></div>').attr({'id': data[0][0].id_producto, class: 'inf-producto'}).appendTo('.inf-details')
+            $('<div></div>').attr({'id': data[0][0].id_producto, class: 'inf-producto-details'}).appendTo('.inf-details')
                 .html(
                     "<div class='inf-prod'>" +
                     "<h3>" + data[0][0].nom_prod + "</h5>" +
@@ -56,8 +56,7 @@ function loadProductoDetails(id_producto){
             // Owl Carousel
             $('.productos_img').owlCarousel({
                 items: 1,
-                loop: true,
-                nav: true
+                nav :true
             });
     }).catch(function(){
         window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
