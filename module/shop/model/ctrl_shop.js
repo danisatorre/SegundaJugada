@@ -45,7 +45,13 @@ function loadProductoDetails(id_producto){
                     "</div>" // end .content-img-details
                 )
         }
-        const entrega_icon = data[0][0].entrega === 'domicilio' ? '<i class="fa-solid fa-truck fa-2xl extra-icons" style="color: #077bd5;"></i>' : '';
+        // const entrega_icon = data[0][0].entrega === 'domicilio' ? '<i class="fa-solid fa-truck fa-2xl extra-icons" style="color: #077bd5;"></i>' : '';
+        let extra_entrega = "";
+        if(data[0][0].entrega === 'domicilio'){
+            extra_entrega = "<i class='fa-solid fa-truck fa-2xl extra-icons' style='color: #077bd5;'></i>";
+        }else if(data[0][0].entrega === 'persona'){
+            extra_entrega = "<i class='fa-solid fa-person fa-2xl' style='color: #077bd5;'></i>";
+        }
         let nom_equipo = "";
         if (data[0][0].nom_team !== null) {
             nom_equipo = "<p class='team-details'>" + data[0][0].nom_team + "</p>";
@@ -68,7 +74,7 @@ function loadProductoDetails(id_producto){
                     "<p class='entrega-details'>" + data[0][0].entrega + "</p>" +
                     "<div class='extras-details'>" +
                     "<div class='icon-container-details'>" +
-                    "<p class='entrega-icon-details'>" + entrega_icon + "</p>" +
+                    "<p class='entrega-icon-details'>" + extra_entrega + "</p>" +
                     "</div>" + // end .icon-container (truck)
                     "<div class='icon-container-details'>" +
                     "<p class='paypal-icon-details'> <i class='fa-brands fa-paypal fa-2xl' style='color: #077bd5;'></i> </p>" +
