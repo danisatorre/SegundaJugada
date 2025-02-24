@@ -45,17 +45,16 @@ function loadProductoDetails(id_producto){
                     "</div>" // end .content-img-details
                 )
         }
-        // const entrega_icon = data[0][0].entrega === 'domicilio' ? '<i class="fa-solid fa-truck fa-2xl extra-icons" style="color: #077bd5;"></i>' : '';
         let extra_entrega = "";
         if(data[0][0].entrega === 'domicilio'){
             extra_entrega = "<i class='fa-solid fa-truck fa-2xl extra-icons' style='color: #077bd5;'></i>";
         }else if(data[0][0].entrega === 'persona'){
             extra_entrega = "<i class='fa-solid fa-person fa-2xl' style='color: #077bd5;'></i>";
-        }
+        } // pintar el camion si la entrega es a domicilio, o la persona si la entrega es en persona
         let nom_equipo = "";
         if (data[0][0].nom_team !== null) {
             nom_equipo = "<p class='team-details'>" + data[0][0].nom_team + "</p>";
-        }
+        } // si el producto tiene equipo lo pinta, de lo contrario no pinta nada
             $('<div></div>').attr({'id': data[0][0].id_producto, class: 'inf-producto-details'}).appendTo('.inf-details')
                 .html(
                     "<div class='inf-prod'>" +
