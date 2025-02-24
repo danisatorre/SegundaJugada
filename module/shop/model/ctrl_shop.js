@@ -45,7 +45,11 @@ function loadProductoDetails(id_producto){
                     "</div>" // end .content-img-details
                 )
         }
-        const entrega_icon = data[0][0].entrega === 'domicilio' ? '<i class="fa-solid fa-truck fa-2xl extra-icons" style="color: #077bd5;"></i>' : '';   
+        const entrega_icon = data[0][0].entrega === 'domicilio' ? '<i class="fa-solid fa-truck fa-2xl extra-icons" style="color: #077bd5;"></i>' : '';
+        let nom_equipo = "";
+        if (data[0][0].nom_team !== null) {
+            nom_equipo = "<p class='team-details'>" + data[0][0].nom_team + "</p>";
+        }
             $('<div></div>').attr({'id': data[0][0].id_producto, class: 'inf-producto-details'}).appendTo('.inf-details')
                 .html(
                     "<div class='inf-prod'>" +
@@ -54,6 +58,7 @@ function loadProductoDetails(id_producto){
                     "<p class='marca-details'>" + data[0][0].nom_marca + "</p>" +
                     "<p class='sexo-details'>" + data[0][0].sexo_prod + "</p>" +
                     "<p class='tipo-details'>" + data[0][0].tipo + "</p>" +
+                    nom_equipo +
                     "<p class='talla-details'>" + data[0][0].talla + "</p>" +
                     "<b class='letrero-condicion-details'>Condición del producto</b>" +
                     "<a class='condicion-details'> &nbsp;" + data[0][0].condicion + "</a>" +
