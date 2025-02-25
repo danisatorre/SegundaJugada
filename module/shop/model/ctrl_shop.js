@@ -27,6 +27,43 @@ function loadProductos(){
     })
 } // funcion loadProductos
 
+function print_filtros() {
+    $('<div class="div-filtros"></div>').appendTo('.container-filtros')
+        .html('<select class="filtro_tipo">' +
+            '<option value="1">Cancha</option>' +
+            '<option value="2">Calle</option>' +
+            '<option value="3">Zapatos</option>' +
+            '<option value="4">Gorras</option>' +
+            '<option value="5">Balones</option>' +
+            '<option value="6">Pantalones</option>' +
+            '<option value="7">Camisetas</option>' +
+            '<option value="8">Accesorios</option>' +
+            '<option value="9">Sudaderas</option>' +
+            '<option value="10">Chaquetas</option>' +
+            '</select>' +
+            '<select class="filtro_categoria">' +
+            '<option value="1">Hombre</option>' +
+            '<option value="2">Mujer</option>' +
+            '<option value="3">Niños</option>' +
+            '<option value="4">Adolescentes</option>' +
+            '<option value="5">Bebes</option>' +
+            '</select>' +
+            '<select class="filtro_precio">' +
+            '<option value="maymen">De mayor a menor precio</option>' +
+            '<option value="menmay">De menor a mayor precio</option>' +
+            '</select>' +
+            '<div id="overlay">' +
+            '<div class= "cv-spinner" >' +
+            '<span class="spinner"></span>' +
+            '</div >' +
+            '</div > ' +
+            '</div>' +
+            '</div>' +
+            '<p> </p>' +
+            '<button class="filter_button button_spinner" id="Button_filter">Filtrar</button>' +
+            '<button class="filter_remove" id="Remove_filter">Remover filtros</button>');
+}
+
 function loadProductoDetails(id_producto){
     console.log("hola loadProductoDetails");
     // return false;
@@ -102,4 +139,5 @@ function loadProductoDetails(id_producto){
 
 $(document).ready(function(){
     loadProductos();
+    print_filtros();
 });

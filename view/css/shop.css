@@ -12,6 +12,25 @@ body {
     text-align: center;
 }
 
+.container-shop-list{
+    display:block;
+    float:left;
+    margin-top:10%;
+}
+
+.container-filtros{
+    width:90%;
+    margin-left:10%;
+}
+
+.filter_button, .filter_remove{
+    margin-top:2%;
+}
+
+.filtros a{
+    text-align:center;
+}
+
 .container-productos{
     width: 90%;
     max-width: 1200px;
@@ -62,6 +81,7 @@ body {
     color: black;
     margin-top: 10px;
 }
+
 .producto img{
     width: 512px;
     height:512px;
@@ -70,6 +90,12 @@ body {
     margin:auto;
     padding:auto;
 }
+
+.filtros{
+    display:block;
+    float:left;
+}
+
 /* DETAILS */
 .container-details {
     display: flex;

@@ -55,6 +55,18 @@
             }
         break;
 
+        case 'filtros';
+            $filtro=($_POST['filter']);
+            $dahoshop_filtros = new DAOshop();
+            $select_filtros = $dahoshop_filtros -> filtros($filtro);
+            if (!empty($select_filtros)) {
+                echo json_encode($select_filtros);
+            }
+            else {
+                echo "error";
+            }
+        break;
+
     }
 
 ?>
