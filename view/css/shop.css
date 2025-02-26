@@ -14,21 +14,36 @@ body {
 
 .container-shop-list{
     display:block;
-    float:left;
     margin-top:10%;
 }
 
 .container-filtros{
+    display:block;
+    float:left;
     width:90%;
     margin-left:10%;
 }
 
-.filter_button, .filter_remove{
+.boton_filtrar, .botn_remover{
     margin-top:2%;
 }
 
 .filtros a{
     text-align:center;
+}
+
+.boton_filtrar:hover, .boton_remover:hover {
+    background-color: goldenrod;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.boton_filtrar, .boton_remover {
+    background-color: orange;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.div-filtros select, .div-filtros button {
+    margin: 10px 0;
 }
 
 .container-productos{

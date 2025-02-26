@@ -1,6 +1,30 @@
 // console.log("hola ctrl shop js");
 // return false;
 
+function ajaxForSearch(url, filtro) {
+    console.log("hola ajaxForSearch");
+    // return false;
+    ajaxPromise(url, 'POST', 'JSON', { 'filtro': filtro })
+        .then(function (shop) {
+            console.log(shop);
+            // return false;
+            $(".container-productos").empty();
+            for (row in shop) {
+                $('<div></div>').attr('class', "producto").attr({'id': shop[row].id_producto}).appendTo('.container-productos')
+                    .html(
+                        "<img src = " + shop[row].img_producto + " alt='foto' </img> " +
+                        "<div class='inf-producto'>" +
+                        "<h3>" + shop[row].nom_prod + "</h5>" +
+                        "<p class='precio'>" + shop[row].precio + "€</p>" +
+                        "</div>"
+                    ) // end .html
+            }
+        }).catch(function (e) {
+            $(".container-shop-list").empty();
+            $('<div></div>').appendTo('.container-shop-loist').html('<h1>No se han encontrado productos con los filtros especificados</h1>');
+        });
+} // end ajaxForSearch
+
 function loadProductos(){
     // console.log("hola loadProductos");
     // return false;
@@ -17,10 +41,10 @@ function loadProductos(){
                     "<p class='precio'>" + data[row].precio + "€</p>" +
                     "</div>"
                 ) // end .html
-                .on('click', function() {
-                    const id_producto = $(this).attr('id');
-                    loadProductoDetails(id_producto);
-                }); // end .on
+                // .on('click', function() {
+                //     const id_producto = $(this).attr('id');
+                //     loadProductoDetails(id_producto);
+                // }); // end .on
         } // end row in data
     }).catch(function(){
         window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
@@ -60,8 +84,93 @@ function print_filtros() {
             '</div>' +
             '</div>' +
             '<p> </p>' +
-            '<button class="filter_button button_spinner" id="Button_filter">Filtrar</button>' +
-            '<button class="filter_remove" id="Remove_filter">Remover filtros</button>');
+            '<button class="boton_filtrar button_spinner" id="Button_filter">Filtrar</button>' +
+            '<button class="boton_remover" id="Remove_filter">Remover filtros</button>');
+}
+
+function getall(){
+    var filtro = localStorage.getItem('filtro');
+    if(filtro){
+        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro);
+    }else{
+        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
+    }
+} // end function getall
+
+function highlight(filtro){
+    if(filtro != 0){
+        $('.highlight').empty();
+        $('<div style="display: inline; float: right;"></div>').appendTo('.highlight')
+            .html('<p style="display: inline; margin: 10px;">Sus filtros: </p>');
+        for(row in filtro){
+            $('<div style="display: inline; float:right;"></div>').appendTo('.highlight')
+                .html('<p style="display: inline; margin: 3px;">' + filtro[row] + '</p>');
+        } // end row in filtro
+    } // end filtro distinto de 0
+    else{
+        $('.highlight').empty();
+        location.reload();
+    } // end else
+} // end function highlight
+
+function botones_filtros(){
+    // filtros de tipos
+    $('.filtro_tipo').change(function (){
+        localStorage.setItem('filtro_tipo', this.value);
+    });
+    if(localStorage.getItem('filtro_tipo')){
+        $('.filtro_tipo').val(localStorage.getItem('filtro_tipo'));
+    }
+    // filtro de categoria
+    $('.filtro_categoria').change(function (){
+        localStorage.setItem('filtro_categoria', this.value);
+    });
+    if(localStorage.getItem('filtro_categoria')){
+        $('.filtro_categoria').val(localStorage.getItem('filtro_categoria'));
+    }
+    // filtro de precio
+    $('.filtro_precio').change(function (){
+        localStorage.setItem('filtro_precio', this.value);
+    });
+    if(localStorage.getItem('filtro_precio')){
+        $('.filtro_precio').val(localStorage.getItem('filtro_precio'));
+    }
+
+    $(document).on('click', '.boton_filtrar', function(){
+        var filtro = [];
+        // tipo
+        if(localStorage.getItem('filtro_tipo')){
+            filtro.push(['tipo', localStorage.getItem('filtro_tipo')])
+        }
+        // categoria
+        if(localStorage.getItem('filtro_categoria')){
+            filtro.push(['categorias', localStorage.getItem('filtro_categoria')])
+        }
+        // precio
+        if(localStorage.getItem('filtro_precio')){
+            filtro.push(['precio', localStorage.getItem('filtro_precio')])
+        }
+
+        localStorage.setItem('filtro', filtro);
+
+        if(filtro){
+            ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro);
+        }else{
+            ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
+        }
+
+        highlight(filtro);
+
+        $(document).on('click', '.boton_remover', function(){
+            localStorage.removeItem('filtro_tipo');
+            localStorage.removeItem('filtro_categoria');
+            filtro.length = 0;
+            if(filtro == 0){
+                ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
+                highlight(filtro);
+            }
+        });
+    });
 }
 
 function loadProductoDetails(id_producto){
@@ -70,6 +179,7 @@ function loadProductoDetails(id_producto){
     ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=details&id_producto=' + id_producto, 'GET', 'JSON')
     .then(function(data){
         $('.container-productos').empty(); // vaciar todos los productos para dejar la web vacia y pintar el details
+        $('.container-filtros').empty(); // vaciar los filtros para que no aparezcan en el details
         $('.pimg').empty();
         $('.inf-producto').empty();
         console.log(data);
@@ -137,7 +247,17 @@ function loadProductoDetails(id_producto){
     })
 } // funcion loadProductoDetails
 
+function loadDetails() {
+    $(document).on("click", ".producto", function() {
+        var id_producto = this.getAttribute('id');
+        loadProductoDetails(id_producto);
+    });
+}
+
 $(document).ready(function(){
+    getall();
     loadProductos();
+    loadDetails();
     print_filtros();
+    botones_filtros();
 });

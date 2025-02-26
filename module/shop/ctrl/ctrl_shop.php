@@ -55,8 +55,8 @@
             }
         break;
 
-        case 'filtros';
-            $filtro=($_POST['filter']);
+        case 'filtrar';
+            $filtro=($_POST['filtro']);
             $dahoshop_filtros = new DAOshop();
             $select_filtros = $dahoshop_filtros -> filtros($filtro);
             if (!empty($select_filtros)) {
