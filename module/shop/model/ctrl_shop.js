@@ -41,10 +41,6 @@ function loadProductos(){
                     "<p class='precio'>" + data[row].precio + "€</p>" +
                     "</div>"
                 ) // end .html
-                // .on('click', function() {
-                //     const id_producto = $(this).attr('id');
-                //     loadProductoDetails(id_producto);
-                // }); // end .on
         } // end row in data
     }).catch(function(){
         window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
@@ -119,6 +115,8 @@ function botones_filtros(){
         localStorage.setItem('filtro_tipo', this.value);
     });
     if(localStorage.getItem('filtro_tipo')){
+        // console.log(localStorage.getItem('filtro_tipo'));
+        // return false;
         $('.filtro_tipo').val(localStorage.getItem('filtro_tipo'));
     }
     // filtro de categoria
@@ -127,6 +125,8 @@ function botones_filtros(){
     });
     if(localStorage.getItem('filtro_categoria')){
         $('.filtro_categoria').val(localStorage.getItem('filtro_categoria'));
+        // console.log($('.filtro_categoria').val(localStorage.getItem('filtro_categoria')))
+        // return false;
     }
     // filtro de precio
     $('.filtro_precio').change(function (){
@@ -144,7 +144,7 @@ function botones_filtros(){
         }
         // categoria
         if(localStorage.getItem('filtro_categoria')){
-            filtro.push(['categorias', localStorage.getItem('filtro_categoria')])
+            filtro.push(['categoria', localStorage.getItem('filtro_categoria')])
         }
         // precio
         if(localStorage.getItem('filtro_precio')){

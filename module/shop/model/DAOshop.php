@@ -80,7 +80,7 @@
 						$sql.= " AND p." . $filtro[$i][0] . "=" . $filtro[$i][1];
 					}        
 				}   
-				
+			// return $sql;
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
 			connect::close($conexion);
