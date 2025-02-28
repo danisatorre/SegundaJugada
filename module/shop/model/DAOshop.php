@@ -6,7 +6,7 @@
     class DAOshop{
 
         function get_all(){
-            $sql= "SELECT * FROM productos ORDER BY id_producto DESC";
+            $sql= "SELECT * FROM productos ORDER BY nom_prod DESC";
 
 			// die('<script>console.log('.json_encode( $sql ) .');</script>');
 
@@ -73,13 +73,31 @@
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria";
 			
+			if($filtro[0][1] != "menmay" && $filtro[0][1] != "maymen"){
 				for ($i=0; $i < count($filtro); $i++){
-					if ($i==0){
-						$sql.= " WHERE p." . $filtro[$i][0] . "=" . $filtro[$i][1];
-					}else {
-						$sql.= " AND p." . $filtro[$i][0] . "=" . $filtro[$i][1];
-					}        
-				}   
+					
+						if ($i==0){
+							$sql.= " WHERE p." . $filtro[$i][0] . "=" . $filtro[$i][1];
+						}else {
+							if($filtro[$i][1] == "menmay"){
+								$sql.= " ORDER BY p.precio ASC";
+							}else if($filtro[$i][1] == "maymen"){
+								$sql.= " ORDER BY p.precio DESC";
+							}else{
+								$sql.= " AND p." . $filtro[$i][0] . "=" . $filtro[$i][1];
+							}
+						}
+				}
+			}
+			
+			if($filtro[0][1] == "menmay"){
+				$sql.= " ORDER BY p.precio ASC";
+			}
+			if($filtro[0][1] == "maymen"){
+				$sql.= " ORDER BY p.precio DESC";
+			}
+
+			// $sql = $filtro[0][1];
 			// return $sql;
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);

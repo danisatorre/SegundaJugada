@@ -164,6 +164,7 @@ function botones_filtros(){
         $(document).on('click', '.boton_remover', function(){
             localStorage.removeItem('filtro_tipo');
             localStorage.removeItem('filtro_categoria');
+            localStorage.removeItem('filtro_precio');
             localStorage.removeItem('filtro');
             filtro.length = 0;
             if(filtro == 0){
