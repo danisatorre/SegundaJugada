@@ -10,6 +10,8 @@ function ajaxForSearch(url, filtro) {
             // return false;
             $(".container-productos").empty();
             for (row in shop) {
+                $("#nofiltros").empty();
+                $("#texto-nofiltros").empty();
                 $('<div></div>').attr('class', "producto").attr({'id': shop[row].id_producto}).appendTo('.container-productos')
                     .html(
                         "<img src = " + shop[row].img_producto + " alt='foto' </img> " +
@@ -20,19 +22,26 @@ function ajaxForSearch(url, filtro) {
                     ) // end .html
             }
         }).catch(function (e) {
-            $(".container-shop-list").empty();
-            $('<div></div>').appendTo('.container-shop-loist').html('<h1>No se han encontrado productos con los filtros especificados</h1>');
+            $(".container-productos").empty();
+            $('<div></div>').appendTo('.container-shop-list')
+                .html(
+                    "<h1 id='nofiltros'>No se han encontrado productos con los filtros especificados</h1>" +
+                    "<br>" +
+                    "<p id='texto-nofiltros'>Pulse el boton 'remover filtros' para volver a la busqueda</p>" 
+                );
         });
 } // end ajaxForSearch
 
 function loadProductos(){
-    // console.log("hola loadProductos");
+    console.log("hola loadProductos");
     // return false;
     ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=getall', 'GET', 'JSON')
     .then(function(data){
         // console.log(data);
         // return false;
         for (row in data){
+            $("#nofiltros").empty();
+            $("#texto-nofiltros").empty();
             $('<div></div>').attr('class', "producto").attr({'id': data[row].id_producto}).appendTo('.container-productos')
                 .html(
                     "<img src = " + data[row].img_producto + " alt='foto' </img> " +
@@ -49,29 +58,44 @@ function loadProductos(){
 
 function print_filtros() {
     $('<div class="div-filtros"></div>').appendTo('.container-filtros')
-        .html('<select class="filtro_tipo">' +
-            '<option value="1">Cancha</option>' +
-            '<option value="2">Calle</option>' +
-            '<option value="3">Zapatos</option>' +
-            '<option value="4">Gorras</option>' +
-            '<option value="5">Balones</option>' +
-            '<option value="6">Pantalones</option>' +
-            '<option value="7">Camisetas</option>' +
-            '<option value="8">Accesorios</option>' +
-            '<option value="9">Sudaderas</option>' +
-            '<option value="10">Chaquetas</option>' +
-            '</select>' +
-            '<select class="filtro_categoria">' +
-            '<option value="1">Hombre</option>' +
-            '<option value="2">Mujer</option>' +
-            '<option value="3">Niños</option>' +
-            '<option value="4">Adolescentes</option>' +
-            '<option value="5">Bebes</option>' +
-            '</select>' +
-            '<select class="filtro_precio">' +
-            '<option value="maymen">De mayor a menor precio</option>' +
-            '<option value="menmay">De menor a mayor precio</option>' +
-            '</select>' +
+        .html(
+            // select tipo
+            '<div class="f_tipo">' +
+                '<h4>Tipos:</h4>' +
+                '<select class="filtro_tipo">' +
+                    '<optgroup label="Tipos">' +
+                        '<option value="1">Cancha</option>' +
+                        '<option value="2">Calle</option>' +
+                        '<option value="3">Zapatos</option>' +
+                        '<option value="4">Gorras</option>' +
+                        '<option value="5">Balones</option>' +
+                        '<option value="6">Pantalones</option>' +
+                        '<option value="7">Camisetas</option>' +
+                        '<option value="8">Accesorios</option>' +
+                        '<option value="9">Sudaderas</option>' +
+                        '<option value="10">Chaquetas</option>' +
+                    '</optgroup>' +
+                '</select>' +
+            '</div>' +
+            // select categoria
+            '<div class="f_categoria">' +
+                '<h4>Categorias:</h4>' +
+                '<select class="filtro_categoria">' +
+                    '<optgroup label="Categorias">' +
+                        '<option value="1">Hombre</option>' +
+                        '<option value="2">Mujer</option>' +
+                        '<option value="3">Niños</option>' +
+                        '<option value="4">Adolescentes</option>' +
+                        '<option value="5">Bebes</option>' +
+                    '</optgroup>' +
+                '</select>' +
+            '</div>' +
+            // radiobutton precio
+            '<div class="f_precio">' +
+                '<h4>Precio:</h4>' +
+                '<input type="radio" name="precio" value="maymen" class="filtro_precio">De mayor a menor precio</br>' +
+                '<input type="radio" name="precio" value="menmay" class="filtro_precio">De menor a mayor precio</br>' +
+            '</div>' +
             '<div id="overlay">' +
             '<div class= "cv-spinner" >' +
             '<span class="spinner"></span>' +
@@ -166,6 +190,8 @@ function botones_filtros(){
             localStorage.removeItem('filtro_categoria');
             localStorage.removeItem('filtro_precio');
             localStorage.removeItem('filtro');
+            $("#nofiltros").empty();
+            $("#texto-nofiltros").empty();
             filtro.length = 0;
             if(filtro == 0){
                 ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");

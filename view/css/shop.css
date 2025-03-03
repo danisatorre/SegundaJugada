@@ -13,15 +13,17 @@ body {
 }
 
 .container-shop-list{
-    display:block;
-    margin-top:10%;
+    display:flex;
+    margin-top:5%;
+    justify-content: space-between;
 }
 
+/* FILTROS */
+
 .container-filtros{
-    display:block;
-    float:left;
-    width:90%;
-    margin-left:10%;
+    width:15%;
+    margin-left:2%;
+    margin-top:4%;
 }
 
 .boton_filtrar, .botn_remover{
@@ -33,12 +35,14 @@ body {
 }
 
 .boton_filtrar:hover, .boton_remover:hover {
-    background-color: goldenrod;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: orange;
+    border-color: goldenrod;
+    box-shadow: 0 0 8px orange;
+    transition: 1s;
 }
 
 .boton_filtrar, .boton_remover {
-    background-color: orange;
+    background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -46,11 +50,53 @@ body {
     margin: 10px 0;
 }
 
+.filtro_tipo, .filtro_categoria, .filtro_precio, .f_precio, .f_tipo, .f_categoria {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filtro_tipo:focus, .filtro_categoria:focus, .filtro_precio:focus {
+    border-color: goldenrod;
+    box-shadow: 0 0 8px orange;
+    outline: none;
+}
+
+.filtro_precio{
+    width:8%;
+}
+
+#nofiltros{
+    display:block;
+    float:left;
+    margin-top:5%;
+}
+
+#nofiltros h1{
+    text-align:center;
+}
+
+#texto-nofiltros{
+    displaY:block;
+    float:left;
+    margin-top:3%;
+}
+
+/* LIST */
+
 .container-productos{
-    width: 90%;
+    width: 80%;
     max-width: 1200px;
     margin: 20px auto;
     display: grid;
+    float:left;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     padding-top:3%;
