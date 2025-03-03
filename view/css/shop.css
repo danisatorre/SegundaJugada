@@ -38,6 +38,7 @@ body {
     background-color: orange;
     border-color: goldenrod;
     box-shadow: 0 0 8px orange;
+    color:#fff;
     transition: 1s;
 }
 
@@ -50,7 +51,7 @@ body {
     margin: 10px 0;
 }
 
-.filtro_tipo, .filtro_categoria, .filtro_precio, .f_precio, .f_tipo, .f_categoria {
+.filtro_tipo, .filtro_categoria, .filtro_precio, .f_precio, .f_tipo, .f_categoria, .f_color, .filtro_color {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -63,13 +64,13 @@ body {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.filtro_tipo:focus, .filtro_categoria:focus, .filtro_precio:focus {
+.filtro_tipo:focus, .filtro_categoria:focus, .filtro_precio:focus, .filtro_color:focus {
     border-color: goldenrod;
     box-shadow: 0 0 8px orange;
     outline: none;
 }
 
-.filtro_precio{
+.filtro_precio, .filtro_color{
     width:8%;
 }
 

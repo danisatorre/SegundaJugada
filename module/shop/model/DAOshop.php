@@ -66,6 +66,7 @@
 		}
 
 		function filtros($filtro){
+			
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
@@ -77,7 +78,7 @@
 				for ($i=0; $i < count($filtro); $i++){
 					
 						if ($i==0){
-							$sql.= " WHERE p." . $filtro[$i][0] . "=" . $filtro[$i][1];
+							$sql.= " WHERE p." . $filtro[$i][0] . " = " . $filtro[$i][1];
 						}else {
 							if($filtro[$i][1] == "menmay"){
 								$sql.= " ORDER BY p.precio ASC";
@@ -109,7 +110,7 @@
 					$retrArray[] = $row;
 				}
 			}
-			return $retrArray;
+			// return $retrArray;
 		}
 
     }

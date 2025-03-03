@@ -96,6 +96,14 @@ function print_filtros() {
                 '<input type="radio" name="precio" value="maymen" class="filtro_precio">De mayor a menor precio</br>' +
                 '<input type="radio" name="precio" value="menmay" class="filtro_precio">De menor a mayor precio</br>' +
             '</div>' +
+            '<div class="f_color">' +
+                '<h4>COLOR:</h4>' +
+                '<input type="checkbox" value="blanco" id="blanco" class="filtro_color" name="color">Blanco</br>' +
+                '<input type="checkbox" value="azul" id="azul" class="filtro_color" name="color">Azul</br>' +
+                '<input type="checkbox" value="negro" id="negro"class="filtro_color" name="color">Negro</br>' +
+                '<input type="checkbox" value="rojo" id="rojo" class="filtro_color" name="color">Rojo</br>' +
+                '<input type="checkbox" value="naranja" id="naranja" class="filtro_color" name="color">Naranja' +
+            '</div>' +
             '<div id="overlay">' +
             '<div class= "cv-spinner" >' +
             '<span class="spinner"></span>' +
@@ -159,6 +167,13 @@ function botones_filtros(){
     if(localStorage.getItem('filtro_precio')){
         $('.filtro_precio').val(localStorage.getItem('filtro_precio'));
     }
+    // filtro de color
+    $('.filtro_color').change(function(){
+        localStorage.setItem('filtro_color', this.value);
+    });
+    if(localStorage.getItem('filtro_color')){
+        $('.filtro_color').val(localStorage.getItem('filtro_color'));
+    }
 
     $(document).on('click', '.boton_filtrar', function(){
         var filtro = [];
@@ -173,6 +188,10 @@ function botones_filtros(){
         // precio
         if(localStorage.getItem('filtro_precio')){
             filtro.push(['precio', localStorage.getItem('filtro_precio')])
+        }
+        // color
+        if(localStorage.getItem('filtro_color')){
+            filtro.push(['color', localStorage.getItem('filtro_color')])
         }
 
         localStorage.setItem('filtro', filtro);
@@ -189,6 +208,7 @@ function botones_filtros(){
             localStorage.removeItem('filtro_tipo');
             localStorage.removeItem('filtro_categoria');
             localStorage.removeItem('filtro_precio');
+            localStorage.removeItem('filtro_color');
             localStorage.removeItem('filtro');
             $("#nofiltros").empty();
             $("#texto-nofiltros").empty();
