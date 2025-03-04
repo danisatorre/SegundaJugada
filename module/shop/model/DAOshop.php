@@ -65,8 +65,8 @@
 			return $arrayimg;
 		}
 
-		function filtros($filtro){
-			
+		function filtros($filtro, $equipo, $tipo, $categoria, $precio){
+		
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
@@ -99,7 +99,8 @@
 			}
 
 			// $sql = $filtro[0][1];
-			// return $sql;
+			// return $equipo;
+			return $sql;
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
 			connect::close($conexion);

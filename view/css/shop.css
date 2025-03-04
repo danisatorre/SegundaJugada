@@ -51,7 +51,7 @@ body {
     margin: 10px 0;
 }
 
-.filtro_tipo, .filtro_categoria, .filtro_precio, .f_precio, .f_tipo, .f_categoria, .f_color, .filtro_color {
+.filtro_tipo, .filtro_categoria, .filtro_precio, .f_precio, .f_tipo, .f_categoria, .f_equipo, .filtro_equipo {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -64,13 +64,13 @@ body {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.filtro_tipo:focus, .filtro_categoria:focus, .filtro_precio:focus, .filtro_color:focus {
+.filtro_tipo:focus, .filtro_categoria:focus, .filtro_precio:focus, .filtro_equipo:focus {
     border-color: goldenrod;
     box-shadow: 0 0 8px orange;
     outline: none;
 }
 
-.filtro_precio, .filtro_color{
+.filtro_precio, .filtro_equipo{
     width:8%;
 }
 

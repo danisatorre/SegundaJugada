@@ -57,8 +57,13 @@
 
         case 'filtrar';
             $filtro=($_POST['filtro']);
+            $equipo=($_POST['equipo']);
+            $tipo=($_POST['tipo']);
+            $categoria=($_POST['categoria']);
+            $precio=($_POST['precio']);
+
             $dahoshop_filtros = new DAOshop();
-            $select_filtros = $dahoshop_filtros -> filtros($filtro);
+            $select_filtros = $dahoshop_filtros -> filtros($filtro, $equipo, $tipo, $categoria, $precio);
             if (!empty($select_filtros)) {
                 echo json_encode($select_filtros);
             }
