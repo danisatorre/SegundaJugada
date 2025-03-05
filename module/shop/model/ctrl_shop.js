@@ -1,15 +1,11 @@
 // console.log("hola ctrl shop js");
 // return false;
 
-function ajaxForSearch(url, filtro, equipo, tipo, categoria, precio) {
+function ajaxForSearch(url, filtro) {
     console.log("hola ajaxForSearch");
     console.log("Filtro: ", filtro);
-    console.log("Equipo: ", equipo);
-    console.log("Tipo: ", tipo);
-    console.log("Categoria: ", categoria);
-    console.log("Precio: ", precio);
     // return false;
-    ajaxPromise(url, 'POST', 'JSON', { 'filtro': filtro })
+    ajaxPromise(url, 'POST', 'JSON', { 'filtro': filtro})
         .then(function (shop) {
             console.log(shop);
             // return false;
@@ -44,9 +40,14 @@ function loadProductos(){
     .then(function(data){
         // console.log(data);
         // return false;
+        localStorage.removeItem('filtro');
+        localStorage.removeItem('filtro_tipo');
+        localStorage.removeItem('filtro_categoria');
+        localStorage.removeItem('filtro_precio');
+        localStorage.removeItem('filtro_equipo');
+        $("#nofiltros").empty();
+        $("#texto-nofiltros").empty();
         for (row in data){
-            $("#nofiltros").empty();
-            $("#texto-nofiltros").empty();
             $('<div></div>').attr('class', "producto").attr({'id': data[row].id_producto}).appendTo('.container-productos')
                 .html(
                     "<img src = " + data[row].img_producto + " alt='foto' </img> " +
@@ -102,12 +103,24 @@ function print_filtros() {
                 '<input type="radio" name="precio" value="menmay" class="filtro_precio">De menor a mayor precio</br>' +
             '</div>' +
             '<div class="f_equipo">' +
-                '<h4>COLOR:</h4>' +
-                '<input type="checkbox" value="Blanco" id="Blanco" class="filtro_equipo" name="color">Blanco</br>' +
-                '<input type="checkbox" value="Azul" id="Azul" class="filtro_equipo" name="color">Azul</br>' +
-                '<input type="checkbox" value="Negro" id="Negro"class="filtro_equipo" name="color">Negro</br>' +
-                '<input type="checkbox" value="Rojo" id="Rojo" class="filtro_equipo" name="color">Rojo</br>' +
-                '<input type="checkbox" value="Naranja" id="Naranja" class="filtro_equipo" name="color">Naranja' +
+                '<h4>Equipo:</h4>' +
+                '<input type="checkbox" value="1" id="1" class="filtro_equipo" name="equipo">L.A Lakers</br>' +
+                '<input type="checkbox" value="2" id="2" class="filtro_equipo" name="equipo">Dallas Maverics</br>' +
+                '<input type="checkbox" value="3" id="3"class="filtro_equipo" name="equipo">Phoenix Suns</br>' +
+                '<input type="checkbox" value="4" id="4" class="filtro_equipo" name="equipo">Boston Celtics</br>' +
+                '<input type="checkbox" value="5" id="5" class="filtro_equipo" name="equipo">Valencia Basket</br>' +
+                '<input type="checkbox" value="1900" id="1900" class="filtro_equipo" name="equipo">UCAM Murcia</br>' +
+                '<input type="checkbox" value="1901" id="1901" class="filtro_equipo" name="equipo">S.A Spurs/br>' +
+                '<input type="checkbox" value="1902" id="1902" class="filtro_equipo" name="equipo">Orlando</br>' +
+                '<input type="checkbox" value="1903" id="1903" class="filtro_equipo" name="equipo">Grizzlies</br>' +
+                '<input type="checkbox" value="1904" id="1904" class="filtro_equipo" name="equipo">Milkwaukee</br>' +
+                '<input type="checkbox" value="1905" id="1905" class="filtro_equipo" name="equipo">Real Madrid Baloncesto</br>' +
+                '<input type="checkbox" value="1906" id="1906" class="filtro_equipo" name="equipo">Chicago Bulls</br>' +
+                '<input type="checkbox" value="1907" id="1907" class="filtro_equipo" name="equipo">Timberwolves</br>' +
+                '<input type="checkbox" value="1908" id="1908" class="filtro_equipo" name="equipo">Pistons</br>' +
+                '<input type="checkbox" value="1909" id="1909" class="filtro_equipo" name="equipo">Miami Heat</br>' +
+                '<input type="checkbox" value="1910" id="1910" class="filtro_equipo" name="equipo">CAVS</br>' +
+                '<input type="checkbox" value="1911" id="1911" class="filtro_equipo" name="equipo">Golden State Warriors' +
             '</div>' +
             '<div id="overlay">' +
             '<div class= "cv-spinner" >' +
@@ -140,78 +153,70 @@ function eliminar_filtros() {
     location.reload();
 }
 
-function botones_filtros() {
-    var equipo = [];
-    var tipo = [];
-    var categoria = [];
-    var precio = [];
-    var filtro = [];
+// function botones_filtros() {
+//     var equipo = [];
+//     var tipo = [];
+//     var categoria = [];
+//     var precio = [];
+//     var filtro = [];
 
-    localStorage.removeItem('filtro');
+//     localStorage.removeItem('filtro');
 
-    //equipo//
-    $.each($("input[class='filtro_equipo']:checked"), function() {
-        equipo.push($(this).val());
-    });
+//     //equipo//
+//     $.each($("input[class='filtro_equipo']:checked"), function() {
+//         equipo.push($(this).val());
+//     });
 
-    if (equipo.length != 0) {
-        filtro.push({ "Equipo": equipo });
-    } else {
-        filtro.push({ "Equipo": '*' });
-    }
+//     if (equipo.length != 0) {
+//         filtro.push({ "Equipo": equipo });
+//     } else {
+//         filtro.push({ "Equipo": '*' });
+//     }
 
-    //categoria//
-    var cat = document.getElementById("select_categoria").value;
-    if (cat != 0) {
-        categoria.push(cat);
-        if (categoria == "*") {
-            filtro.push({ "categoria": "*" });
-        } else {
-            filtro.push({ "categoria": categoria });
-        }
-    } else {
-        filtro.push({ "categoria": '*' });
-    }
+//     //categoria//
+//     var cat = document.getElementById("select_categoria").value;
+//     if (cat != 0) {
+//         categoria.push(cat);
+//         filtro.push({ "Categoria": categoria });
+//     } else {
+//         filtro.push({ "Categoria": '*' });
+//     }
 
-    //tipo//
-    var tip = document.getElementById("select_tipo").value;
-    if (tip != 0) {
-        tipo.push(tip);
-        if (tipo == "*") {
-            filtro.push({ "tipo": "*" });
-        } else {
-            filtro.push({ "tipo": tipo });
-        }
-    } else {
-        filtro.push({ "tipo": '*' });
-    }
+//     //tipo//
+//     var tip = document.getElementById("select_tipo").value;
+//     if (tip != 0) {
+//         tipo.push(tip);
+//         filtro.push({ "Tipo": tipo });
+//     } else {
+//         filtro.push({ "Tipo": '*' });
+//     }
 
-    //precio//
-    $.each($("input[class='filtro_precio']:checked"), function() {
-        precio.push($(this).val());
-    });
+//     //precio//
+//     $.each($("input[class='filtro_precio']:checked"), function() {
+//         precio.push($(this).val());
+//     });
 
-    if (precio.length != 0) {
-        filtro.push({ "Precio": precio });
-    } else {
-        filtro.push({ "Precio": '*' });
-    }
+//     if (precio.length != 0) {
+//         filtro.push({ "Precio": precio });
+//     } else {
+//         filtro.push({ "Precio": '*' });
+//     }
 
-    //todos los filtros (localstorage)//
-    if (filtro.length != 0) {
-        localStorage.setItem('filtro', JSON.stringify(filtro));
-    }
-    getall();
-}
+//     //todos los filtros (localstorage)//
+//     if (filtro.length != 0) {
+//         localStorage.setItem('filtro', JSON.stringify(filtro));
+//     }
+//     getall();
+// }
 
 function getall() {
     var filtro = JSON.parse(localStorage.getItem('filtro'));
     
     if (filtro) {
-        var equipo = filtro[0].Equipo;
-        var tipo = filtro[1].tipo ? filtro[1].tipo[0] : '*';
-        var categoria = filtro[2].categoria ? filtro[2].categoria[0] : '*';
-        var precio = filtro[3].Precio ? filtro[3].Precio[0] : '*';
+        var equipo = filtro.find(f => f.Equipo).Equipo;
+        var tipo = filtro.find(f => f.Tipo).Tipo[0] || '*';
+        var categoria = filtro.find(f => f.Categoria).Categoria[0] || '*';
+        var precio = filtro.find(f => f.Precio).Precio[0] || '*';
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro, equipo, tipo, categoria, precio);
     } else {
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
@@ -234,85 +239,89 @@ function highlight(filtro){
     } // end else
 } // end function highlight
 
-// function botones_filtros(){
-//     // filtros de tipos
-//     $('.filtro_tipo').change(function (){
-//         localStorage.setItem('filtro_tipo', this.value);
-//     });
-//     if(localStorage.getItem('filtro_tipo')){
-//         // console.log(localStorage.getItem('filtro_tipo'));
-//         // return false;
-//         $('.filtro_tipo').val(localStorage.getItem('filtro_tipo'));
-//     }
-//     // filtro de categoria
-//     $('.filtro_categoria').change(function (){
-//         localStorage.setItem('filtro_categoria', this.value);
-//     });
-//     if(localStorage.getItem('filtro_categoria')){
-//         $('.filtro_categoria').val(localStorage.getItem('filtro_categoria'));
-//         // console.log($('.filtro_categoria').val(localStorage.getItem('filtro_categoria')))
-//         // return false;
-//     }
-//     // filtro de precio
-//     $('.filtro_precio').change(function (){
-//         localStorage.setItem('filtro_precio', this.value);
-//     });
-//     if(localStorage.getItem('filtro_precio')){
-//         $('.filtro_precio').val(localStorage.getItem('filtro_precio'));
-//     }
-//     // filtro de equipo
-//     $('.filtro_equipo').change(function(){
-//         localStorage.setItem('filtro_equipo', this.value);
-//     });
-//     if(localStorage.getItem('filtro_equipo')){
-//         $('.filtro_equipo').val(localStorage.getItem('filtro_equipo'));
-//     }
+function botones_filtros(){
+    // filtros de tipos
+    $('.filtro_tipo').change(function (){
+        localStorage.setItem('filtro_tipo', this.value);
+    });
+    if(localStorage.getItem('filtro_tipo')){
+        // console.log(localStorage.getItem('filtro_tipo'));
+        // return false;
+        $('.filtro_tipo').val(localStorage.getItem('filtro_tipo'));
+    }
+    // filtro de categoria
+    $('.filtro_categoria').change(function (){
+        localStorage.setItem('filtro_categoria', this.value);
+    });
+    if(localStorage.getItem('filtro_categoria')){
+        $('.filtro_categoria').val(localStorage.getItem('filtro_categoria'));
+        // console.log($('.filtro_categoria').val(localStorage.getItem('filtro_categoria')))
+        // return false;
+    }
+    // filtro de precio
+    $('.filtro_precio').change(function (){
+        localStorage.setItem('filtro_precio', this.value);
+    });
+    if(localStorage.getItem('filtro_precio')){
+        $('.filtro_precio').each(function() {
+            if ($(this).val() === localStorage.getItem('filtro_precio')) {
+                $(this).prop('checked', true);
+            }
+        });
+    }
+    // filtro de equipo
+    $('.filtro_equipo').change(function(){
+        localStorage.setItem('filtro_equipo', this.value);
+    });
+    if(localStorage.getItem('filtro_equipo')){
+        $('.filtro_equipo').val(localStorage.getItem('filtro_equipo'));
+    }
 
-//     $(document).on('click', '.boton_filtrar', function(){
-//         var filtro = [];
-//         // tipo
-//         if(localStorage.getItem('filtro_tipo')){
-//             filtro.push(['tipo', localStorage.getItem('filtro_tipo')])
-//         }
-//         // categoria
-//         if(localStorage.getItem('filtro_categoria')){
-//             filtro.push(['categoria', localStorage.getItem('filtro_categoria')])
-//         }
-//         // precio
-//         if(localStorage.getItem('filtro_precio')){
-//             filtro.push(['precio', localStorage.getItem('filtro_precio')])
-//         }
-//         // equipo
-//         if(localStorage.getItem('filtro_equipo')){
-//             filtro.push(['team', localStorage.getItem('filtro_equipo')])
-//         }
+    $(document).on('click', '.boton_filtrar', function(){
+        var filtro = [];
+        // tipo
+        if(localStorage.getItem('filtro_tipo')){
+            filtro.push(['tipo', localStorage.getItem('filtro_tipo')])
+        }
+        // categoria
+        if(localStorage.getItem('filtro_categoria')){
+            filtro.push(['categoria', localStorage.getItem('filtro_categoria')])
+        }
+        // precio
+        if(localStorage.getItem('filtro_precio')){
+            filtro.push(['precio', localStorage.getItem('filtro_precio')])
+        }
+        // equipo
+        if(localStorage.getItem('filtro_equipo')){
+            filtro.push(['equipo', localStorage.getItem('filtro_equipo')])
+        }
 
-//         localStorage.setItem('filtro', filtro);
+        localStorage.setItem('filtro', filtro);
 
-//         if(filtro){
-//             ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro);
-//         }else{
-//             ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
-//         }
+        if(filtro){
+            ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro);
+        }else{
+            ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
+        }
 
-//         highlight(filtro);
+        highlight(filtro);
 
-//         $(document).on('click', '.boton_remover', function(){
-//             localStorage.removeItem('filtro_tipo');
-//             localStorage.removeItem('filtro_categoria');
-//             localStorage.removeItem('filtro_precio');
-//             localStorage.removeItem('filtro_equipo');
-//             localStorage.removeItem('filtro');
-//             $("#nofiltros").empty();
-//             $("#texto-nofiltros").empty();
-//             filtro.length = 0;
-//             if(filtro == 0){
-//                 ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
-//                 highlight(filtro);
-//             }
-//         });
-//     });
-// }
+        $(document).on('click', '.boton_remover', function(){
+            localStorage.removeItem('filtro_tipo');
+            localStorage.removeItem('filtro_categoria');
+            localStorage.removeItem('filtro_precio');
+            localStorage.removeItem('filtro_equipo');
+            localStorage.removeItem('filtro');
+            $("#nofiltros").empty();
+            $("#texto-nofiltros").empty();
+            filtro.length = 0;
+            if(filtro == 0){
+                ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
+                highlight(filtro);
+            }
+        });
+    });
+}
 
 function loadProductoDetails(id_producto){
     console.log("hola loadProductoDetails");

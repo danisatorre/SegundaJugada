@@ -65,8 +65,8 @@
 			return $arrayimg;
 		}
 
-		function filtros($filtro, $equipo, $tipo, $categoria, $precio){
-		
+		function filtros($filtro){
+
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
@@ -89,6 +89,21 @@
 							}
 						}
 				}
+				// if ($equipo != '*') {
+				// 	$exp_equipos = explode(",", $equipo);
+				// 	for ($i = 0; $i < sizeof($exp_equipos); $i++) {
+				// 		if ($i == 0) {
+				// 			$sql .= "(equipo ='" . $exp_equipos[$i] . "'";
+				// 		} else if ($i == (sizeof($exp_equipos) - 1)) {
+				// 			$sql .= "OR equipo = '" . $exp_equipos[$i] . "')";
+				// 		} else {
+				// 			$sql .= "OR equipo = '" . $exp_equipos[$i] . "'";
+				// 		}
+				// 		if (sizeof($exp_equipos) == 1) {
+				// 			$sql .= ")";
+				// 		}
+				// 	}
+				// }
 			}
 			
 			if($filtro[0][1] == "menmay"){
@@ -100,7 +115,7 @@
 
 			// $sql = $filtro[0][1];
 			// return $equipo;
-			return $sql;
+			// return $sql;
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
 			connect::close($conexion);
@@ -111,7 +126,7 @@
 					$retrArray[] = $row;
 				}
 			}
-			// return $retrArray;
+			return $retrArray;
 		}
 
     }

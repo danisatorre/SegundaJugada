@@ -9,10 +9,11 @@ function ajaxPromise(sUrl, sType, sTData, sData = undefined) {
             dataType: sTData,
             data: sData
         }).done((data) => {
-            // console.log(data);
+            console.log(data);
             // return false;
             resolve(data);
         }).fail((jqXHR, textStatus, errorThrow) => {
+            console.log("Error ajax:", textStatus, errorThrow);
             reject(errorThrow);
         }); 
     });
