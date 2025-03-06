@@ -74,6 +74,13 @@ body {
     width:8%;
 }
 
+.f_precio:hover, .f_tipo:hover, .f_categoria:hover, .f_equipo:hover{
+    border-color: goldenrod;
+    box-shadow: 0 0 8px orange;
+    outline: none;
+    transition: 1s;
+}
+
 #nofiltros{
     display:block;
     float:left;
@@ -88,6 +95,14 @@ body {
     displaY:block;
     float:left;
     margin-top:3%;
+}
+
+.options-tipo, .options-categoria, .radio-precio, .checkbox-equipo{
+    display:none;
+}
+
+.desplegable-tipo, .desplegable-categoria, .desplegable-precio, .desplegable-equipo{
+    cursor:pointer;
 }
 
 /* LIST */
@@ -113,6 +128,10 @@ body {
 
 .producto:hover{
     transform: translateY(-5px);
+    border-color: goldenrod;
+    box-shadow: 0 0 8px orange;
+    outline: none;
+    transition: 1s;
 }
 
 .producto img{

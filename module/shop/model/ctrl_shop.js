@@ -40,11 +40,6 @@ function loadProductos(){
     .then(function(data){
         // console.log(data);
         // return false;
-        localStorage.removeItem('filtro');
-        localStorage.removeItem('filtro_tipo');
-        localStorage.removeItem('filtro_categoria');
-        localStorage.removeItem('filtro_precio');
-        localStorage.removeItem('filtro_equipo');
         $("#nofiltros").empty();
         $("#texto-nofiltros").empty();
         for (row in data){
@@ -67,61 +62,69 @@ function print_filtros() {
         .html(
             // select tipo
             '<div class="f_tipo">' +
-                '<h4>Tipos:</h4>' +
-                '<select class="filtro_tipo" name="select_tipo" id="select_tipo">' +
-                    '<optgroup label="Tipos">' +
-                        '<option value="1">Cancha</option>' +
-                        '<option value="2">Calle</option>' +
-                        '<option value="3">Zapatos</option>' +
-                        '<option value="4">Gorras</option>' +
-                        '<option value="5">Balones</option>' +
-                        '<option value="6">Pantalones</option>' +
-                        '<option value="7">Camisetas</option>' +
-                        '<option value="8">Accesorios</option>' +
-                        '<option value="9">Sudaderas</option>' +
-                        '<option value="10">Chaquetas</option>' +
-                    '</optgroup>' +
-                '</select>' +
+                '<h4 class="desplegable-tipo">Tipos⬇️</h4>' +
+                '<div class="options-tipo" style="display: none;">' +
+                    '<select class="filtro_tipo" name="select_tipo" id="select_tipo">' +
+                        '<optgroup label="Tipos">' +
+                            '<option value="1">Cancha</option>' +
+                            '<option value="2">Calle</option>' +
+                            '<option value="3">Zapatos</option>' +
+                            '<option value="4">Gorras</option>' +
+                            '<option value="5">Balones</option>' +
+                            '<option value="6">Pantalones</option>' +
+                            '<option value="7">Camisetas</option>' +
+                            '<option value="8">Accesorios</option>' +
+                            '<option value="9">Sudaderas</option>' +
+                            '<option value="10">Chaquetas</option>' +
+                        '</optgroup>' +
+                    '</select>' +
+                '</div>' + // end .options-tipo
             '</div>' +
             // select categoria
             '<div class="f_categoria">' +
-                '<h4>Categorias:</h4>' +
-                '<select class="filtro_categoria" name="select_categoria" id="select_categoria">' +
-                    '<optgroup label="Categorias">' +
-                        '<option value="1">Hombre</option>' +
-                        '<option value="2">Mujer</option>' +
-                        '<option value="3">Niños</option>' +
-                        '<option value="4">Adolescentes</option>' +
-                        '<option value="5">Bebes</option>' +
-                    '</optgroup>' +
-                '</select>' +
+                '<h4 class="desplegable-categoria">Categorias⬇️</h4>' +
+                '<div class="options-categoria" style="display: none;">' +
+                    '<select class="filtro_categoria" name="select_categoria" id="select_categoria">' +
+                        '<optgroup label="Categorias">' +
+                            '<option value="1">Hombre</option>' +
+                            '<option value="2">Mujer</option>' +
+                            '<option value="3">Niños</option>' +
+                            '<option value="4">Adolescentes</option>' +
+                            '<option value="5">Bebes</option>' +
+                        '</optgroup>' +
+                    '</select>' +
+                '</div>' + // end .options-categoria
             '</div>' +
             // radiobutton precio
             '<div class="f_precio">' +
-                '<h4>Precio:</h4>' +
-                '<input type="radio" name="precio" value="maymen" class="filtro_precio">De mayor a menor precio</br>' +
-                '<input type="radio" name="precio" value="menmay" class="filtro_precio">De menor a mayor precio</br>' +
+                '<h4 class="desplegable-precio">Precio⬇️</h4>' +
+                '<div class="radio-precio" style="display: none;">' +
+                    '<input type="radio" name="precio" value="maymen" class="filtro_precio">De mayor a menor precio</br>' +
+                    '<input type="radio" name="precio" value="menmay" class="filtro_precio">De menor a mayor precio</br>' +
+                '</div>' + // end .radio-precio
             '</div>' +
             '<div class="f_equipo">' +
-                '<h4>Equipo:</h4>' +
-                '<input type="checkbox" value="1" id="1" class="filtro_equipo" name="equipo">L.A Lakers</br>' +
-                '<input type="checkbox" value="2" id="2" class="filtro_equipo" name="equipo">Dallas Maverics</br>' +
-                '<input type="checkbox" value="3" id="3"class="filtro_equipo" name="equipo">Phoenix Suns</br>' +
-                '<input type="checkbox" value="4" id="4" class="filtro_equipo" name="equipo">Boston Celtics</br>' +
-                '<input type="checkbox" value="5" id="5" class="filtro_equipo" name="equipo">Valencia Basket</br>' +
-                '<input type="checkbox" value="1900" id="1900" class="filtro_equipo" name="equipo">UCAM Murcia</br>' +
-                '<input type="checkbox" value="1901" id="1901" class="filtro_equipo" name="equipo">S.A Spurs/br>' +
-                '<input type="checkbox" value="1902" id="1902" class="filtro_equipo" name="equipo">Orlando</br>' +
-                '<input type="checkbox" value="1903" id="1903" class="filtro_equipo" name="equipo">Grizzlies</br>' +
-                '<input type="checkbox" value="1904" id="1904" class="filtro_equipo" name="equipo">Milkwaukee</br>' +
-                '<input type="checkbox" value="1905" id="1905" class="filtro_equipo" name="equipo">Real Madrid Baloncesto</br>' +
-                '<input type="checkbox" value="1906" id="1906" class="filtro_equipo" name="equipo">Chicago Bulls</br>' +
-                '<input type="checkbox" value="1907" id="1907" class="filtro_equipo" name="equipo">Timberwolves</br>' +
-                '<input type="checkbox" value="1908" id="1908" class="filtro_equipo" name="equipo">Pistons</br>' +
-                '<input type="checkbox" value="1909" id="1909" class="filtro_equipo" name="equipo">Miami Heat</br>' +
-                '<input type="checkbox" value="1910" id="1910" class="filtro_equipo" name="equipo">CAVS</br>' +
-                '<input type="checkbox" value="1911" id="1911" class="filtro_equipo" name="equipo">Golden State Warriors' +
-            '</div>' +
+                '<h4 class="desplegable-equipo">Equipo⬇️</h4>' +
+                '<div class="checkbox-equipo" style="display: none;">' +
+                    '<input type="checkbox" value="1" id="1" class="filtro_equipo" name="equipo">L.A Lakers</br>' +
+                    '<input type="checkbox" value="2" id="2" class="filtro_equipo" name="equipo">Dallas Maverics</br>' +
+                    '<input type="checkbox" value="3" id="3"class="filtro_equipo" name="equipo">Phoenix Suns</br>' +
+                    '<input type="checkbox" value="4" id="4" class="filtro_equipo" name="equipo">Boston Celtics</br>' +
+                    '<input type="checkbox" value="5" id="5" class="filtro_equipo" name="equipo">Valencia Basket</br>' +
+                    '<input type="checkbox" value="1900" id="1900" class="filtro_equipo" name="equipo">UCAM Murcia</br>' +
+                    '<input type="checkbox" value="1901" id="1901" class="filtro_equipo" name="equipo">S.A Spurs</br>' +
+                    '<input type="checkbox" value="1902" id="1902" class="filtro_equipo" name="equipo">Orlando</br>' +
+                    '<input type="checkbox" value="1903" id="1903" class="filtro_equipo" name="equipo">Grizzlies</br>' +
+                    '<input type="checkbox" value="1904" id="1904" class="filtro_equipo" name="equipo">Milkwaukee</br>' +
+                    '<input type="checkbox" value="1905" id="1905" class="filtro_equipo" name="equipo">Real Madrid Baloncesto</br>' +
+                    '<input type="checkbox" value="1906" id="1906" class="filtro_equipo" name="equipo">Chicago Bulls</br>' +
+                    '<input type="checkbox" value="1907" id="1907" class="filtro_equipo" name="equipo">Timberwolves</br>' +
+                    '<input type="checkbox" value="1908" id="1908" class="filtro_equipo" name="equipo">Pistons</br>' +
+                    '<input type="checkbox" value="1909" id="1909" class="filtro_equipo" name="equipo">Miami Heat</br>' +
+                    '<input type="checkbox" value="1910" id="1910" class="filtro_equipo" name="equipo">CAVS</br>' +
+                    '<input type="checkbox" value="1911" id="1911" class="filtro_equipo" name="equipo">Golden State Warriors' +
+                '</div>' + // end .checkbox-equipo
+            '</div>' + // end .f_equipo
             '<div id="overlay">' +
             '<div class= "cv-spinner" >' +
             '<span class="spinner"></span>' +
@@ -132,13 +135,31 @@ function print_filtros() {
             '<p> </p>' +
             '<button class="boton_filtrar button_spinner" id="Button_filter">Filtrar</button>' +
             '<button class="boton_remover" id="Remove_filter">Remover filtros</button>');
+    // funciones de clic en los botones y titulos
 
+    // boton filtrar
     $(document).on('click', '.boton_filtrar', function() {
         botones_filtros();
     });
-        
+    // boton remover filtros
     $(document).on('click', '.boton_remover', function() {
         eliminar_filtros();
+    });
+    // desplegable tipo
+    $(document).on('click', '.desplegable-tipo', function(){
+        $('.options-tipo').slideToggle();
+    });
+    // desplegable categoria
+    $(document).on('click', '.desplegable-categoria', function(){
+        $('.options-categoria').slideToggle();
+    });
+    // desplegable precio
+    $(document).on('click', '.desplegable-precio', function(){
+        $('.radio-precio').slideToggle();
+    });
+    // desplegable equipo
+    $(document).on('click', '.desplegable-equipo', function(){
+        $('.checkbox-equipo').slideToggle();
     });
 }
 
@@ -214,9 +235,6 @@ function getall() {
     
     if (filtro) {
         var equipo = filtro.find(f => f.Equipo).Equipo;
-        var tipo = filtro.find(f => f.Tipo).Tipo[0] || '*';
-        var categoria = filtro.find(f => f.Categoria).Categoria[0] || '*';
-        var precio = filtro.find(f => f.Precio).Precio[0] || '*';
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro, equipo, tipo, categoria, precio);
     } else {
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
@@ -224,19 +242,18 @@ function getall() {
 } // end function getall
 
 function highlight(filtro){
-    if(filtro != 0){
+    if(filtro.length > 0){
         $('.highlight').empty();
         $('<div style="display: inline; float: right;"></div>').appendTo('.highlight')
             .html('<p style="display: inline; margin: 10px;">Sus filtros: </p>');
         for(row in filtro){
             $('<div style="display: inline; float:right;"></div>').appendTo('.highlight')
-                .html('<p style="display: inline; margin: 3px;">' + filtro[row] + '</p>');
+                .html('<p style="display: inline; margin: 3px;">' + filtro[row][1] + '</p>');
         } // end row in filtro
-    } // end filtro distinto de 0
-    else{
+    } else{
         $('.highlight').empty();
         location.reload();
-    } // end else
+    } // end if-else
 } // end function highlight
 
 function botones_filtros(){
@@ -271,11 +288,25 @@ function botones_filtros(){
     }
     // filtro de equipo
     $('.filtro_equipo').change(function(){
-        localStorage.setItem('filtro_equipo', this.value);
+        var equipo = [];
+        $.each($("input[class='filtro_equipo']:checked"), function() {
+            equipo.push($(this).val());
+        });
+        localStorage.setItem('filtro_equipo', JSON.stringify(equipo));
     });
     if(localStorage.getItem('filtro_equipo')){
-        $('.filtro_equipo').val(localStorage.getItem('filtro_equipo'));
+        var equipo = JSON.parse(localStorage.getItem('filtro_equipo'));
+        $.each(equipo, function(index, value) {
+            $("input[class='filtro_equipo'][value='" + value + "']").prop('checked', true);
+        });
     }
+
+    // $('.filtro_equipo').change(function(){
+    //     localStorage.setItem('filtro_equipo', this.value);
+    // });
+    // if(localStorage.getItem('filtro_equipo')){
+    //     $('.filtro_equipo').val(localStorage.getItem('filtro_equipo'));
+    // }
 
     $(document).on('click', '.boton_filtrar', function(){
         var filtro = [];
@@ -293,12 +324,12 @@ function botones_filtros(){
         }
         // equipo
         if(localStorage.getItem('filtro_equipo')){
-            filtro.push(['equipo', localStorage.getItem('filtro_equipo')])
+            filtro.push(['equipo', JSON.parse(localStorage.getItem('filtro_equipo'))])
         }
 
-        localStorage.setItem('filtro', filtro);
+        localStorage.setItem('filtro', JSON.stringify(filtro));
 
-        if(filtro){
+        if(filtro.length > 0){
             ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro);
         }else{
             ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
@@ -315,7 +346,7 @@ function botones_filtros(){
             $("#nofiltros").empty();
             $("#texto-nofiltros").empty();
             filtro.length = 0;
-            if(filtro == 0){
+            if(filtro.length == 0){
                 ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
                 highlight(filtro);
             }
@@ -366,7 +397,7 @@ function loadProductoDetails(id_producto){
                     "<a class='condicion-details'> &nbsp;" + data[0][0].condicion + "</a>" +
                     "<p class='color-details'>" + data[0][0].color + "</p>" +
                     "<p class='desc-details'>" + data[0][0].descripcion + "</p>" +
-                    "<p class='stock-details'>Hay " + data[0][0].stock + " unidades dispobibles</p>" +
+                    "<p class='stock-details'>Hay " + data[0][0].stock + " unidades disponibles</p>" +
                     "<p class='entrega-details'>" + data[0][0].entrega + "</p>" +
                     "<div class='extras-details'>" +
                     "<div class='icon-container-details'>" +

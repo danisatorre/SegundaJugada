@@ -74,47 +74,46 @@
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria";
 			
+			$primeraCondicion = true;
+			$orderby = "";
+
 			if($filtro[0][1] != "menmay" && $filtro[0][1] != "maymen"){
 				for ($i=0; $i < count($filtro); $i++){
-					
-						if ($i==0){
-							$sql.= " WHERE p." . $filtro[$i][0] . " = " . $filtro[$i][1];
-						}else {
-							if($filtro[$i][1] == "menmay"){
-								$sql.= " ORDER BY p.precio ASC";
-							}else if($filtro[$i][1] == "maymen"){
-								$sql.= " ORDER BY p.precio DESC";
-							}else{
-								$sql.= " AND p." . $filtro[$i][0] . "=" . $filtro[$i][1];
-							}
+					if ($filtro[$i][0] == 'equipo' && is_array($filtro[$i][1])) {
+						if ($primeraCondicion) {
+							$sql .= " WHERE (";
+							$primeraCondicion = false;
+						} else {
+							$sql .= " AND (";
 						}
-				}
-				// if ($equipo != '*') {
-				// 	$exp_equipos = explode(",", $equipo);
-				// 	for ($i = 0; $i < sizeof($exp_equipos); $i++) {
-				// 		if ($i == 0) {
-				// 			$sql .= "(equipo ='" . $exp_equipos[$i] . "'";
-				// 		} else if ($i == (sizeof($exp_equipos) - 1)) {
-				// 			$sql .= "OR equipo = '" . $exp_equipos[$i] . "')";
-				// 		} else {
-				// 			$sql .= "OR equipo = '" . $exp_equipos[$i] . "'";
-				// 		}
-				// 		if (sizeof($exp_equipos) == 1) {
-				// 			$sql .= ")";
-				// 		}
-				// 	}
-				// }
-			}
-			
-			if($filtro[0][1] == "menmay"){
-				$sql.= " ORDER BY p.precio ASC";
-			}
-			if($filtro[0][1] == "maymen"){
-				$sql.= " ORDER BY p.precio DESC";
-			}
+						for ($j = 0; $j < count($filtro[$i][1]); $j++) {
+							if ($j > 0) {
+								$sql .= " OR ";
+							}
+							$sql .= "p.equipo = '" . $filtro[$i][1][$j] . "'";
+						}
+						$sql .= ")";
+					}else if($filtro[$i][0] == 'precio'){
+						if($filtro[$i][1] == "menmay"){
+							$orederby = " ORDER BY p.precio ASC";
+						}else if($filtro[$i][1] == "maymen"){
+							$orderby = " ORDER BY p.precio DESC";
+						}
+					}else{
+						if($primeraCondicion){
+							$sql .= " WHERE p." . $filtro[$i][0] . " = '" . $filtro[$i][1] . "'";
+                			$primeraCondicion = false;
+						}else{
+							$sql .= " AND p." . $filtro[$i][0] . " = '" . $filtro[$i][1] . "'";
+						}
+					} // end if-else
+				} // end for
+			} // end if
 
 			// $sql = $filtro[0][1];
-			// return $equipo;
+
+			$sql .= $orderby; // añadir el 'ORDER BY' siempre al final de la consulta
+
 			// return $sql;
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
