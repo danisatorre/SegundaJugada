@@ -10,25 +10,46 @@ function ajaxForSearch(url, filtro) {
             console.log(shop);
             // return false;
             $(".container-productos").empty();
-            for (row in shop) {
+            if(shop != "error"){
+                console.log("ajaxForSearch shop.id");
+                for (row in shop) {
+                    $("#nofiltros").empty();
+                    $("#texto-nofiltros").empty();
+                    $('<div></div>').attr('class', "producto").attr({'id': shop[row].id_producto}).appendTo('.container-productos')
+                        .html(
+                            "<img src = " + shop[row].img_producto + " alt='foto' </img> " +
+                            "<div class='inf-producto'>" +
+                            "<h3>" + shop[row].nom_prod + "</h5>" +
+                            "<p class='precio'>" + shop[row].precio + "€</p>" +
+                            "</div>"
+                        ) // end .html
+                }
+            }else{
+                console.log("ajaxForSearch else shop.id");
+                $(".container-productos").empty();
                 $("#nofiltros").empty();
                 $("#texto-nofiltros").empty();
-                $('<div></div>').attr('class', "producto").attr({'id': shop[row].id_producto}).appendTo('.container-productos')
-                    .html(
-                        "<img src = " + shop[row].img_producto + " alt='foto' </img> " +
-                        "<div class='inf-producto'>" +
-                        "<h3>" + shop[row].nom_prod + "</h5>" +
-                        "<p class='precio'>" + shop[row].precio + "€</p>" +
-                        "</div>"
-                    ) // end .html
-            }
-        }).catch(function (e) {
-            $(".container-productos").empty();
-            $('<div></div>').appendTo('.container-shop-list')
+                $(".nofiltrosdiv").empty();
+                $('<div></div>').appendTo('.container-shop-list')
                 .html(
+                    "<div class='nofiltrosdiv'>" +
                     "<h1 id='nofiltros'>No se han encontrado productos con los filtros especificados</h1>" +
                     "<br>" +
-                    "<p id='texto-nofiltros'>Pulse el boton 'remover filtros' para volver a la busqueda</p>" 
+                    "<p id='texto-nofiltros'>Pulse el boton 'remover filtros' para volver a la busqueda</p>" +
+                    "</div>" // end .nofiltrosdiv
+                );
+            }
+        }).catch(function (e) {
+            console.log("ajaxForSearch catch");
+            $(".container-productos").empty();
+            $(".nofiltrosdiv").empty();
+            $('<div></div>').appendTo('.container-shop-list')
+                .html(
+                    "<div class='nofiltrosdiv'>" +
+                    "<h1 id='nofiltros'>¡UPS! Ha ocurrido un error al buscar productos😓</h1>" +
+                    "<br>" +
+                    "<p id='texto-nofiltros'>Pulse el boton 'remover filtros' para volver a la busqueda</p>" +
+                    "</div>" // end .nofiltrosdiv
                 );
         });
 } // end ajaxForSearch
@@ -172,71 +193,21 @@ function eliminar_filtros() {
     $("#nofiltros").empty();
     $("#texto-nofiltros").empty();
     location.reload();
+    if(!localStorage.getItem('filtro')){
+        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
+        highlight(filtro);
+    }
 }
-
-// function botones_filtros() {
-//     var equipo = [];
-//     var tipo = [];
-//     var categoria = [];
-//     var precio = [];
-//     var filtro = [];
-
-//     localStorage.removeItem('filtro');
-
-//     //equipo//
-//     $.each($("input[class='filtro_equipo']:checked"), function() {
-//         equipo.push($(this).val());
-//     });
-
-//     if (equipo.length != 0) {
-//         filtro.push({ "Equipo": equipo });
-//     } else {
-//         filtro.push({ "Equipo": '*' });
-//     }
-
-//     //categoria//
-//     var cat = document.getElementById("select_categoria").value;
-//     if (cat != 0) {
-//         categoria.push(cat);
-//         filtro.push({ "Categoria": categoria });
-//     } else {
-//         filtro.push({ "Categoria": '*' });
-//     }
-
-//     //tipo//
-//     var tip = document.getElementById("select_tipo").value;
-//     if (tip != 0) {
-//         tipo.push(tip);
-//         filtro.push({ "Tipo": tipo });
-//     } else {
-//         filtro.push({ "Tipo": '*' });
-//     }
-
-//     //precio//
-//     $.each($("input[class='filtro_precio']:checked"), function() {
-//         precio.push($(this).val());
-//     });
-
-//     if (precio.length != 0) {
-//         filtro.push({ "Precio": precio });
-//     } else {
-//         filtro.push({ "Precio": '*' });
-//     }
-
-//     //todos los filtros (localstorage)//
-//     if (filtro.length != 0) {
-//         localStorage.setItem('filtro', JSON.stringify(filtro));
-//     }
-//     getall();
-// }
 
 function getall() {
     var filtro = JSON.parse(localStorage.getItem('filtro'));
-    
+    console.log("getall filtros: " + filtro);
     if (filtro) {
+        console.log("getall yes filtro")
         var equipo = filtro.find(f => f.Equipo).Equipo;
-        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro, equipo, tipo, categoria, precio);
+        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro, equipo);
     } else {
+        console.log("getall no filtro")
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
     }
 } // end function getall
@@ -336,21 +307,6 @@ function botones_filtros(){
         }
 
         highlight(filtro);
-
-        $(document).on('click', '.boton_remover', function(){
-            localStorage.removeItem('filtro_tipo');
-            localStorage.removeItem('filtro_categoria');
-            localStorage.removeItem('filtro_precio');
-            localStorage.removeItem('filtro_equipo');
-            localStorage.removeItem('filtro');
-            $("#nofiltros").empty();
-            $("#texto-nofiltros").empty();
-            filtro.length = 0;
-            if(filtro.length == 0){
-                ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
-                highlight(filtro);
-            }
-        });
     });
 }
 
