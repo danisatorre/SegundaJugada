@@ -204,7 +204,11 @@ function getall() {
     console.log("getall filtros: " + filtro);
     if (filtro) {
         console.log("getall yes filtro")
-        var equipo = filtro.find(f => f.Equipo).Equipo;
+        var filtroequipo = filtro.find(f => f[0] === 'equipo');
+        if (filtroequipo && filtroequipo[1].length === 0) {
+            filtro = filtro.filter(f => f[0] !== 'equipo');
+            localStorage.setItem('filtro', JSON.stringify(filtro));
+        }
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro, equipo);
     } else {
         console.log("getall no filtro")
@@ -295,7 +299,12 @@ function botones_filtros(){
         }
         // equipo
         if(localStorage.getItem('filtro_equipo')){
-            filtro.push(['equipo', JSON.parse(localStorage.getItem('filtro_equipo'))])
+            var equipo = JSON.parse(localStorage.getItem('filtro_equipo'));
+            if (equipo.length > 0) {
+                filtro.push(['equipo', equipo]);
+            } else {
+                localStorage.removeItem('filtro_equipo');
+            }
         }
 
         localStorage.setItem('filtro', JSON.stringify(filtro));
