@@ -77,7 +77,6 @@
 			$primeraCondicion = true;
 			$orderby = "";
 
-			if($filtro[0][1] != "menmay" && $filtro[0][1] != "maymen"){
 				for ($i=0; $i < count($filtro); $i++){
 					if ($filtro[$i][0] == 'equipo' && is_array($filtro[$i][1])) {
 						if ($primeraCondicion) {
@@ -95,7 +94,7 @@
 						$sql .= ")";
 					}else if($filtro[$i][0] == 'precio'){
 						if($filtro[$i][1] == "menmay"){
-							$orederby = " ORDER BY p.precio ASC";
+							$orderby = " ORDER BY p.precio ASC";
 						}else if($filtro[$i][1] == "maymen"){
 							$orderby = " ORDER BY p.precio DESC";
 						}
@@ -108,11 +107,11 @@
 						}
 					} // end if-else
 				} // end for
-			} // end if
-
-			// $sql = $filtro[0][1];
 
 			$sql .= $orderby; // añadir el 'ORDER BY' siempre al final de la consulta
+
+			// $sql = $filtro[0][1];
+			// $sql = $filtro;
 
 			// return $sql;
 			$conexion = connect::con();
