@@ -74,9 +74,9 @@
 
         case 'filtro_equipos';
             $dahoshop_equipos = new DAOshop();
-            $select_equipos = $daoshop_equipos -> checkbox_equipos();
+            $select_equipos = $dahoshop_equipos -> checkbox_equipos();
             if(!empty($select_equipos)){
-                echo json_encode($select_filtros);
+                echo json_encode($select_equipos);
             }else{
                 echo json_encode("error");
             }

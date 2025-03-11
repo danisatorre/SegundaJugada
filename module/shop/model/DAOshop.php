@@ -130,11 +130,11 @@
 
 		function checkbox_equipos(){
 			$sql="SELECT * FROM teams";
-
+		
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
 			connect::close($conexion);
-
+		
 			$equipos = array();
 			if (mysqli_num_rows($res) > 0) {
 				while ($row = mysqli_fetch_assoc($res)) {

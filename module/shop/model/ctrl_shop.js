@@ -7,7 +7,7 @@ function ajaxForSearch(url, filtro) {
     // return false;
     ajaxPromise(url, 'POST', 'JSON', { 'filtro': filtro})
         .then(function (shop) {
-            console.log(shop);
+            console.log("Datos shop: ", shop);
             // return false;
             $(".container-productos").empty();
             if(shop != "error"){
@@ -61,8 +61,7 @@ function loadProductos(){
     .then(function(data){
         // console.log(data);
         // return false;
-        $("#nofiltros").empty();
-        $("#texto-nofiltros").empty();
+        primera_entrada();
         for (row in data){
             $('<div></div>').attr('class', "producto").attr({'id': data[row].id_producto}).appendTo('.container-productos')
                 .html(
@@ -77,6 +76,39 @@ function loadProductos(){
         window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
     })
 } // funcion loadProductos
+
+function primera_entrada(){
+    localStorage.removeItem('filtro');
+    localStorage.removeItem('filtro_tipo');
+    localStorage.removeItem('filtro_categoria');
+    localStorage.removeItem('filtro_precio');
+    localStorage.removeItem('filtro_equipo');
+    $("#nofiltros").empty();
+    $("#texto-nofiltros").empty();
+}
+
+function loadEquipos() { // llenar los checkboxes de equipos dinamicamente desde la base de datos
+    console.log("hola loadEquipos");
+    // return false;
+    ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_equipos', 'POST', 'JSON')
+    .then(function(equipos){
+        $('.checkbox-equipo').empty();
+        for (row in equipos){
+            $('.checkbox-equipo').append(
+                '<input type="checkbox" value="' + equipos[row].id_team + '" id="' + equipos[row].id_team + '" class="filtro_equipo" name="equipo">' + equipos[row].nom_team + '</br>'
+            );
+        } // end row in data
+        // Restore the selected checkboxes from localStorage
+        if(localStorage.getItem('filtro_equipo')){
+            var equipo = JSON.parse(localStorage.getItem('filtro_equipo'));
+            $.each(equipo, function(index, value) {
+                $("input[class='filtro_equipo'][value='" + value + "']").prop('checked', true);
+            });
+        }
+    }).catch(function(error){
+        console.error('Error al cargar los equipos:', error);
+    });
+}
 
 function print_filtros() {
     $('<div class="div-filtros"></div>').appendTo('.container-filtros')
@@ -124,26 +156,11 @@ function print_filtros() {
                     '<input type="radio" name="precio" value="menmay" class="filtro_precio">De menor a mayor precio</br>' +
                 '</div>' + // end .radio-precio
             '</div>' +
+            // checkbox equipo (dinamico)
             '<div class="f_equipo">' +
                 '<h4 class="desplegable-equipo">Equipo⬇️</h4>' +
                 '<div class="checkbox-equipo" style="display: none;">' +
-                    '<input type="checkbox" value="1" id="1" class="filtro_equipo" name="equipo">L.A Lakers</br>' +
-                    '<input type="checkbox" value="2" id="2" class="filtro_equipo" name="equipo">Dallas Maverics</br>' +
-                    '<input type="checkbox" value="3" id="3"class="filtro_equipo" name="equipo">Phoenix Suns</br>' +
-                    '<input type="checkbox" value="4" id="4" class="filtro_equipo" name="equipo">Boston Celtics</br>' +
-                    '<input type="checkbox" value="5" id="5" class="filtro_equipo" name="equipo">Valencia Basket</br>' +
-                    '<input type="checkbox" value="1900" id="1900" class="filtro_equipo" name="equipo">UCAM Murcia</br>' +
-                    '<input type="checkbox" value="1901" id="1901" class="filtro_equipo" name="equipo">S.A Spurs</br>' +
-                    '<input type="checkbox" value="1902" id="1902" class="filtro_equipo" name="equipo">Orlando</br>' +
-                    '<input type="checkbox" value="1903" id="1903" class="filtro_equipo" name="equipo">Grizzlies</br>' +
-                    '<input type="checkbox" value="1904" id="1904" class="filtro_equipo" name="equipo">Milkwaukee</br>' +
-                    '<input type="checkbox" value="1905" id="1905" class="filtro_equipo" name="equipo">Real Madrid Baloncesto</br>' +
-                    '<input type="checkbox" value="1906" id="1906" class="filtro_equipo" name="equipo">Chicago Bulls</br>' +
-                    '<input type="checkbox" value="1907" id="1907" class="filtro_equipo" name="equipo">Timberwolves</br>' +
-                    '<input type="checkbox" value="1908" id="1908" class="filtro_equipo" name="equipo">Pistons</br>' +
-                    '<input type="checkbox" value="1909" id="1909" class="filtro_equipo" name="equipo">Miami Heat</br>' +
-                    '<input type="checkbox" value="1910" id="1910" class="filtro_equipo" name="equipo">CAVS</br>' +
-                    '<input type="checkbox" value="1911" id="1911" class="filtro_equipo" name="equipo">Golden State Warriors' +
+                    
                 '</div>' + // end .checkbox-equipo
             '</div>' + // end .f_equipo
             '<div id="overlay">' +
@@ -209,7 +226,7 @@ function getall() {
             filtro = filtro.filter(f => f[0] !== 'equipo');
             localStorage.setItem('filtro', JSON.stringify(filtro));
         }
-        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro, equipo);
+        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro);
     } else {
         console.log("getall no filtro")
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
@@ -262,7 +279,7 @@ function botones_filtros(){
         });
     }
     // filtro de equipo
-    $('.filtro_equipo').change(function(){
+    $(document).on('change', '.filtro_equipo', function(){
         var equipo = [];
         $.each($("input[class='filtro_equipo']:checked"), function() {
             equipo.push($(this).val());
@@ -406,4 +423,5 @@ $(document).ready(function(){
     loadDetails();
     print_filtros();
     botones_filtros();
+    loadEquipos();
 });

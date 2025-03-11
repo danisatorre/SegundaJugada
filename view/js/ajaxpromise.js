@@ -9,7 +9,7 @@ function ajaxPromise(sUrl, sType, sTData, sData = undefined) {
             dataType: sTData,
             data: sData
         }).done((data) => {
-            console.log(data);
+            console.log("Respuesta del servidor: ", data);
             // return false;
             resolve(data);
         }).fail((jqXHR, textStatus, errorThrow) => {
