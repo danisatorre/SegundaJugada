@@ -22,11 +22,11 @@ body {
 
 .container-filtros{
     width:15%;
-    margin-left:2%;
+    margin-left:0.5%;
     margin-top:4%;
 }
 
-.boton_filtrar, .botn_remover{
+.boton_filtrar, .botn_remover, .boton_mapa, .sotButton{
     margin-top:2%;
 }
 
@@ -34,7 +34,7 @@ body {
     text-align:center;
 }
 
-.boton_filtrar:hover, .boton_remover:hover {
+.boton_filtrar:hover, .boton_remover:hover, .boton_mapa:hover, .sotButton:hover{
     background-color: orange;
     border-color: goldenrod;
     box-shadow: 0 0 8px orange;
@@ -42,7 +42,7 @@ body {
     transition: 1s;
 }
 
-.boton_filtrar, .boton_remover {
+.boton_filtrar, .boton_remover, .boton_mapa, .sotButton{
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -111,6 +111,7 @@ body {
     width: 80%;
     max-width: 1200px;
     margin: 20px auto;
+    margin-left:1%;
     display: grid;
     float:left;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -175,6 +176,18 @@ body {
 .filtros{
     display:block;
     float:left;
+}
+
+/* LEAFLET */
+
+#map{
+    height:500px;
+    width:80%;
+    margin-left:10%;
+    padding-left:50px;
+    margin-right:10;
+    margin-top:-30%;
+    border:2px solid goldenrod;
 }
 
 /* DETAILS */

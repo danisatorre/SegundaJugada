@@ -172,7 +172,10 @@ function print_filtros() {
             '</div>' +
             '<p> </p>' +
             '<button class="boton_filtrar button_spinner" id="Button_filter">Filtrar</button>' +
-            '<button class="boton_remover" id="Remove_filter">Remover filtros</button>');
+            '<button class="boton_remover" id="Remove_filter">Remover filtros</button>' +
+            '<button class="boton_mapa" id="goToMap"> Viajar al mapa de productos </button>'
+        
+        );
     // funciones de clic en los botones y titulos
 
     // boton filtrar
@@ -182,6 +185,10 @@ function print_filtros() {
     // boton remover filtros
     $(document).on('click', '.boton_remover', function() {
         eliminar_filtros();
+    });
+    // boton para desplazarse al mapa
+    $(document).on('click', '.boton_mapa', function() {
+        document.getElementById('map').scrollIntoView({ behavior: 'smooth' });
     });
     // desplegable tipo
     $(document).on('click', '.desplegable-tipo', function(){
@@ -417,6 +424,28 @@ function loadDetails() {
     });
 }
 
+function leafleft(){
+    console.log("hola leaflet");
+
+    
+
+    var map = L.map('map').setView([38.821, -0.610547], 15);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+}
+
+function scrollOnTop(){
+    $('.sot').append(
+        '<button class="sotButton">Volver arriba</button>'
+    )
+    $(document).on("click", ".sotButton", function() {
+        window.scrollTo(0, 0);
+    });
+}
+
 $(document).ready(function(){
     getall();
     loadProductos();
@@ -424,4 +453,6 @@ $(document).ready(function(){
     print_filtros();
     botones_filtros();
     loadEquipos();
+    leafleft();
+    scrollOnTop();
 });
