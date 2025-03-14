@@ -374,6 +374,9 @@ function loadProductoDetails(id_producto){
         } // si el producto tiene equipo lo pinta, de lo contrario no pinta nada
             $('<div></div>').attr({'id': data[0][0].id_producto, class: 'inf-producto-details'}).appendTo('.inf-details')
                 .html(
+                    "<style>" +
+                    "#map{margin-top:3%;}" +
+                    "</style>" +
                     "<div class='inf-prod'>" +
                     "<h3>" + data[0][0].nom_prod + "</h5>" +
                     "<p class='precio-details'>" + data[0][0].precio + "€</p>" +
