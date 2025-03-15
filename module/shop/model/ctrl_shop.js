@@ -22,8 +22,9 @@ function ajaxForSearch(url, filtro) {
                             "<h3>" + shop[row].nom_prod + "</h5>" +
                             "<p class='precio'>" + shop[row].precio + "€</p>" +
                             "</div>"
-                        ) // end .html
+                        ); // end .html
                 }
+                leafleft(shop);
             }else{
                 console.log("ajaxForSearch else shop.id");
                 $(".container-productos").empty();
@@ -347,50 +348,50 @@ function loadProductoDetails(id_producto){
     console.log("hola loadProductoDetails");
     // return false;
     ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=details&id_producto=' + id_producto, 'GET', 'JSON')
-    .then(function(data){
+    .then(function(shop){
         $('.container-productos').empty(); // vaciar todos los productos para dejar la web vacia y pintar el details
         $('.container-filtros').empty(); // vaciar los filtros para que no aparezcan en el details
         $('.pimg').empty();
         $('.inf-producto').empty();
-        console.log(data);
+        console.log(shop);
         // return false;
-        for (row in data[1][0]) {
-            $('<div></div>').attr({ 'id': data[1][0].id_pimg, class: 'pimg' }).appendTo('.productos_img')
+        for (row in shop[1][0]) {
+            $('<div></div>').attr({ 'id': shop[1][0].id_pimg, class: 'pimg' }).appendTo('.productos_img')
                 .html(
                     "<div class='content-img-details'>" +
-                    "<img src= '" + data[1][0][row].pimage_route + "'" + "</img>" +
+                    "<img src= '" + shop[1][0][row].pimage_route + "'" + "</img>" +
                     "</div>" // end .content-img-details
                 )
         }
         let extra_entrega = "";
-        if(data[0][0].entrega === 'domicilio'){
+        if(shop[0][0].entrega === 'domicilio'){
             extra_entrega = "<i class='fa-solid fa-truck fa-2xl extra-icons' style='color: #077bd5;'></i>";
-        }else if(data[0][0].entrega === 'persona'){
+        }else if(shop[0][0].entrega === 'persona'){
             extra_entrega = "<i class='fa-solid fa-person fa-2xl' style='color: #077bd5;'></i>";
         } // pintar el camion si la entrega es a domicilio, o la persona si la entrega es en persona
         let nom_equipo = "";
-        if (data[0][0].nom_team !== null) {
-            nom_equipo = "<p class='team-details'>" + data[0][0].nom_team + "</p>";
+        if (shop[0][0].nom_team !== null) {
+            nom_equipo = "<p class='team-details'>" + shop[0][0].nom_team + "</p>";
         } // si el producto tiene equipo lo pinta, de lo contrario no pinta nada
-            $('<div></div>').attr({'id': data[0][0].id_producto, class: 'inf-producto-details'}).appendTo('.inf-details')
+            $('<div></div>').attr({'id': shop[0][0].id_producto, class: 'inf-producto-details'}).appendTo('.inf-details')
                 .html(
                     "<style>" +
                     "#map{margin-top:3%;}" +
                     "</style>" +
                     "<div class='inf-prod'>" +
-                    "<h3>" + data[0][0].nom_prod + "</h5>" +
-                    "<p class='precio-details'>" + data[0][0].precio + "€</p>" +
-                    "<p class='marca-details'>" + data[0][0].nom_marca + "</p>" +
-                    "<p class='sexo-details'>" + data[0][0].sexo_prod + "</p>" +
-                    "<p class='tipo-details'>" + data[0][0].tipo + "</p>" +
+                    "<h3>" + shop[0][0].nom_prod + "</h5>" +
+                    "<p class='precio-details'>" + shop[0][0].precio + "€</p>" +
+                    "<p class='marca-details'>" + shop[0][0].nom_marca + "</p>" +
+                    "<p class='sexo-details'>" + shop[0][0].sexo_prod + "</p>" +
+                    "<p class='tipo-details'>" + shop[0][0].tipo + "</p>" +
                     nom_equipo +
-                    "<p class='talla-details'>" + data[0][0].talla + "</p>" +
+                    "<p class='talla-details'>" + shop[0][0].talla + "</p>" +
                     "<b class='letrero-condicion-details'>Condición del producto</b>" +
-                    "<a class='condicion-details'> &nbsp;" + data[0][0].condicion + "</a>" +
-                    "<p class='color-details'>" + data[0][0].color + "</p>" +
-                    "<p class='desc-details'>" + data[0][0].descripcion + "</p>" +
-                    "<p class='stock-details'>Hay " + data[0][0].stock + " unidades disponibles</p>" +
-                    "<p class='entrega-details'>" + data[0][0].entrega + "</p>" +
+                    "<a class='condicion-details'> &nbsp;" + shop[0][0].condicion + "</a>" +
+                    "<p class='color-details'>" + shop[0][0].color + "</p>" +
+                    "<p class='desc-details'>" + shop[0][0].descripcion + "</p>" +
+                    "<p class='stock-details'>Hay " + shop[0][0].stock + " unidades disponibles</p>" +
+                    "<p class='entrega-details'>" + shop[0][0].entrega + "</p>" +
                     "<div class='extras-details'>" +
                     "<div class='icon-container-details'>" +
                     "<p class='entrega-icon-details'>" + extra_entrega + "</p>" +
@@ -427,17 +428,26 @@ function loadDetails() {
     });
 }
 
-function leafleft(){
-    console.log("hola leaflet");
-
+function leafleft(shop){
+    console.log(shop);
     
-
     var map = L.map('map').setView([38.821, -0.610547], 15);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
+    for (row in shop){
+        var mapicon = L.icon({
+            iconUrl: 'view/images/web-logo/favicon.png',
+            iconSize: [50, 50],
+            iconAnchor: [50, 50],
+            popupAnchor: [50, 50]
+        });
+        var marker = L.marker([shop[row].altitud, shop[row].longitud], {icon: mapicon}).addTo(map);
+        var popup = marker.bindPopup("<p>" + shop[row].nom_prod + "</p><img src = '" + shop[row].img_producto + "' class='img_popup'>");
+    }
+
 }
 
 function scrollOnTop(){
@@ -456,6 +466,6 @@ $(document).ready(function(){
     print_filtros();
     botones_filtros();
     loadEquipos();
-    leafleft();
+    // leafleft();
     scrollOnTop();
 });
