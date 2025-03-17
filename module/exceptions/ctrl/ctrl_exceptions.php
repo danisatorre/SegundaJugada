@@ -10,15 +10,15 @@
         case '503';
             // $data = 'hola crtl exceptions ERROR 503';
             // die('<script>console.log('.json_encode( $data ) .');</script>');
-            include("../view/pages/error503.html");
+            include($path . "module/exceptions/view/pages/error503.html");
         break;
 
         case '404';
-            include("../view/pages/error404.html");
+            include($path . "module/exceptions/view/pages/error404.html");
         break;
 
         default;
-            include("../views/pages/error404.html");
+            include($path . "module/exceptions/view/pages/error404.html");
         break;
     }
 ?>

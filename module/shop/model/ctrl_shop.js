@@ -74,7 +74,7 @@ function loadProductos(){
                 ) // end .html
         } // end row in data
     }).catch(function(){
-        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+        window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
 } // funcion loadProductos
 
@@ -355,6 +355,7 @@ function loadProductoDetails(id_producto){
         $('.inf-producto').empty();
         console.log(shop);
         // return false;
+        leafleft(shop[0][0]);
         for (row in shop[1][0]) {
             $('<div></div>').attr({ 'id': shop[1][0].id_pimg, class: 'pimg' }).appendTo('.productos_img')
                 .html(
@@ -363,6 +364,8 @@ function loadProductoDetails(id_producto){
                     "</div>" // end .content-img-details
                 )
         }
+        // console.log(shop[0][0]);
+        // return false;
         let extra_entrega = "";
         if(shop[0][0].entrega === 'domicilio'){
             extra_entrega = "<i class='fa-solid fa-truck fa-2xl extra-icons' style='color: #077bd5;'></i>";
@@ -417,38 +420,88 @@ function loadProductoDetails(id_producto){
                 nav :true
             });
     }).catch(function(){
-        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+        window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
 } // funcion loadProductoDetails
 
 function loadDetails() {
+    // cargar details desde el producto
     $(document).on("click", ".producto", function() {
         var id_producto = this.getAttribute('id');
         loadProductoDetails(id_producto);
     });
-}
+    // cargar details desde el mapa
+    $(document).on("click", ".product_popup", function() {
+        var id_producto = this.getAttribute('id');
+        loadProductoDetails(id_producto);
+    });
+} // funcion loadDetails
 
 function leafleft(shop){
-    console.log(shop);
+    console.log("leafleft shop: ", shop);
+    // return false;
+
+    console.log("leafleft map");
     
-    var map = L.map('map').setView([38.821, -0.610547], 15);
+    $('#map').remove();
+    $('<div id="map"></div>').appendTo('.mapLeafleft');
+    
+    if (!document.getElementById('map')) {
+        console.log("leafleft NO ID MAP");
+        return false;
+    } else {
+        console.log("leafleft SI ID MAP");
+    }
+
+    try{
+        // var map = L.map('map').setView([38.821, -0.610547], 15);
+        var map = L.map('map').setView([shop.altitud || 38.821, shop.longitud || -0.610547], 15);
+    }catch (error){
+        console.log("ERROR AL INICIALIZAR EL MAPA");
+        return false;
+    }
+    console.log("leafleft mapa inicializado")
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-    for (row in shop){
+    
+    if(Array.isArray(shop)){
+        console.log("leafleft ARRAY");
+        // return false;
+        for (row in shop){
+            var mapicon = L.icon({
+                iconUrl: 'view/images/web-logo/favicon.png',
+                iconSize: [50, 50],
+                iconAnchor: [50, 50],
+                popupAnchor: [20, 20]
+            });
+            var marker = L.marker([shop[row].altitud, shop[row].longitud], {icon: mapicon}).addTo(map);
+            var popup = marker.bindPopup(
+                "<div class='product_popup' id='" + shop[row].id_producto + "'>" +
+                "<p>" + shop[row].nom_prod + "</p>" +
+                "<img src = '" + shop[row].img_producto + "' class='img_popup'>" +
+                "</div>");
+        }
+    }else{
+        console.log("leafleft NO ARRAY");
+        // return false;
         var mapicon = L.icon({
             iconUrl: 'view/images/web-logo/favicon.png',
             iconSize: [50, 50],
             iconAnchor: [50, 50],
-            popupAnchor: [50, 50]
+            popupAnchor: [20, 20]
         });
-        var marker = L.marker([shop[row].altitud, shop[row].longitud], {icon: mapicon}).addTo(map);
-        var popup = marker.bindPopup("<p>" + shop[row].nom_prod + "</p><img src = '" + shop[row].img_producto + "' class='img_popup'>");
+        var marker = L.marker([shop.altitud, shop.longitud], {icon: mapicon}).addTo(map);
+        var popup = marker.bindPopup(
+            "<div class='product_popup' id='" + shop.id_producto + "'>" +
+            "<p>" + shop.nom_prod + "</p>" +
+            "<img src = '" + shop.img_producto + "' class='img_popup'>" +
+            "</div>"
+        );
     }
-
-}
+} // funcion leafleft
 
 function scrollOnTop(){
     $('.sot').append(

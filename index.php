@@ -3,7 +3,10 @@
 		include("view/inc/top_page_home.html");
 	}else if((isset($_GET['module'])) && ($_GET['module']==="ctrl_shop")){
 		include("view/inc/top_page_shop.html");
-	}else{
+	}else if((isset($_GET['module'])) && ($_GET['module']==="ctrl_exceptions")){
+		include("view/inc/top_page_home.html");
+	}
+	else{
 		include("view/inc/top_page_home.html");
 	}
 	//session_start();

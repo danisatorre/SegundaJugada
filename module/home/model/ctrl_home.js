@@ -147,7 +147,7 @@ function loadProductos() {
         .catch(function() {
             // console.log("hola CATCH loadProductos");
             // return false;
-            window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+            window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php&op=503";
         });
 }
 
