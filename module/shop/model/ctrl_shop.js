@@ -4,7 +4,7 @@
 function loadShop(){
     console.log("hola loadShop");
     // return false;
-    var verificar_filtros = localStorage.getItem('filtros') || false;
+    var verificar_filtros = localStorage.getItem('filtro') || false;
     if(verificar_filtros != false){
         getall();
         highlight();
@@ -233,7 +233,7 @@ function eliminar_filtros() {
     location.reload();
     if(!localStorage.getItem('filtro')){
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
-        highlight(filtro);
+        highlight();
     }
 }
 
@@ -254,19 +254,48 @@ function getall() {
     }
 } // end function getall
 
-function highlight(filtro){
-    if(filtro.length > 0){
-        $('.highlight').empty();
-        $('<div style="display: inline; float: right;"></div>').appendTo('.highlight')
-            .html('<p style="display: inline; margin: 10px;">Sus filtros: </p>');
-        for(row in filtro){
-            $('<div style="display: inline; float:right;"></div>').appendTo('.highlight')
-                .html('<p style="display: inline; margin: 3px;">' + filtro[row][1] + '</p>');
-        } // end row in filtro
-    } else{
-        $('.highlight').empty();
-        location.reload();
-    } // end if-else
+function highlight(){
+    console.log("hola highlight");
+
+    var all_filtros = JSON.parse(localStorage.getItem('filtro'));
+
+    if (all_filtros) {
+        for (var i = 0; i < all_filtros.length; i++) {
+            var filtroTipo = all_filtros[i][0];
+            var filtroValor = all_filtros[i][1];
+
+            if (filtroTipo === 'tipo' && filtroValor != '*') {
+                document.getElementById('select_tipo').value = filtroValor;
+            }
+
+            if (filtroTipo === 'categoria' && filtroValor != '*') {
+                document.getElementById('select_categoria').value = filtroValor;
+            }
+
+            if (filtroTipo === 'precio' && filterValue != '*') {
+                document.querySelector(`input[name="precio"][value="${filtroValor}"]`).setAttribute('checked', true);
+            }
+
+            if (filtroTipo === 'equipo' && filtroValor.length > 0) {
+                for (var j = 0; j < filtroValor.length; j++) {
+                    document.getElementById(filtroValor[j]).setAttribute('checked', true);
+                }
+            }
+        }
+    }
+
+    // if(filtro.length > 0){
+    //     $('.highlight').empty();
+    //     $('<div style="display: inline; float: right;"></div>').appendTo('.highlight')
+    //         .html('<p style="display: inline; margin: 10px;">Sus filtros: </p>');
+    //     for(row in filtro){
+    //         $('<div style="display: inline; float:right;"></div>').appendTo('.highlight')
+    //             .html('<p style="display: inline; margin: 3px;">' + filtro[row][1] + '</p>');
+    //     } // end row in filtro
+    // } else{
+    //     $('.highlight').empty();
+    //     location.reload();
+    // } // end if-else
 } // end function highlight
 
 function botones_filtros(){
@@ -346,7 +375,7 @@ function botones_filtros(){
             ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
         }
 
-        highlight(filtro);
+        highlight();
     });
 }
 
@@ -520,7 +549,7 @@ function scrollOnTop(){
 
 $(document).ready(function(){
     getall();
-    loadProductos();
+    // loadProductos();
     loadDetails();
     print_filtros();
     botones_filtros();
