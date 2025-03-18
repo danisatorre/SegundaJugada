@@ -1,9 +1,22 @@
 // console.log("hola ctrl shop js");
 // return false;
 
+function loadShop(){
+    console.log("hola loadShop");
+    // return false;
+    var verificar_filtros = localStorage.getItem('filtros') || false;
+    if(verificar_filtros != false){
+        getall();
+        highlight();
+    }else{
+        ajaxForSearch('module/shop/ctrl/ctrl_shop.php?op=getall');
+    }
+}
+
 function ajaxForSearch(url, filtro) {
     console.log("hola ajaxForSearch");
-    console.log("Filtro: ", filtro);
+    console.log("AFS filtros: ", filtro);
+    console.log("AFS url: ", url);
     // return false;
     ajaxPromise(url, 'POST', 'JSON', { 'filtro': filtro})
         .then(function (shop) {
@@ -301,13 +314,6 @@ function botones_filtros(){
         });
     }
 
-    // $('.filtro_equipo').change(function(){
-    //     localStorage.setItem('filtro_equipo', this.value);
-    // });
-    // if(localStorage.getItem('filtro_equipo')){
-    //     $('.filtro_equipo').val(localStorage.getItem('filtro_equipo'));
-    // }
-
     $(document).on('click', '.boton_filtrar', function(){
         var filtro = [];
         // tipo
@@ -521,4 +527,5 @@ $(document).ready(function(){
     loadEquipos();
     // leafleft();
     scrollOnTop();
+    loadShop();
 });
