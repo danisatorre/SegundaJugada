@@ -38,6 +38,8 @@ function ajaxForSearch(url, filtro) {
                         ); // end .html
                 }
                 leafleft(shop);
+                highlight();
+                botones_filtros();
             }else{
                 console.log("ajaxForSearch else shop.id");
                 $(".container-productos").empty();
@@ -283,19 +285,6 @@ function highlight(){
             }
         }
     }
-
-    // if(filtro.length > 0){
-    //     $('.highlight').empty();
-    //     $('<div style="display: inline; float: right;"></div>').appendTo('.highlight')
-    //         .html('<p style="display: inline; margin: 10px;">Sus filtros: </p>');
-    //     for(row in filtro){
-    //         $('<div style="display: inline; float:right;"></div>').appendTo('.highlight')
-    //             .html('<p style="display: inline; margin: 3px;">' + filtro[row][1] + '</p>');
-    //     } // end row in filtro
-    // } else{
-    //     $('.highlight').empty();
-    //     location.reload();
-    // } // end if-else
 } // end function highlight
 
 function botones_filtros(){
@@ -548,13 +537,26 @@ function scrollOnTop(){
 }
 
 $(document).ready(function(){
-    getall();
-    // loadProductos();
-    loadDetails();
     print_filtros();
-    botones_filtros();
     loadEquipos();
-    // leafleft();
-    scrollOnTop();
+
     loadShop();
+
+    botones_filtros();
+
+    loadDetails();
+
+    scrollOnTop();
 });
+
+// $(document).ready(function(){
+//     getall();
+//     loadShop();
+//     print_filtros();
+//     loadEquipos();
+//     // loadProductos();
+//     loadDetails();
+//     botones_filtros();
+//     // leafleft();
+//     scrollOnTop();
+// });

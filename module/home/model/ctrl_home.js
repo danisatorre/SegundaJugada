@@ -181,10 +181,85 @@ function loadAccesorios(){
     })
 }
 
+function goToShop(){
+    // categoria
+    $(document).on("click", '.div_categoria', function(){
+        var filtro_categoria = this.getAttribute('id_categoria');
+        localStorage.removeItem('filtro');
+        localStorage.removeItem('filtro_tipo');
+        localStorage.removeItem('filtro_precio');
+        localStorage.removeItem('filtro_equipo');
+        localStorage.setItem('filtro_categoria', filtro_categoria);
+
+        var filtro = [];
+        if(localStorage.getItem('filtro_categoria')){
+            filtro.push(['categoria', localStorage.getItem('filtro_categoria')])
+        }
+        localStorage.setItem('filtro', JSON.stringify(filtro)); 
+
+        setTimeout(function(){
+            ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_home', 'POST', 'JSON', {filtro_categoria: filtro_categoria})
+            .then(function(data) {
+                console.log(data);
+                window.location.href = 'index.php?module=ctrl_shop&op=list';
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+        }, 500);
+    });
+    // marca
+    $(document).on("click", '.div_marca', function(){
+        var filtro_marca = [];
+        filtro_marca.push({"marca": [this.getAttribute('id_marca')]});
+        localStorage.removeItem('filtro');
+        localStorage.removeItem('filtro_tipo');
+        localStorage.removeItem('filtro_precio');
+        localStorage.removeItem('filtro_equipo');
+        localStorage.removeItem('filtro_categoria');
+        localStorage.setItem('filtro_marca', JSON.stringify(filtro_marca));
+
+        setTimeout(function(){
+            window.location.href= 'index.php?module=ctrl_shop&op=filtro_home&filtro_marca=' + filtro_marca;
+        }, 500);
+    });
+    // tipo
+    $(document).on("click", '.div_tipo', function(){
+        var filtro_tipo = [];
+        filtro_tipo.push({"tipo": [this.getAttribute('id_tipo')]});
+        localStorage.removeItem('filtro');
+        localStorage.removeItem('filtro_marca');
+        localStorage.removeItem('filtro_precio');
+        localStorage.removeItem('filtro_equipo');
+        localStorage.removeItem('filtro_categoria');
+        localStorage.setItem('filtro_tipo', JSON.stringify(filtro_tipo));
+
+        setTimeout(function(){
+            window.location.href= 'index.php?module=ctrl_shop&op=filtro_home&filtro_tipo=' + filtro_tipo;
+        }, 500);
+    });
+    // accesorio
+    $(document).on("click", '.div_accesorio', function(){
+        var filtro_accesorio = [];
+        filtro_accesorio.push({"tipo": [this.getAttribute('id_accesorio')]});
+        localStorage.removeItem('filtro');
+        localStorage.removeItem('filtro_marca');
+        localStorage.removeItem('filtro_precio');
+        localStorage.removeItem('filtro_equipo');
+        localStorage.removeItem('filtro_categoria');
+        localStorage.setItem('filtro_accesorio', JSON.stringify(filtro_accesorio));
+
+        setTimeout(function(){
+            window.location.href= 'index.php?module=ctrl_shop&op=filtro_home&filtro_accesorio=' + filtro_accesorio;
+        }, 500);
+    });
+}
+
 $(document).ready(function() {
     carouselMarcas();
     loadCategorias();
     loadCatTipos();
     loadProductos();
     loadAccesorios();
+    goToShop();
 });

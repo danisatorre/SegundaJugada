@@ -143,4 +143,26 @@
 			return $equipos;
 		}
 
+		function filtro_home($filtro_home){
+			$sql = "SELECT *
+			FROM productos p
+			LEFT JOIN marcas m ON p.marca = m.id_marca
+			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria"
+			AND $filtro_home;
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+	
+			$retrArray = array();
+			if ($res -> num_rows > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
+		}
+
     }
