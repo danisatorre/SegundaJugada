@@ -88,14 +88,14 @@
             if (isset($_POST['filtro_categoria'])) {
                 $filtro = $_POST['filtro_categoria'];
                 $filtro_home = "p.categoria = '" . $filtro . "'";
-            } else if ($home_filtro == "marca") {
-                $filtro = $_GET['filtro_marca'];
+            } else if (isset($_POST['filtro_marca'])) {
+                $filtro = $_POST['filtro_marca'];
                 $filtro_home = "p.marca = '" . $filtro . "'";
-            } else if ($home_filtro == "tipo") {
-                $filtro = $_GET['filtro_tipo'];
+            } else if (isset($_POST['filtro_tipo'])) {
+                $filtro = $_POST['filtro_tipo'];
                 $filtro_home = "p.tipo = '" . $filtro . "'";
-            } else if ($home_filtro == "accesorio") {
-                $filtro = $_GET['filtro_accesorio'];
+            } else if (isset($_POST['filtro_accesorio'])) {
+                $filtro = $_POST['filtro_accesorio'];
                 $filtro_home = "p.tipo = '" . $filtro . "'";
             }
 

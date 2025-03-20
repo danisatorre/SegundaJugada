@@ -42,7 +42,7 @@ function ajaxForSearch(url, filtro) {
                     highlight();
                     botones_filtros();
                 } catch (error){
-                    console.log("ERROR al pintar productos filtrados", error);
+                    console.log("ERROR al pintar productos filtrados");
                 }
                 
             }else{
@@ -235,6 +235,7 @@ function eliminar_filtros() {
     localStorage.removeItem('filtro_categoria');
     localStorage.removeItem('filtro_precio');
     localStorage.removeItem('filtro_equipo');
+    localStorage.removeItem('filtro_marca');
     $("#nofiltros").empty();
     $("#texto-nofiltros").empty();
     location.reload();

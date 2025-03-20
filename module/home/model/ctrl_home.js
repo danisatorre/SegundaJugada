@@ -11,7 +11,7 @@ function carouselMarcas() {
                 // console.log("hola data FUNCTION CAROUSELMARCAS");
                 // console.log(data);
                 // return false;
-                $('<div></div>').attr('class', "div_marca").attr('id', data[row].id_marca).appendTo(".carousel-home")
+                $('<div></div>').attr('class', "div_marca").attr('id_marca', data[row].id_marca).appendTo(".carousel-home")
                 .html(
                     "<img src='" + data[row].img_marca + "' alt='foto' >"
                 )
@@ -80,7 +80,7 @@ function loadCatTipos() {
                 // console.log("hola data FUNCTION loadCatTipos");
                 // console.log(data);
                 // return false;
-                $('<div></div>').attr('class', "div_tipo").attr('id', data[row].id_tipo).appendTo(".carousel-tipo")
+                $('<div></div>').attr('class', "div_tipo").attr('id_tipo', data[row].id_tipo).appendTo(".carousel-tipo")
                 .html(
                     "<img src='" + data[row].img_tipo + "' alt='foto' >" +
                     "<h5>" + data[row].tipo + "</h5>"
@@ -121,7 +121,7 @@ function loadProductos() {
                 // console.log("hola data FUNCTION loadProductos");
                 // console.log(data);
                 // return false;
-                $('<div></div>').attr('class', "div_producto").attr('id', data[row].id_producto).appendTo(".carousel-producto")
+                $('<div></div>').attr('class', "div_producto").attr('id_producto', data[row].id_producto).appendTo(".carousel-producto")
                 .html(
                     "<img src='" + data[row].img_producto + "' alt='foto' >" +
                     "<h5>" + data[row].nom_prod + "</h5>"
@@ -157,7 +157,7 @@ function loadAccesorios(){
     ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageAccesorios', 'GET', 'JSON')
     .then(function(data){
         for (row in data){
-            $('<div></div>').attr('class', "div_accesorio").attr('id', data[row].id_producto).appendTo(".carousel-accesorio")
+            $('<div></div>').attr('class', "div_accesorio").attr('id_accesorio', data[row].tipo).appendTo(".carousel-accesorio")
             .html(
                 "<img src=' " + data[row].img_producto + " 'alt='foto'>" +
                 "<h5>" + data[row].nom_prod + "</h5>"
@@ -189,6 +189,7 @@ function goToShop(){
         localStorage.removeItem('filtro_tipo');
         localStorage.removeItem('filtro_precio');
         localStorage.removeItem('filtro_equipo');
+        localStorage.removeItem('filtro_marca');
         localStorage.setItem('filtro_categoria', filtro_categoria);
 
         var filtro = [];
@@ -201,6 +202,7 @@ function goToShop(){
             ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_home', 'POST', 'JSON', {filtro_categoria: filtro_categoria})
             .then(function(data) {
                 console.log(data);
+                // return false
                 window.location.href = 'index.php?module=ctrl_shop&op=list';
             })
             .catch(function(error) {
@@ -210,47 +212,86 @@ function goToShop(){
     });
     // marca
     $(document).on("click", '.div_marca', function(){
-        var filtro_marca = [];
-        filtro_marca.push({"marca": [this.getAttribute('id_marca')]});
+        var filtro_marca = this.getAttribute('id_marca');
         localStorage.removeItem('filtro');
         localStorage.removeItem('filtro_tipo');
         localStorage.removeItem('filtro_precio');
         localStorage.removeItem('filtro_equipo');
         localStorage.removeItem('filtro_categoria');
-        localStorage.setItem('filtro_marca', JSON.stringify(filtro_marca));
+        localStorage.setItem('filtro_marca', filtro_marca);
+
+        var filtro = [];
+        if(localStorage.getItem('filtro_marca')){
+            filtro.push(['marca', localStorage.getItem('filtro_marca')])
+        }
+        localStorage.setItem('filtro', JSON.stringify(filtro));
 
         setTimeout(function(){
-            window.location.href= 'index.php?module=ctrl_shop&op=filtro_home&filtro_marca=' + filtro_marca;
+            ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_home', 'POST', 'JSON', {filtro_marca: filtro_marca})
+            .then(function(data) {
+                console.log(data);
+                // return false;
+                window.location.href = 'index.php?module=ctrl_shop&op=list';
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
         }, 500);
     });
     // tipo
     $(document).on("click", '.div_tipo', function(){
-        var filtro_tipo = [];
-        filtro_tipo.push({"tipo": [this.getAttribute('id_tipo')]});
+        var filtro_tipo = this.getAttribute('id_tipo');
         localStorage.removeItem('filtro');
         localStorage.removeItem('filtro_marca');
         localStorage.removeItem('filtro_precio');
         localStorage.removeItem('filtro_equipo');
         localStorage.removeItem('filtro_categoria');
-        localStorage.setItem('filtro_tipo', JSON.stringify(filtro_tipo));
+        localStorage.setItem('filtro_tipo', filtro_tipo);
+
+        var filtro = [];
+        if(localStorage.getItem('filtro_tipo')){
+            filtro.push(['tipo', localStorage.getItem('filtro_tipo')])
+        }
+        localStorage.setItem('filtro', JSON.stringify(filtro));
 
         setTimeout(function(){
-            window.location.href= 'index.php?module=ctrl_shop&op=filtro_home&filtro_tipo=' + filtro_tipo;
+            ajaxPromise('module/shop/ctrl/ctrl_shop?op=filtro_home', 'POST', 'JSON', {filtro_tipo: filtro_tipo})
+            .then(function(data){
+                console.log(data);
+                // return false
+                window.location.href = 'index.php?module=ctrl_shop&op=list';
+            })
+            .catch(function(error){
+                console.error(error);
+            })
         }, 500);
     });
     // accesorio
     $(document).on("click", '.div_accesorio', function(){
-        var filtro_accesorio = [];
-        filtro_accesorio.push({"tipo": [this.getAttribute('id_accesorio')]});
+        var filtro_accesorio = this.getAttribute('id_accesorio');
         localStorage.removeItem('filtro');
         localStorage.removeItem('filtro_marca');
         localStorage.removeItem('filtro_precio');
         localStorage.removeItem('filtro_equipo');
         localStorage.removeItem('filtro_categoria');
-        localStorage.setItem('filtro_accesorio', JSON.stringify(filtro_accesorio));
+        localStorage.setItem('filtro_tipo', filtro_accesorio);
+
+        var filtro = [];
+        if(localStorage.getItem('filtro_tipo')){
+            filtro.push(['tipo', localStorage.getItem('filtro_tipo')])
+        }
+        localStorage.setItem('filtro', JSON.stringify(filtro));
 
         setTimeout(function(){
-            window.location.href= 'index.php?module=ctrl_shop&op=filtro_home&filtro_accesorio=' + filtro_accesorio;
+            ajaxPromise('module/shop/ctrl/ctrl_shop?op=filtro_home', 'POST', 'JSON', {filtro_accesorio: filtro_accesorio})
+            .then(function(data){
+                console.log(data);
+                // return false;
+                window.location.href = 'index.php?module=ctrl_shop&op=list';
+            })
+            .catch(function(error){
+                console.error(error);
+            })
         }, 500);
     });
 }
