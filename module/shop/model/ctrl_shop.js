@@ -25,21 +25,26 @@ function ajaxForSearch(url, filtro) {
             $(".container-productos").empty();
             if(shop != "error"){
                 console.log("ajaxForSearch shop.id");
-                for (row in shop) {
-                    $("#nofiltros").empty();
-                    $("#texto-nofiltros").empty();
-                    $('<div></div>').attr('class', "producto").attr({'id': shop[row].id_producto}).appendTo('.container-productos')
-                        .html(
-                            "<img src = " + shop[row].img_producto + " alt='foto' </img> " +
-                            "<div class='inf-producto'>" +
-                            "<h3>" + shop[row].nom_prod + "</h5>" +
-                            "<p class='precio'>" + shop[row].precio + "€</p>" +
-                            "</div>"
-                        ); // end .html
+                try{
+                    for (row in shop) {
+                        $("#nofiltros").empty();
+                        $("#texto-nofiltros").empty();
+                        $('<div></div>').attr('class', "producto").attr({'id': shop[row].id_producto}).appendTo('.container-productos')
+                            .html(
+                                "<img src = " + shop[row].img_producto + " alt='foto' </img> " +
+                                "<div class='inf-producto'>" +
+                                "<h3>" + shop[row].nom_prod + "</h5>" +
+                                "<p class='precio'>" + shop[row].precio + "€</p>" +
+                                "</div>"
+                            ); // end .html
+                    }
+                    leafleft(shop);
+                    highlight();
+                    botones_filtros();
+                } catch (error){
+                    console.log("ERROR al pintar productos filtrados", error);
                 }
-                leafleft(shop);
-                highlight();
-                botones_filtros();
+                
             }else{
                 console.log("ajaxForSearch else shop.id");
                 $(".container-productos").empty();
