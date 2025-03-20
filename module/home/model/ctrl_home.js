@@ -182,7 +182,7 @@ function loadAccesorios(){
 }
 
 function goToShop(){
-    // categoria
+    // categoria (home)
     $(document).on("click", '.div_categoria', function(){
         var filtro_categoria = this.getAttribute('id_categoria');
         localStorage.removeItem('filtro');
