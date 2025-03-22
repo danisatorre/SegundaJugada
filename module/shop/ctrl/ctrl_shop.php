@@ -108,6 +108,10 @@
             }
         break;
 
+        case 'filtro_buscador';
+            
+        break;
+
     }
 
 ?>

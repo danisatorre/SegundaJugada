@@ -5,9 +5,14 @@ function loadShop(){
     console.log("hola loadShop");
     // return false;
     var verificar_filtros = localStorage.getItem('filtro') || false;
+    // var buscador_filtros = localStorage.getItem('buscar') || false;
     if(verificar_filtros != false){
+        console.log("loadShop verificar_filtros")
         getall();
         highlight();
+    }else if(buscador_filtros != false){
+        console.log("loadShop buscador_filtros")
+        load_buscador();
     }else{
         ajaxForSearch('module/shop/ctrl/ctrl_shop.php?op=getall');
     }
@@ -468,26 +473,26 @@ function loadDetails() {
 } // funcion loadDetails
 
 function leafleft(shop){
-    console.log("leafleft shop: ", shop);
+    // console.log("leafleft shop: ", shop);
     // return false;
 
-    console.log("leafleft map");
+    // console.log("leafleft map");
     
     $('#map').remove();
     $('<div id="map"></div>').appendTo('.mapLeafleft');
     
-    if (!document.getElementById('map')) {
-        console.log("leafleft NO ID MAP");
-        return false;
-    } else {
-        console.log("leafleft SI ID MAP");
-    }
+    // if (!document.getElementById('map')) {
+    //     console.log("leafleft NO ID MAP");
+    //     return false;
+    // } else {
+    //     console.log("leafleft SI ID MAP");
+    // }
 
     try{
         // var map = L.map('map').setView([38.821, -0.610547], 15);
         var map = L.map('map').setView([shop.altitud || 38.821, shop.longitud || -0.610547], 15);
     }catch (error){
-        console.log("ERROR AL INICIALIZAR EL MAPA");
+        console.error("ERROR AL INICIALIZAR EL MAPA");
         return false;
     }
     console.log("leafleft mapa inicializado")
@@ -532,6 +537,51 @@ function leafleft(shop){
         );
     }
 } // funcion leafleft
+
+function load_buscador(){
+    console.log("hola load_buscador");
+    var buscar = JSON.parse(localStorage.getItem('buscar'));
+    ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_buscador', 'POST', 'JSON', {'buscar': buscar})
+        .then(function(buscador){
+            console.log(buscador)
+            $('.container-productos').empty();
+            $("#nofiltros").empty();
+            $("#texto-nofiltros").empty();
+            
+            if(buscador == "error"){
+                $('<div></div>').appendTo('.container-productos')
+                    .html(
+                        "<div class='nofiltrosdiv'>" +
+                        "<h1 id='nofiltros'>No se han encontrado productos con los filtros especificados</h1>" +
+                        "<br>" +
+                        "<p id='texto-nofiltros'>Pulse el boton 'remover filtros' para volver a la busqueda</p>" +
+                        "</div>" // end .nofiltrosdiv
+                    );
+            }else{
+                try{
+                    for (row in buscador) {
+                        $("#nofiltros").empty();
+                        $("#texto-nofiltros").empty();
+                        $('<div></div>').attr('class', "producto").attr({'id': buscador[row].id_producto}).appendTo('.container-productos')
+                            .html(
+                                "<img src = " + buscador[row].img_producto + " alt='foto' </img> " +
+                                "<div class='inf-producto'>" +
+                                "<h3>" + buscador[row].nom_prod + "</h5>" +
+                                "<p class='precio'>" + buscador[row].precio + "€</p>" +
+                                "</div>"
+                            ); // end .html
+                    }
+                    leafleft(buscador);
+                    highlight();
+                    botones_filtros();
+                } catch (error){
+                    console.log("ERROR al pintar productos filtrados");
+                }
+            }
+        }).catch(function(){
+            window.location.href = "index.php?module=ctrl_exceptions&op=503";
+        });
+}
 
 function scrollOnTop(){
     $('.sot').append(

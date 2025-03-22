@@ -1,3 +1,25 @@
 .categoria_menu{
     cursor: pointer;
 }
+
+/* autocompletado */
+
+.buscar {
+    margin-top: 8%;
+}
+#buscar_producto {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    width: 200px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+.buscarElemento {
+    padding: 10px;
+    cursor: pointer;
+}
+.buscarElemento:hover {
+    background-color: #f0f0f0;
+}
