@@ -77,24 +77,41 @@ function autocompletar(){
         ajaxPromise('module/search/ctrl/ctrl_search.php?op=autocompletar', 'POST', 'JSON', sdata)
             .then(function(data) {
                 console.log("autocompletar: ", data);
-                $('#buscar_producto').empty();
-                $('#buscar_producto').fadeIn(10000000);
-                for (row in data) {
-                    $('<div></div>').appendTo('#buscar_producto').html(data[row].ciudad).attr({ 'class': 'buscarElemento', 'id': data[row].ciudad });
-                }
-                $(document).on('click', '.buscarElemento', function() {
-                    $('#autocompletar').val(this.getAttribute('id'));
-                    $('#buscar_producto').fadeOut(900);
-                });
-                $(document).on('click scroll', function(event) {
-                    if (event.target.id !== 'autocompletar') {
-                        $('#buscar_producto').fadeOut(1000);
+                if(data != "error"){
+                    $('#buscar_producto').empty();
+                    $('#buscar_producto').fadeIn(10000000);
+                    for (row in data) {
+                        $('<div></div>').appendTo('#buscar_producto').html(data[row].ciudad).attr({ 'class': 'buscarElemento', 'id': data[row].ciudad });
                     }
-                });
+                    $(document).on('click', '.buscarElemento', function() {
+                        $('#autocompletar').val(this.getAttribute('id'));
+                        $('#buscar_producto').fadeOut(900);
+                    });
+                    $(document).on('click scroll', function(event) {
+                        if (event.target.id !== 'autocompletar') {
+                            $('#buscar_producto').fadeOut(1000);
+                        }
+                    });
+                }else if(data === "error"){
+                    $('#buscar_producto').empty();
+                    $('#buscar_producto').fadeIn(10000000);
+                    $('<div></div>').appendTo('#buscar_producto').html(
+                        "<div class='buscarElemento'>" +
+                        "<a>No se encontraron ciudades</a>"
+                    )
+                    $(document).on('click scroll', function(event) {
+                        if (event.target.id !== 'autocompletar') {
+                            $('#buscar_producto').fadeOut(1000);
+                        }
+                    });
+                }
             }).catch(function(error) {
                 console.error("autocompletar ERROR ajaxPromise: ", error);
                 $('#buscar_producto').fadeOut(500);
             });
+    });
+    $("#autocompletar").on("focus", function() {
+        $('#buscar_producto').fadeIn(10000000);
     });
 } // autocompletar
 

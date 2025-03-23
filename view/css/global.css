@@ -19,7 +19,14 @@
 .buscarElemento {
     padding: 10px;
     cursor: pointer;
+    background-color:orange;
+    color:whitesmoke;
 }
 .buscarElemento:hover {
-    background-color: #f0f0f0;
+    background-color: goldenrod;
+    color:whitesmoke;
+    transition:1s;
+}
+#nav_desp_user{
+    text-align:center;
 }
