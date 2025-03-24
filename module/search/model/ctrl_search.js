@@ -140,6 +140,8 @@ function boton_buscar(){
         eliminar_filtros_buscar();
 
         localStorage.setItem('buscar', JSON.stringify(buscar));
+        // highlight_buscador();
+        // return false;
         console.log("Valores almacenados en localStorage: ", localStorage.getItem('buscar'));
         window.location.href = 'index.php?module=ctrl_shop&op=list';
     });
@@ -151,8 +153,39 @@ function eliminar_filtros_buscar(){
     localStorage.removeItem('filtro_equipo');
     localStorage.removeItem('filtro_marca');
 }
+
+function highlight_buscador(){
+    console.log("hola highlight buscador")
+    // return false;
+    var buscador_filtros = JSON.parse(localStorage.getItem('buscar'));
+
+    if(buscador_filtros){
+        var ciudad = (buscador_filtros[0]['filtro_ciudad']);
+        var tipo = (buscador_filtros[1]['filtro_tipo'][0]);
+        var categoria = (buscador_filtros[2]['filtro_categoria']);
+
+        // console.log(ciudad)
+        // console.log(tipo)
+        // console.log(categoria)
+        // return false;
+
+        if(tipo != '0'){
+            document.getElementById('tipo_producto').value = tipo;
+        }
+        
+        if(categoria != '0'){
+            document.getElementById('categoria_producto').value = categoria;
+        }
+
+        if(ciudad != '0'){
+            document.getElementById('autocompletar').value = ciudad;
+        }
+    }
+}
+
 $(document).ready(function() {
     load_buscador();
     autocompletar();
     boton_buscar();
+    highlight_buscador();
 });
