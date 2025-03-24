@@ -149,8 +149,8 @@
 			LEFT JOIN marcas m ON p.marca = m.id_marca
 			LEFT JOIN teams t ON p.equipo = t.id_team
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
-			LEFT JOIN categorias c ON p.categoria = c.id_categoria"
-			AND $filtro_home;
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria
+			WHERE $filtro_home";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
@@ -163,6 +163,167 @@
 				}
 			}
 			return $retrArray;
+		}
+
+		function select_categoria_buscador($categoria){
+			$sql = "SELECT *
+			FROM productos p
+			LEFT JOIN marcas m ON p.marca = m.id_marca
+			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria
+			WHERE c.id_categoria = '$categoria'";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$categoria_buscador = array();
+			if ($res -> num_rows > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$categoria_buscador[] = $row;
+				}
+			}
+			return $categoria_buscador;
+		}
+
+		function select_tipo_buscador($tipo){
+			$sql = "SELECT *
+			FROM productos p
+			LEFT JOIN marcas m ON p.marca = m.id_marca
+			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria
+			WHERE ti.id_tipo = '$tipo'";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$tipo_buscador = array();
+			if ($res -> num_rows > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$tipo_buscador[] = $row;
+				}
+			}
+			return $tipo_buscador;
+		}
+
+		function select_ciudad_buscador($ciudad){
+			$sql = "SELECT *
+			FROM productos p
+			LEFT JOIN marcas m ON p.marca = m.id_marca
+			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria
+			WHERE p.ciudad = '$ciudad'";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$ciudad_buscador = array();
+			if ($res -> num_rows > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$ciudad_buscador[] = $row;
+				}
+			}
+			return $ciudad_buscador;
+		}
+
+		function select_categoria_tipo_buscador($categoria, $tipo){
+			$sql = "SELECT *
+			FROM productos p
+			LEFT JOIN marcas m ON p.marca = m.id_marca
+			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria
+			WHERE c.id_categoria = '$categoria'
+			AND ti.id_tipo = '$tipo'";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$categoria_tipo_buscador = array();
+			if ($res -> num_rows > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$categoria_tipo_buscador[] = $row;
+				}
+			}
+			return $categoria_tipo_buscador;
+		}
+
+		function select_tipo_ciudad_buscador($tipo, $ciudad){
+			$sql = "SELECT *
+			FROM productos p
+			LEFT JOIN marcas m ON p.marca = m.id_marca
+			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria
+			WHERE p.ciudad = '$ciudad'
+			AND ti.id_tipo = '$tipo'";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$tipo_ciudad_buscador = array();
+			if ($res -> num_rows > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$tipo_ciudad_buscador[] = $row;
+				}
+			}
+			return $tipo_ciudad_buscador;
+		}
+
+		function select_categoria_ciudad_buscador($categoria, $ciudad){
+			$sql = "SELECT *
+			FROM productos p
+			LEFT JOIN marcas m ON p.marca = m.id_marca
+			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria
+			WHERE p.ciudad = '$ciudad'
+			AND c.id_categoria = '$categoria'";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$categoria_ciudad_buscador = array();
+			if ($res -> num_rows > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$categoria_ciudad_buscador[] = $row;
+				}
+			}
+			return $categoria_ciudad_buscador;
+		}
+
+		function select_all_buscador($categoria, $tipo, $ciudad){
+			$sql = "SELECT *
+			FROM productos p
+			LEFT JOIN marcas m ON p.marca = m.id_marca
+			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria
+			WHERE p.ciudad = '$ciudad'
+			AND c.id_categoria = '$categoria'
+			AND ti.id_tipo = '$tipo'";
+
+			// return $sql;
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$categoria_tipo_ciudad_buscador = array();
+			if ($res -> num_rows > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$categoria_tipo_ciudad_buscador[] = $row;
+				}
+			}
+			return $categoria_tipo_ciudad_buscador;
 		}
 
     }

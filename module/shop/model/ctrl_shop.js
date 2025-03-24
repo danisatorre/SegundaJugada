@@ -3,17 +3,19 @@
 
 function loadShop(){
     console.log("hola loadShop");
-    // return false;
     var verificar_filtros = localStorage.getItem('filtro') || false;
-    // var buscador_filtros = localStorage.getItem('buscar') || false;
+    var buscador_filtros = localStorage.getItem('buscar') || false;
+    console.log("loadShop verificar_filtros: ", verificar_filtros);
+    console.log("loadShop buscador_filtros: ", buscador_filtros);
     if(verificar_filtros != false){
-        console.log("loadShop verificar_filtros")
+        console.log("loadShop verificar_filtros");
         getall();
         highlight();
     }else if(buscador_filtros != false){
-        console.log("loadShop buscador_filtros")
-        load_buscador();
+        console.log("loadShop buscador_filtros");
+        load_buscador_shop();
     }else{
+        console.log("loadshop else (url...getall)");
         ajaxForSearch('module/shop/ctrl/ctrl_shop.php?op=getall');
     }
 }
@@ -145,6 +147,7 @@ function print_filtros() {
                 '<div class="options-tipo" style="display: none;">' +
                     '<select class="filtro_tipo" name="select_tipo" id="select_tipo">' +
                         '<optgroup label="Tipos">' +
+                            '<option value ="0" disabled selected>Selecciona un tipo</option>' +
                             '<option value="1">Cancha</option>' +
                             '<option value="2">Calle</option>' +
                             '<option value="3">Zapatos</option>' +
@@ -165,6 +168,7 @@ function print_filtros() {
                 '<div class="options-categoria" style="display: none;">' +
                     '<select class="filtro_categoria" name="select_categoria" id="select_categoria">' +
                         '<optgroup label="Categorias">' +
+                            '<option value="0" disabled selected>Selecciona una categoria</option>' +
                             '<option value="1">Hombre</option>' +
                             '<option value="2">Mujer</option>' +
                             '<option value="3">Niños</option>' +
@@ -241,6 +245,8 @@ function eliminar_filtros() {
     localStorage.removeItem('filtro_precio');
     localStorage.removeItem('filtro_equipo');
     localStorage.removeItem('filtro_marca');
+    localStorage.removeItem('buscar');
+    localStorage.removeItem('filtro_ciudad');
     $("#nofiltros").empty();
     $("#texto-nofiltros").empty();
     location.reload();
@@ -538,17 +544,22 @@ function leafleft(shop){
     }
 } // funcion leafleft
 
-function load_buscador(){
+function load_buscador_shop(){
     console.log("hola load_buscador");
+    // return false;
     var buscar = JSON.parse(localStorage.getItem('buscar'));
+    console.log({'datos buscador shop': buscar});
+    // return false;
     ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_buscador', 'POST', 'JSON', {'buscar': buscar})
         .then(function(buscador){
             console.log(buscador)
+            // return false;
             $('.container-productos').empty();
             $("#nofiltros").empty();
             $("#texto-nofiltros").empty();
             
             if(buscador == "error"){
+                console.log("load_buscador error")
                 $('<div></div>').appendTo('.container-productos')
                     .html(
                         "<div class='nofiltrosdiv'>" +
@@ -558,7 +569,7 @@ function load_buscador(){
                         "</div>" // end .nofiltrosdiv
                     );
             }else{
-                try{
+                console.log("load_buscador no error")
                     for (row in buscador) {
                         $("#nofiltros").empty();
                         $("#texto-nofiltros").empty();
@@ -574,9 +585,6 @@ function load_buscador(){
                     leafleft(buscador);
                     highlight();
                     botones_filtros();
-                } catch (error){
-                    console.log("ERROR al pintar productos filtrados");
-                }
             }
         }).catch(function(){
             window.location.href = "index.php?module=ctrl_exceptions&op=503";

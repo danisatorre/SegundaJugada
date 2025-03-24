@@ -109,7 +109,50 @@
         break;
 
         case 'filtro_buscador';
-            
+            $buscador = $_POST['buscar'];
+            $ciudad = ($buscador[0]['filtro_ciudad']);
+            $tipo = ($buscador[1]['filtro_tipo'][0]);
+            $categoria = ($buscador[2]['filtro_categoria']);
+
+            // echo json_encode($ciudad);
+            // echo json_encode($tipo);
+            // echo json_encode($categoria);
+            // echo json_encode($buscador);
+            // exit;
+
+            try {
+                $daoshop_buscador = new DAOshop();
+                if (($categoria != "0") && ($tipo == "0") && ($ciudad == "0")) {
+                    $select_buscador = $daoshop_buscador->select_categoria_buscador($categoria);
+                } else if (($categoria == "0") && ($tipo != "0") && ($ciudad == "0")) {
+                    $select_buscador = $daoshop_buscador->select_tipo_buscador($tipo);
+                } else if (($categoria == "0") && ($tipo == "0") && ($ciudad != "0")) {
+                    $select_buscador = $daoshop_buscador->select_ciudad_buscador($ciudad);
+                } else if (($categoria != "0") && ($tipo != "0") && ($ciudad == "0")) {
+                    $select_buscador = $daoshop_buscador->select_categoria_tipo_buscador($categoria, $tipo);
+                } else if (($categoria == "0") && ($tipo != "0") && ($ciudad != "0")) {
+                    $select_buscador = $daoshop_buscador->select_tipo_ciudad_buscador($tipo, $ciudad);
+                } else if (($categoria != "0") && ($tipo == "0") && ($ciudad != "0")) {
+                    $select_buscador = $daoshop_buscador->select_categoria_ciudad_buscador($categoria, $ciudad);
+                } else if (($categoria != "0") && ($tipo != "0") && ($ciudad != "0")) {
+                    $select_buscador = $daoshop_buscador->select_all_buscador($categoria, $tipo, $ciudad);
+                } else {
+                    $select_buscador = $daoshop_buscador->get_all();
+                }
+            } catch (Exception $e) {
+                echo json_encode("error");
+                exit;
+            }
+            if(!$select_buscador){
+                echo json_encode("error");
+                exit;
+            }else{
+                $dinfo = array();
+                foreach($select_buscador as $row){
+                    array_push($dinfo, $row);
+                }
+                echo json_encode($dinfo);
+            }
         break;
 
     }

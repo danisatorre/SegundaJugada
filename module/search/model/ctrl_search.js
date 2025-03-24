@@ -120,9 +120,11 @@ function boton_buscar(){
         var buscar = [];
 
         if($('#autocompletar').val() == ""){
+            localStorage.setItem('filtro_ciudad', '0');
             localStorage.setItem('filtro_tipo', $('#tipo_producto').val());
             localStorage.setItem('filtro_categoria', $('#categoria_producto').val());
 
+            buscar.push({"filtro_ciudad": '0'});
             buscar.push({"filtro_tipo": $('#tipo_producto').val()});
             buscar.push({"filtro_categoria": $('#categoria_producto').val()});
         }else{
@@ -135,16 +137,20 @@ function boton_buscar(){
             buscar.push({"filtro_categoria": $('#categoria_producto').val()});
         }
 
-        localStorage.removeItem('filtro');
-        localStorage.removeItem('filtro_precio');
-        localStorage.removeItem('filtro_equipo');
-        localStorage.removeItem('filtro_marca');
+        eliminar_filtros_buscar();
 
         localStorage.setItem('buscar', JSON.stringify(buscar));
-        console.log("Valores almacenados en localStorage: ", localStorage.getItem('buscar')); // Agrega esta línea para depurar
+        console.log("Valores almacenados en localStorage: ", localStorage.getItem('buscar'));
         window.location.href = 'index.php?module=ctrl_shop&op=list';
     });
 } // boton_buscar
+
+function eliminar_filtros_buscar(){
+    localStorage.removeItem('filtro');
+    localStorage.removeItem('filtro_precio');
+    localStorage.removeItem('filtro_equipo');
+    localStorage.removeItem('filtro_marca');
+}
 $(document).ready(function() {
     load_buscador();
     autocompletar();
