@@ -539,6 +539,7 @@ function loadProductoDetails(id_producto){
                     "<p class='color-details'>" + shop[0][0].color + "</p>" +
                     "<p class='desc-details'>" + shop[0][0].descripcion + "</p>" +
                     "<p class='stock-details'>Hay " + shop[0][0].stock + " unidades disponibles</p>" +
+                    "<p class='ciudad-details'><b>Producto ubicado en </b>" + shop[0][0].ciudad + "</p>" +
                     "<p class='entrega-details'>" + shop[0][0].entrega + "</p>" +
                     "<div class='extras-details'>" +
                     "<div class='icon-container-details'>" +

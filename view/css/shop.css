@@ -262,14 +262,18 @@ body {
     background-color: rgb(42,42,42);
     justify-content: center;
     align-items: center;
-    border-radius: 10px; /* Bordes redondeados para dar efecto de suavidad */
-    box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    border-radius: 10px;
+    box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.1);
     margin-right:1%;
 }
 
 .icon-container-details i {
     font-size: 24px;
-    background-color: rgb(42,42,42); /* Fondo del icono */
+    background-color: rgb(42,42,42);
     padding: 10px;
-    border-radius: 5px; /* Bordes redondeados para suavizar */
+    border-radius: 5px;
+}
+
+.inf-producto-details{
+    text-align:left;
 }

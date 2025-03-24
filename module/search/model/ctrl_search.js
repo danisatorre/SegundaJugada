@@ -65,15 +65,13 @@ function autocompletar(){
     $("#autocompletar").on("keyup", function() {
         let sdata = { completar: $(this).val() };
 
-        if (($('#tipo_producto').val() != 0)) {
+        if ($('#tipo_producto').val() != '0') {
             sdata.tipo_producto = $('#tipo_producto').val();
-            if (($('#tipo_producto').val() != 0) && ($('#categoria_producto').val() != 0)) {
-                sdata.categoria_producto = $('#categoria_producto').val();
-            }
         }
-        if (($('#tipo_producto').val() == 0) && ($('#categoria_producto').val() != 0)) {
+        if ($('#categoria_producto').val() != '0') {
             sdata.categoria_producto = $('#categoria_producto').val();
         }
+        
         ajaxPromise('module/search/ctrl/ctrl_search.php?op=autocompletar', 'POST', 'JSON', sdata)
             .then(function(data) {
                 console.log("autocompletar: ", data);
