@@ -193,6 +193,68 @@ function print_filtros() {
                     
                 '</div>' + // end .checkbox-equipo
             '</div>' + // end .f_equipo
+            // select marca
+            '<div class="f_marca">' +
+                '<h4 class="desplegable-marca">Marca⬇️</h4>' +
+                '<div class = "options-marca">' +
+                    '<select class="filtro_marca" name="select_marca" id="select_marca">' +
+                        '<optgroup label="Marcas">' +
+                            '<option value="0" disabled selected>Selecciona una marca</option>' +
+                            '<option value="1">Puma</option>' +
+                            '<option value="2">Adidas</option>' +
+                            '<option value="3">Nike</option>' +
+                            '<option value="4">Jordan</option>' +
+                            '<option value="5">Reebok</option>' +
+                            '<option value="6">Luanvi</option>' +
+                            '<option value="7">Spalding</option>' +
+                            '<option value="8">Wilson</option>' +
+                            '<option value="9">Tenth</option>' +
+                            '<option value="10">Joma</option>' +
+                            '<option value="11">Under Armour</option>' +
+                            '<option value="12">Molten</option>' +
+                            '<option value="13">New Era</option>' +
+                            '<option value="1200">Kipsta</option>' +
+                            '<option value="1201">New Balance</option>' +
+                            '<option value="1202">Champion</option>' +
+                            '<option value="1203">Hummel</option>' +
+                        '</optgroup>' +
+                    '</select>' +
+                '</div>' + // end .select_marca
+            '</div>' + // end .f_marca
+            // select ciudad
+            '<div class="f_ciudad">' +
+                '<h4 class="desplegable-ciudad">Ciudad⬇️</h4>' +
+                '<div class = "options-ciudad">' +
+                    '<select class="filtro_ciudad" name="select_ciudad" id="select_ciudad">' +
+                        '<optgroup label="Ciudades">' +
+                            '<option value="0" disabled selected>Selecciona una ciudad</option>' +
+                            '<option value="Ontinyent, Valencia">Ontinyent, Valencia</option>' +
+                            '<option value="Vallada, Valencia">Vallada, Valencia</option>' +
+                            '<option value="Madrid">Madrid</option>' +
+                            '<option value="Barcelona">Barcelona</option>' +
+                            '<option value="Sevilla">Sevilla</option>' +
+                            '<option value="Valencia">Valencia</option>' +
+                            '<option value="A Coruna, La Coruna">A Coruna, La Coruna</option>' +
+                            '<option value="Malaga">Malaga</option>' +
+                            '<option value="Palma, Mallorca">Palma, Mallorca</option>' +
+                            '<option value="Santa Cruz de Tenerife">Santa Cruz de Tenerife</option>' +
+                            '<option value="Maspalomas, Canarias">Maspalomas, Canarias</option>' +
+                            '<option value="Cordoba">Cordoba</option>' +
+                            '<option value="Alicante, Valencia">Alicante, Valencia</option>' +
+                            '<option value="Vigo">Vigo</option>' +
+                            '<option value="Murcia">Murcia</option>' +
+                            '<option value="Zaragoza">Zaragoza</option>' +
+                            '<option value="Salamanca">Salamanca</option>' +
+                            '<option value="Albacete">Albacete</option>' +
+                            '<option value="La Colilla">La Colilla</option>' +
+                            '<option value="Bilbao">Bilbao</option>' +
+                            '<option value="Granada">Granada</option>' +
+                            '<option value="Toledo">Toledo</option>' +
+                            '<option value="Monaco">Monaco</option>' +
+                        '</optgroup>' +
+                    '</select>' +
+                '</div>' + // end .options-ciudad
+            '</div>' + // end .f_marca
             '<div id="overlay">' +
             '<div class= "cv-spinner" >' +
             '<span class="spinner"></span>' +
@@ -235,6 +297,14 @@ function print_filtros() {
     // desplegable equipo
     $(document).on('click', '.desplegable-equipo', function(){
         $('.checkbox-equipo').slideToggle();
+    });
+    // desplegable marca
+    $(document).on('click', '.desplegable-marca', function(){
+        $('.options-marca').slideToggle();
+    });
+    // desplegable ciudad
+    $(document).on('click', '.desplegable-ciudad', function(){
+        $('.options-ciudad').slideToggle();
     });
 }
 
@@ -300,6 +370,14 @@ function highlight(){
                     document.getElementById(filtroValor[j]).setAttribute('checked', true);
                 }
             }
+
+            if (filtroTipo === 'marca' && filtroValor != '*') {
+                document.getElementById('select_marca').value = filtroValor;
+            }
+
+            if (filtroTipo === 'ciudad' && filtroValor != '*') {
+                document.getElementById('select_ciudad').value = filtroValor;
+            }
         }
     }
 } // end function highlight
@@ -348,6 +426,24 @@ function botones_filtros(){
             $("input[class='filtro_equipo'][value='" + value + "']").prop('checked', true);
         });
     }
+    // filtros de marca
+    $('.filtro_marca').change(function (){
+        localStorage.setItem('filtro_marca', this.value);
+    });
+    if(localStorage.getItem('filtro_marca')){
+        // console.log(localStorage.getItem('filtro_marca'));
+        // return false;
+        $('.filtro_marca').val(localStorage.getItem('filtro_marca'));
+    }
+    // filtros de ciudad
+    $('.filtro_ciudad').change(function (){
+        localStorage.setItem('filtro_ciudad', this.value);
+    });
+    if(localStorage.getItem('filtro_ciudad')){
+        // console.log(localStorage.getItem('filtro_ciudad'));
+        // return false;
+        $('.filtro_ciudad').val(localStorage.getItem('filtro_ciudad'));
+    }
 
     $(document).on('click', '.boton_filtrar', function(){
         var filtro = [];
@@ -371,6 +467,14 @@ function botones_filtros(){
             } else {
                 localStorage.removeItem('filtro_equipo');
             }
+        }
+        // marca
+        if(localStorage.getItem('filtro_marca')){
+            filtro.push(['marca', localStorage.getItem('filtro_marca')])
+        }
+        // ciudad
+        if(localStorage.getItem('filtro_ciudad')){
+            filtro.push(['ciudad', localStorage.getItem('filtro_ciudad')])
         }
 
         localStorage.setItem('filtro', JSON.stringify(filtro));
