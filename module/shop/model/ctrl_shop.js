@@ -326,6 +326,17 @@ function eliminar_filtros() {
     }
 }
 
+function eliminar_filtros_filtrar(){
+    localStorage.removeItem('filtro');
+    localStorage.removeItem('filtro_tipo');
+    localStorage.removeItem('filtro_categoria');
+    localStorage.removeItem('filtro_precio');
+    localStorage.removeItem('filtro_equipo');
+    localStorage.removeItem('filtro_marca');
+    localStorage.removeItem('buscar');
+    localStorage.removeItem('filtro_ciudad');
+}
+
 function getall() {
     var filtro = JSON.parse(localStorage.getItem('filtro'));
     console.log("getall filtros: " + filtro);
@@ -447,6 +458,24 @@ function botones_filtros(){
 
     $(document).on('click', '.boton_filtrar', function(){
         var filtro = [];
+
+        // eliminar filtros si su valor es 0 para evitar conflictos al filtrar
+
+        // categoria
+        if(localStorage.getItem('filtro_categoria') === '0'){
+            localStorage.removeItem('filtro_categoria');
+        }
+        // tipo
+        if(localStorage.getItem('filtro_tipo') === '0'){
+            localStorage.removeItem('filtro_tipo');
+        }
+        // ciudad
+        if(localStorage.getItem('filtro_ciudad') === '0'){
+            localStorage.removeItem('filtro_ciudad');
+        }
+
+        // almacenar filtros seleccionados en localstorage
+
         // tipo
         if(localStorage.getItem('filtro_tipo')){
             filtro.push(['tipo', localStorage.getItem('filtro_tipo')])
