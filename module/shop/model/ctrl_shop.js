@@ -20,12 +20,30 @@ function loadShop(){
     }
 }
 
-function ajaxForSearch(url, filtro) {
+function ajaxForSearch(url, filtro, total_producto, items_pagina) {
     console.log("hola ajaxForSearch");
     console.log("AFS filtros: ", filtro);
     console.log("AFS url: ", url);
     // return false;
-    ajaxPromise(url, 'POST', 'JSON', { 'filtro': filtro})
+    let redirect = [];
+    redirect.push("index.php?module=ctrl_shop&op=list");
+    if (total_producto != 0) {
+        if (localStorage.getItem('id')) {
+            var move_id = JSON.parse(localStorage.getItem('id'))
+        }
+        redirect.push(total_producto);
+        localStorage.setItem('move', JSON.stringify(redirect));
+    } else {
+        if (localStorage.getItem('move')) {
+            total_producto = JSON.parse(localStorage.getItem('move'))[1];
+            if (localStorage.getItem('id')) {
+                var move_id = JSON.parse(localStorage.getItem('id'))
+            }
+        }
+        redirect.push(total_producto);
+        localStorage.setItem('move', JSON.stringify(redirect));
+    }
+    ajaxPromise(url, 'POST', 'JSON', { 'filtro': filtro, 'total_producto': total_producto, 'items_pagina': items_pagina})
         .then(function (shop) {
             console.log("Datos shop: ", shop);
             // return false;
@@ -45,11 +63,14 @@ function ajaxForSearch(url, filtro) {
                                 "</div>"
                             ); // end .html
                     }
+                    if (localStorage.getItem('id')) {
+                        document.getElementById(move_id).scrollIntoView();
+                    }
                     leafleft(shop);
                     highlight();
                     botones_filtros();
                 } catch (error){
-                    console.log("ERROR al pintar productos filtrados");
+                    console.error("AFS: ERROR al pintar productos filtrados");
                 }
                 
             }else{
@@ -510,6 +531,7 @@ function botones_filtros(){
 
         if(filtro.length > 0){
             ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro);
+            paginacion(filtro);
         }else{
             ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
         }
@@ -630,7 +652,7 @@ function leafleft(shop){
 
     try{
         // var map = L.map('map').setView([38.821, -0.610547], 15);
-        var map = L.map('map').setView([shop.altitud || 38.821, shop.longitud || -0.610547], 15);
+        var map = L.map('map').setView([shop.altitud || 40.41664790865264, shop.longitud || -3.70093721305357], 6);
     }catch (error){
         console.error("ERROR AL INICIALIZAR EL MAPA");
         return false;
@@ -734,6 +756,72 @@ function scrollOnTop(){
     });
 }
 
+function paginacion(filtro){
+    var filtros_buscador = JSON.parse(localStorage.getItem('buscar'));
+    var filtros = JSON.parse(localStorage.getItem('filtro'));
+    var filtros_paginacion = filtro;
+
+    // console.log(filtros_buscador);
+    // return false;
+
+    var url;
+    if (filtros_buscador) {
+        url = "module/shop/ctrl/ctrl_shop.php?op=count_buscador";
+    } else if (filtros) {
+        url = "module/shop/ctrl/ctrl_shop.php?op=count_home";
+    } else if (filtros_paginacion != undefined) {
+        url = "module/shop/ctrl/ctrl_shop.php?op=count_filtros";
+    } else {
+        url = "module/shop/ctrl/ctrl_shop.php?op=count";
+    }
+
+    console.log("Paginacion url: ", url);
+    
+
+    ajaxPromise(url, 'POST', 'JSON', { 'filtros_paginacion': filtros_paginacion, 'filtros': filtros, 'filtros_buscador': filtros_buscador })
+        .then(function(data) {
+            var total_producto = data[0].contador;
+            var items_pagina = 3;
+            var total_paginas = Math.ceil(total_producto / items_pagina);
+
+            // console.log("Paginacion total productos:", total_producto);
+            // console.log("Paginacion total páginas:", total_paginas);
+            // return false;
+
+            $('#paginacion').empty();
+            for (let i = 1; i <= total_paginas; i++) {
+                $('#paginacion').append(`<button class="pagina" data-pagina="${i}">${i}</button>`);
+            }
+
+            $(document).on('click', '.pagina', function() {
+                var pagina = $(this).data('pagina');
+                var offset = (pagina - 1) * items_pagina;
+
+                console.log("Paginacion pagina : ", pagina);
+                console.log("Paginacion offset: ", offset);
+                console.log("Paginacion filtros_paginacion: ", filtros_paginacion);
+                console.log("Paginacion filtros_buscador: ", filtros_buscador);
+                console.log("Paginacion filtros: ", filtros);
+                // return false;
+
+                if (filtros_buscador != undefined) {
+                    console.log("Paginacion filtros_buscador != undefined");
+                    // return false;
+                    ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtros_buscador, offset, items_pagina);
+                } else {
+                    console.log("Paginacion filtros_buscador undefined");
+                    // return false;
+                    ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall", undefined, offset, items_pagina);
+                }
+
+                $('html, body').animate({ scrollTop: $(".wrap") });
+            });
+        })
+        .catch(function(error) {
+            console.error("Error en la paginación:", error);
+        });
+} // end paginacion
+
 $(document).ready(function(){
     print_filtros();
     loadEquipos();
@@ -745,6 +833,7 @@ $(document).ready(function(){
     loadDetails();
 
     scrollOnTop();
+    // paginacion();
 });
 
 // $(document).ready(function(){

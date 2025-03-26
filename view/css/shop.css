@@ -277,3 +277,10 @@ body {
 .inf-producto-details{
     text-align:left;
 }
+
+/* PAGINACION */
+
+.paginacion{
+    margin-top:2%;
+    margin-bottom:2%;
+}

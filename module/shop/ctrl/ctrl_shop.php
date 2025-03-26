@@ -61,6 +61,13 @@
             // $tipo=($_POST['tipo']);
             // $categoria=($_POST['categoria']);
             // $precio=($_POST['precio']);
+            $total_productos=($_POST['total_producto']);
+            $items_pagina = ($_POST['items_pagina']);
+
+            // echo json_encode($filtro);
+            // echo json_encode($total_productos);
+            // echo json_encode($items_pagina);
+            // exit;
 
             $dahoshop_filtros = new DAOshop();
             $select_filtros = $dahoshop_filtros -> filtros($filtro);
@@ -152,6 +159,22 @@
                     array_push($dinfo, $row);
                 }
                 echo json_encode($dinfo);
+            }
+        break;
+
+        case 'count_buscador';
+            $buscador = $_POST['filtros_buscador'];
+            $ciudad = ($buscador[0]['filtro_ciudad']);
+            $tipo = ($buscador[1]['filtro_tipo'][0]);
+            $categoria = ($buscador[2]['filtro_categoria']);
+
+            $daoshop_cont_buscador = new DAOshop();
+            $select_count_buscador = $daoshop_cont_buscador -> count_buscador($ciudad, $tipo, $categoria);
+            if (!empty($select_count_buscador)) {
+                echo json_encode($select_count_buscador);
+            }
+            else {
+                echo "error";
             }
         break;
 

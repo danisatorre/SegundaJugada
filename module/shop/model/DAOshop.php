@@ -326,4 +326,56 @@
 			return $categoria_tipo_ciudad_buscador;
 		}
 
+		function count_buscador($ciudad, $tipo, $categoria){
+			$sql = "SELECT COUNT(*) contador
+			FROM productos p
+			LEFT JOIN marcas m ON p.marca = m.id_marca
+			LEFT JOIN teams t ON p.equipo = t.id_team
+			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria";
+			
+			$primeraCondicion = true;
+
+			if($ciudad != 0){
+				if($primeraCondicion){
+					$sql .= " WHERE p.ciudad = '" . $ciudad ."'";
+					$primeraCondicion = false;
+				}else{
+					$sql .= " AND p.ciudad = '" . $ciudad . "'";
+				}
+			}
+
+			if($tipo != 0){
+				if($primeraCondicion){
+					$sql .= " WHERE p.tipo = " . $tipo;
+					$primeraCondicion = false;
+				}else{
+					$sql .= " AND p.tipo = " . $tipo;
+				}
+			}
+
+			if($categoria != 0){
+				if($primeraCondicion){
+					$sql .= " WHERE p.categoria = " . $categoria;
+					$primeraCondicion = false;
+				}else{
+					$sql .= " AND p.categoria = " . $categoria;
+				}
+			}
+
+			// return $sql;
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$count_buscador = array();
+			if ($res -> num_rows > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$count_buscador[] = $row;
+				}
+			}
+			return $count_buscador;
+		}
+
     }
