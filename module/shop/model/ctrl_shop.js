@@ -1,15 +1,17 @@
 // console.log("hola ctrl shop js");
 // return false;
 
-function loadShop(){
+function loadShop(total_productos, items_por_pagina){
     console.log("hola loadShop");
+    console.log(total_productos)
+    // return false;
     var verificar_filtros = localStorage.getItem('filtro') || false;
     var buscador_filtros = localStorage.getItem('buscar') || false;
     console.log("loadShop verificar_filtros: ", verificar_filtros);
     console.log("loadShop buscador_filtros: ", buscador_filtros);
     if(verificar_filtros != false){
         console.log("loadShop verificar_filtros");
-        getall();
+        getall(total_productos, items_por_pagina);
         highlight();
     }else if(buscador_filtros != false){
         console.log("loadShop buscador_filtros");
@@ -20,12 +22,32 @@ function loadShop(){
     }
 }
 
-function ajaxForSearch(url, filtro) {
+function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina = 3) {
     console.log("hola ajaxForSearch");
     console.log("AFS filtros: ", filtro);
     console.log("AFS url: ", url);
+    console.log("AFS total_productos: ", total_productos);
+    console.log("AFS items_por_pagina: ", items_por_pagina);
     // return false;
-    ajaxPromise(url, 'POST', 'JSON', { 'filtro': filtro})
+
+    if (total_productos != 0) {
+        localStorage.setItem('total_prod', total_productos);
+    } else {
+        if (localStorage.getItem('total_prod')) {
+            total_productos = localStorage.getItem('total_prod');
+        } else {
+            total_productos = 0;
+        }
+    }
+
+    const pagina = localStorage.getItem('pagina') || 1;
+    const offset = (pagina - 1) * items_por_pagina;
+
+    const sdata = filtro 
+        ? { 'filtro': filtro, 'offset': offset, 'limit': items_por_pagina } 
+        : { 'offset': offset, 'limit': items_por_pagina };
+    
+    ajaxPromise(url, 'POST', 'JSON', sdata)
         .then(function (shop) {
             console.log("Datos shop: ", shop);
             // return false;
@@ -317,6 +339,7 @@ function eliminar_filtros() {
     localStorage.removeItem('filtro_marca');
     localStorage.removeItem('buscar');
     localStorage.removeItem('filtro_ciudad');
+    localStorage.removeItem('pagina');
     $("#nofiltros").empty();
     $("#texto-nofiltros").empty();
     location.reload();
@@ -335,11 +358,15 @@ function eliminar_filtros_filtrar(){
     localStorage.removeItem('filtro_marca');
     localStorage.removeItem('buscar');
     localStorage.removeItem('filtro_ciudad');
+    localStorage.removeItem('pagina');
 }
 
-function getall() {
+function getall(total_productos, items_por_pagina) {
     var filtro = JSON.parse(localStorage.getItem('filtro'));
-    console.log("getall filtros: " + filtro);
+    console.log("getall filtros: " + filtro)
+    console.log("getall total_productos: ", total_productos)
+    console.log("getall items por pagina: ", items_por_pagina)
+    // return false;
     if (filtro) {
         console.log("getall yes filtro")
         var filtroequipo = filtro.find(f => f[0] === 'equipo');
@@ -347,7 +374,7 @@ function getall() {
             filtro = filtro.filter(f => f[0] !== 'equipo');
             localStorage.setItem('filtro', JSON.stringify(filtro));
         }
-        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro);
+        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro, offset, items_por_pagina);
     } else {
         console.log("getall no filtro")
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
@@ -734,6 +761,73 @@ function scrollOnTop(){
     });
 }
 
+function paginacion() {
+    console.log("hola paginacion")
+    // return false;
+    let url = '';
+    let sdata = {};
+
+    if (localStorage.getItem('filtro')) {
+        const filtro = JSON.parse(localStorage.getItem('filtro'));
+        url = 'module/shop/ctrl/ctrl_shop.php?op=count_productos_filtros';
+        sdata = { 'filtro': filtro };
+    } else if (localStorage.getItem('buscar')) {
+        const buscar = JSON.parse(localStorage.getItem('buscar'));
+        url = 'module/shop/ctrl/ctrl_shop.php?op=count_buscador';
+        sdata = { 'buscar': buscar };
+    } else if (localStorage.getItem('order')) {
+        const value_orderby = JSON.parse(localStorage.getItem('order'));
+        url = 'module/shop/ctrl/ctrl_shop.php?op=count_order_filtro';
+        sdata = { 'value_orderby': value_orderby };
+    } else {
+        url = 'module/shop/ctrl/ctrl_shop.php?op=count_productos_all';
+    }
+
+    ajaxPromise(url, 'POST', 'JSON', sdata)
+        .then(function(data) {
+            const total_productos = data[0]?.contador || 0; // Número total de productos
+            const items_por_pagina = 3; // Número de productos por página
+            const total_paginas = Math.ceil(total_productos / items_por_pagina);
+
+            console.log("Total_productos: ", total_productos, " Items por pagina: ", items_por_pagina, " Total paginas: ", total_paginas)
+            // return false;
+
+            // Generar los botones de paginación
+            generarBotonesPaginacion(total_paginas, items_por_pagina, total_productos);
+        })
+        .catch(function(error) {
+            console.error('Error en la paginación:', error);
+        });
+} // end paginacion
+
+function generarBotonesPaginacion(total_paginas, items_por_pagina, total_productos) {
+    console.log("hola generarBotonesPaginacion")
+    // console.log(total_productos)
+    // return false;
+    $('#paginacion').empty();
+
+    // Generar los botones de paginación
+    for (let i = 1; i <= total_paginas; i++) {
+        $('#paginacion').append(`<button class="pagina" data-pagina="${i}">${i}</button>`);
+    }
+
+    // Manejar el clic en los botones de paginación
+    $(document).on('click', '.pagina', function() {
+        const pagina = $(this).data('pagina');
+        const offset = (pagina - 1) * items_por_pagina;
+
+        localStorage.setItem('pagina', pagina);
+
+        console.log("generarBotonesPaginacion:\nPagina: ", pagina, "\nOffset: ", offset, "\nTotal paginas: ", total_paginas, "\nItems por pagina: ", items_por_pagina)
+        // return false;
+
+        loadShop(total_productos, items_por_pagina);
+
+        // Desplazar la vista hacia la parte superior
+        $('html, body').animate({ scrollTop: $(".list__content").offset().top }, 500);
+    });
+} // end generarBotonesPaginacion
+
 $(document).ready(function(){
     print_filtros();
     loadEquipos();
@@ -745,6 +839,8 @@ $(document).ready(function(){
     loadDetails();
 
     scrollOnTop();
+
+    paginacion();
 });
 
 // $(document).ready(function(){

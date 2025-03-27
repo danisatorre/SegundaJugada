@@ -10,9 +10,11 @@
         break;
 
         case 'getall';
+            $offset = $_POST['offset'];
+            $limit = $_POST['limit'];
             try{
                 $daoshop = new DAOshop();
-                $select_all = $daoshop->get_all();
+                $select_all = $daoshop->get_all($offset, $limit);
             }catch(Exception $e){
                 echo json_encode("error");
             }
@@ -149,6 +151,76 @@
             }else{
                 $dinfo = array();
                 foreach($select_buscador as $row){
+                    array_push($dinfo, $row);
+                }
+                echo json_encode($dinfo);
+            }
+        break;
+
+        case 'count_productos_filtros';
+            $filtro = $_POST['filtro'];
+
+            try{
+                $daoshop_c_p_f = new DAOshop();
+                $select_c_p_f = $daoshop_c_p_f->count_productos_filtros($filtro);
+            }catch (Exception $e){
+                echo json_encode("error");
+                exit;
+            }
+
+            if(!$select_c_p_f){
+                echo json_encode("error");
+                exit;
+            }else{
+                $dinfo = array();
+                foreach($select_c_p_f as $row){
+                    array_push($dinfo, $row);
+                }
+                echo json_encode($dinfo);
+            }
+        break;
+
+        case 'count_buscador';
+            $buscador = $_POST['buscar'];
+            $ciudad = ($buscador[0]['filtro_ciudad']);
+            $tipo = ($buscador[1]['filtro_tipo'][0]);
+            $categoria = ($buscador[2]['filtro_categoria']);
+
+            try{
+                $daoshop_c_p_f = new DAOshop();
+                $select_c_p_f = $daoshop_c_p_f->count_buscador($categoria, $tipo, $categoria);
+            }catch (Exception $e){
+                echo json_encode("error");
+                exit;
+            }
+
+            if(!$select_c_p_f){
+                echo json_encode("error");
+                exit;
+            }else{
+                $dinfo = array();
+                foreach($select_c_p_f as $row){
+                    array_push($dinfo, $row);
+                }
+                echo json_encode($dinfo);
+            }
+        break;
+
+        case 'count_productos_all';
+            try{
+                $daoshop_count_all = new DAOshop();
+                $select_count_all = $daoshop_count_all->count_all();
+            }catch (Exception $e){
+                echo json_encode("error");
+                exit;
+            }
+
+            if(!$select_count_all){
+                echo json_encode("error");
+                exit;
+            }else{
+                $dinfo = array();
+                foreach($select_count_all as $row){
                     array_push($dinfo, $row);
                 }
                 echo json_encode($dinfo);
