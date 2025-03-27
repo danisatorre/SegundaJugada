@@ -63,9 +63,11 @@
             // $tipo=($_POST['tipo']);
             // $categoria=($_POST['categoria']);
             // $precio=($_POST['precio']);
+            $offset = $_POST['offset'];
+            $limit = $_POST['limit'];
 
             $dahoshop_filtros = new DAOshop();
-            $select_filtros = $dahoshop_filtros -> filtros($filtro);
+            $select_filtros = $dahoshop_filtros -> filtros($filtro, $offset, $limit);
             if (!empty($select_filtros)) {
                 echo json_encode($select_filtros);
             }

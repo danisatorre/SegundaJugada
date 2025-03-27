@@ -65,7 +65,7 @@
 			return $arrayimg;
 		}
 
-		function filtros($filtro){
+		function filtros($filtro, $offset, $limit){
 
 			$sql = "SELECT *
 			FROM productos p
@@ -109,7 +109,7 @@
 				} // end for
 
 			$sql .= $orderby; // añadir el 'ORDER BY' siempre al final de la consulta
-
+			$sql .= " LIMIT $offset, $limit"; // añadir la paginacion
 			// $sql = $filtro[0][1];
 			// $sql = $filtro;
 

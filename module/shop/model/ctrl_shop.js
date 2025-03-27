@@ -3,7 +3,7 @@
 
 function loadShop(total_productos, items_por_pagina){
     console.log("hola loadShop");
-    console.log(total_productos)
+    // console.log(total_productos)
     // return false;
     var verificar_filtros = localStorage.getItem('filtro') || false;
     var buscador_filtros = localStorage.getItem('buscar') || false;
@@ -374,7 +374,7 @@ function getall(total_productos, items_por_pagina) {
             filtro = filtro.filter(f => f[0] !== 'equipo');
             localStorage.setItem('filtro', JSON.stringify(filtro));
         }
-        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro, offset, items_por_pagina);
+        ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro, total_productos, items_por_pagina);
     } else {
         console.log("getall no filtro")
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
@@ -536,8 +536,10 @@ function botones_filtros(){
         localStorage.setItem('filtro', JSON.stringify(filtro));
 
         if(filtro.length > 0){
+            paginacion();
             ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro);
         }else{
+            paginacion();
             ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
         }
 
@@ -554,6 +556,7 @@ function loadProductoDetails(id_producto){
         $('.container-filtros').empty(); // vaciar los filtros para que no aparezcan en el details
         $('.pimg').empty();
         $('.inf-producto').empty();
+        $('#paginacion').empty();
         console.log(shop);
         // return false;
         leafleft(shop[0][0]);
