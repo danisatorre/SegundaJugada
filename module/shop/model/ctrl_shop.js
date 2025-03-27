@@ -657,7 +657,7 @@ function leafleft(shop){
 
     try{
         // var map = L.map('map').setView([38.821, -0.610547], 15);
-        var map = L.map('map').setView([shop.altitud || 38.821, shop.longitud || -0.610547], 15);
+        var map = L.map('map').setView([shop.altitud || 40.41664790865264, shop.longitud || -3.70093721305357], 6);
     }catch (error){
         console.error("ERROR AL INICIALIZAR EL MAPA");
         return false;
