@@ -534,6 +534,7 @@ function botones_filtros(){
         }
 
         localStorage.setItem('filtro', JSON.stringify(filtro));
+        localStorage.removeItem('pagina');
 
         if(filtro.length > 0){
             paginacion();
@@ -835,12 +836,36 @@ function generarBotonesPaginacion(total_paginas, items_por_pagina, total_product
     // return false;
     $('#paginacion').empty();
 
-    // Generar los botones de paginación
+    var pagina = localStorage.getItem('pagina');
+
+    // if(pagina == null | pagina == 1){
+    //     $('.pagina-previa').remove();
+    // }else{
+    //     $('#paginacion').append(
+    //         '<button class="pagina-previa">⟨</button>'
+    //     );
+    // }
+
+    $('#paginacion').append(
+        '<button class="pagina-previa">⟨</button>'
+    );
+
     for (let i = 1; i <= total_paginas; i++) {
         $('#paginacion').append(`<button class="pagina" data-pagina="${i}">${i}</button>`);
     }
 
-    // Manejar el clic en los botones de paginación
+    // if(pagina == total_paginas){
+    //     $('.pagina-siguiente').remove();
+    // }else{
+    //     $('#paginacion').append(
+    //         '<button class="pagina-siguiente">⟩</button>'
+    //     );
+    // }
+
+    $('#paginacion').append(
+        '<button class="pagina-siguiente">⟩</button>'
+    );
+
     $(document).on('click', '.pagina', function() {
         const pagina = $(this).data('pagina');
         const offset = (pagina - 1) * items_por_pagina;
@@ -851,8 +876,28 @@ function generarBotonesPaginacion(total_paginas, items_por_pagina, total_product
         // return false;
 
         loadShop(total_productos, items_por_pagina);
-
     });
+
+    $(document).on('click', '.pagina-previa', function () {
+        const pagina = parseInt(localStorage.getItem('pagina')) || 1;
+        if (pagina > 1) {
+            localStorage.setItem('pagina', pagina - 1);
+            console.log("Página anterior: ", pagina - 1);
+            // return false;
+            loadShop(total_productos, items_por_pagina);
+        }
+    });
+
+    $(document).on('click', '.pagina-siguiente', function () {
+        const pagina = parseInt(localStorage.getItem('pagina')) || 1;
+        if (pagina < total_paginas) {
+            localStorage.setItem('pagina', pagina + 1);
+            console.log("Página siguiente: ", pagina + 1);
+            // return false;
+            loadShop(total_productos, items_por_pagina);
+        }
+    });
+
 } // end generarBotonesPaginacion
 
 $(document).ready(function(){

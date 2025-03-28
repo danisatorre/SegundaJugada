@@ -280,6 +280,11 @@ body {
 
 /* BOTONES DE LA PAGINACION */
 
+#paginacion{
+    margin-top:2%;
+    margin-bottom:2%;
+}
+
 .pagina {
     width: 40px;
     height: 40px;
@@ -310,4 +315,38 @@ body {
     color: white;
     border-color: orange;
     box-shadow: 0 0 10px goldenrod;
+}
+
+.pagina-previa, .pagina-siguiente {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    border: 2px solid goldenrod;
+    border-radius: 50%; /* Hace que los botones sean redondos */
+    background-color: orange; /* Fondo por defecto */
+    color: white; /* Texto blanco */
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 46px; /* Centra el texto verticalmente */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Animación suave */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.pagina-previa:hover, .pagina-siguiente:hover {
+    background-color: white; /* Fondo blanco al pasar el puntero */
+    color: black; /* Texto negro */
+    border-color: goldenrod;
+    box-shadow: 0 0 10px orange;
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+}
+
+.pagina-previa:disabled, .pagina-siguiente:disabled {
+    background-color: #f5f5f5; /* Color gris claro para indicar deshabilitado */
+    color: #ccc;
+    border-color: #ddd;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none; /* Sin animación */
 }

@@ -150,6 +150,7 @@ function eliminar_filtros_buscar(){
     localStorage.removeItem('filtro_precio');
     localStorage.removeItem('filtro_equipo');
     localStorage.removeItem('filtro_marca');
+    localStorage.removeItem('pagina');
 }
 
 function highlight_buscador(){
