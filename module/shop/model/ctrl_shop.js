@@ -625,10 +625,100 @@ function loadProductoDetails(id_producto){
                 items: 1,
                 nav :true
             });
+            mas_productos_relacionados(shop[0][0].tipo);
     }).catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
 } // funcion loadProductoDetails
+
+function productos_relacionados(items, total_productos, tipo){
+    let items = 3;
+    let loaded = loadeds;
+    let type = type_car;
+    let total_item = total_items;
+
+    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=productos_relacionados", 'POST', 'JSON', { 'tipo': type, 'loaded': loaded, 'items': items })
+        .then(function(data) {
+            if (loaded == 0) {
+                $('<div></div>').attr({ 'id': 'title_content', class: 'title_content' }).appendTo('.results')
+                    .html(
+                        '<h2 class="cat">Productos relacionados</h2>'
+                    )
+                for (row in data) {
+                    if (data[row].id_producto != undefined) {
+                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'more_info_list' }).appendTo('.title_content')
+                            .html(
+                                "<li class='portfolio-item'>" +
+                                "<div class='item-main'>" +
+                                "<div class='portfolio-image'>" +
+                                "<img src = " + data[row].img_producto + " alt='imagen producto' </img> " +
+                                "</div>" +
+                                "<h5>" + data[row].nom_marca + "  " + data[row].nom_prod + "</h5>" +
+                                "</div>" +
+                                "</li>"
+                            )
+                    }
+                }
+                $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
+                    .html(
+                        '<button class="load_more_button" id="load_more_button">CARGAR MÁS</button>'
+                    )
+            }
+            if (loaded >= 3) {
+                for (row in data) {
+                    if (data[row].id_producto != undefined) {
+                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'more_info_list' }).appendTo('.title_content')
+                            .html(
+                                "<li class='portfolio-item'>" +
+                                "<div class='item-main'>" +
+                                "<div class='portfolio-image'>" +
+                                "<img src = " + data[row].img_producto + " alt='imagen producto' </img> " +
+                                "</div>" +
+                                "<h5>" + data[row].nom_marca + "  " + data[row].nom_prod + "</h5>" +
+                                "</div>" +
+                                "</li>"
+                            )
+                    }
+                }
+                var total_cars = total_item - 3;
+                if (total_cars <= loaded) {
+                    $('.more_car__button').empty();
+                    $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
+                        .html(
+                            "</br><button class='btn-notexist' id='btn-notexist'></button>"
+                        )
+                } else {
+                    $('.more_car__button').empty();
+                    $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
+                        .html(
+                            '<button class="load_more_button" id="load_more_button">CARGAR MÁS</button>'
+                        )
+                }
+            }
+        }).catch(function() {
+            console.error("productos_relacionados ERROR productos_relacionados");
+            window.location.href = "index.php?module=ctrl_exceptions&op=503";
+        });
+} // funcion productos_relacionados
+
+function mas_productos_relacionados(tipo){
+    console.log("hola mas productos relacionados")
+    // return false;
+    var items = 0;
+    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=count_productos_relacionados", "POST", "JSON", {"tipo": tipo})
+        .then(function(data){
+            var total_productos = data[0].contador;
+            productos_relacionados(0, total_productos, tipo);
+            $(document).on("click", '.cargar_mas_productos', function(){
+                items = items + 3;
+                $('.mas_productos_boton').empty();
+                productos_relacionados(items, total_productos, tipo);
+            });
+        }).catch(function(){
+            console.error("mas_productos_relacionados ERROR total_productos");
+            window.location.href = "index.php?module=ctrl_exceptions&op=503";
+        })
+} // funcion mas_productos_relacionados
 
 function loadDetails() {
     // cargar details desde el producto
