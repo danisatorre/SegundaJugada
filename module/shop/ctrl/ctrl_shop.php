@@ -231,6 +231,54 @@
             }
         break;
 
+        case 'count_productos_relacionados';
+            $tipo = $_POST['tipo'];
+            
+            echo json_encode($tipo);
+            exit;
+
+            try {
+                $daoshop_c_p_r = new DAOshop();
+                $select_c_p_r = $daoshop_c_p_r->count_productos_relacionados($tipo);
+            } catch (Exception $e) {
+                echo json_encode("error");
+                exit;
+            }
+            if (!$select_c_p_r) {
+                echo json_encode("error");
+                exit;
+            } else {
+                $dinfo = array();
+                foreach ($select_c_p_r as $row) {
+                    array_push($dinfo, $row);
+                }
+                echo json_encode($dinfo);
+            }
+        break;
+
+        case 'productos_relacionados';
+            $tipo = $_POST['tipo_producto'];
+            $loaded =  $_POST['loaded'];
+            $items =  $_POST['items'];
+            try {
+                $daoshop_p_r = new DAOshop();
+                $select_p_r = $daoshop_p_r->select_productos_relacionados($tipo, $loaded, $items);
+            } catch (Exception $e) {
+                echo json_encode("error");
+                exit;
+            }
+            if (!$select_p_r) {
+                echo json_encode("error");
+                exit;
+            } else {
+                $dinfo = array();
+                foreach ($select_p_r as $row) {
+                    array_push($dinfo, $row);
+                }
+                echo json_encode($dinfo);
+            }
+        break;
+
     }
 
 ?>

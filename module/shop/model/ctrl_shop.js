@@ -625,28 +625,32 @@ function loadProductoDetails(id_producto){
                 items: 1,
                 nav :true
             });
-            mas_productos_relacionados(shop[0][0].tipo);
+            mas_productos_relacionados(shop[0][0].id_tipo);
     }).catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
 } // funcion loadProductoDetails
 
-function productos_relacionados(items, total_productos, tipo){
+function productos_relacionados(loadeds = 0, total_productos, tipo){
+    console.log("hola productos relaconados")
+    // return false;
     let items = 3;
     let loaded = loadeds;
-    let type = type_car;
-    let total_item = total_items;
+    let tipo_producto = tipo;
+    let total_producto = total_productos;
+    console.log("productos relacionados:\nItems: ", items +"\nLoaded: ", loaded + "\nTipo_producto: ", tipo_producto + "\nTotal_producto: ", total_producto)
+    return false;
 
-    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=productos_relacionados", 'POST', 'JSON', { 'tipo': type, 'loaded': loaded, 'items': items })
+    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=productos_relacionados", 'POST', 'JSON', { 'tipo_producto': tipo_producto, 'loaded': loadeds, 'items': items })
         .then(function(data) {
             if (loaded == 0) {
-                $('<div></div>').attr({ 'id': 'title_content', class: 'title_content' }).appendTo('.results')
+                $('<div></div>').attr({ 'id': 'productos_relacionados', class: 'productos_relacionados' }).appendTo('.details_productos_relacionados')
                     .html(
                         '<h2 class="cat">Productos relacionados</h2>'
                     )
                 for (row in data) {
                     if (data[row].id_producto != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'more_info_list' }).appendTo('.title_content')
+                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'more_info_list' }).appendTo('.productos_relacionados')
                             .html(
                                 "<li class='portfolio-item'>" +
                                 "<div class='item-main'>" +
@@ -659,15 +663,15 @@ function productos_relacionados(items, total_productos, tipo){
                             )
                     }
                 }
-                $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
+                $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.productos_relacionados')
                     .html(
-                        '<button class="load_more_button" id="load_more_button">CARGAR MÁS</button>'
+                        '<button class="load_more_button" id="load_more_button">cargar mas productos</button>'
                     )
             }
             if (loaded >= 3) {
                 for (row in data) {
                     if (data[row].id_producto != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'more_info_list' }).appendTo('.title_content')
+                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'more_info_list' }).appendTo('.productos_relacionados')
                             .html(
                                 "<li class='portfolio-item'>" +
                                 "<div class='item-main'>" +
@@ -680,18 +684,18 @@ function productos_relacionados(items, total_productos, tipo){
                             )
                     }
                 }
-                var total_cars = total_item - 3;
-                if (total_cars <= loaded) {
-                    $('.more_car__button').empty();
-                    $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
+                var total_prod = total_producto - 3;
+                if (total_prod <= loaded) {
+                    $('.mas_productos_boton').empty();
+                    $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.productos_relacionados')
                         .html(
-                            "</br><button class='btn-notexist' id='btn-notexist'></button>"
+                            "</br><button class='no_mas_productos' id='no_mas_productos'>No hay mas productos para cargar</button>"
                         )
                 } else {
-                    $('.more_car__button').empty();
-                    $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
+                    $('.mas_productos_boton').empty();
+                    $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.productos_relacionados')
                         .html(
-                            '<button class="load_more_button" id="load_more_button">CARGAR MÁS</button>'
+                            '<button class="cargar_mas_productos" id="load_more_button">Cargar más productos</button>'
                         )
                 }
             }
@@ -703,11 +707,14 @@ function productos_relacionados(items, total_productos, tipo){
 
 function mas_productos_relacionados(tipo){
     console.log("hola mas productos relacionados")
+    // console.log(tipo)
     // return false;
     var items = 0;
     ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=count_productos_relacionados", "POST", "JSON", {"tipo": tipo})
         .then(function(data){
-            var total_productos = data[0].contador;
+            var total_productos = data;
+            // console.log(total_productos)
+            // return false;
             productos_relacionados(0, total_productos, tipo);
             $(document).on("click", '.cargar_mas_productos', function(){
                 items = items + 3;

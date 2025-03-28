@@ -466,4 +466,44 @@
 			return $retrArray;
         }
 
+		// PRODUCTOS RELACIONADOS
+
+		function count_productos_relacionados($tipo){
+			$sql = "SELECT COUNT(*) contador
+			FROM productos p 
+			WHERE p.tipo = '$tipo'";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$retrArray = array();
+			if (mysqli_num_rows($res) > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
+		}
+
+		function select_productos_relacionados($tipo, $loaded, $items){
+			$sql = "SELECT * 
+				FROM productos p
+				WHERE p.tipo = '$tipo'
+				LIMIT $loaded, $items";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			
+			$retrArray = array();
+			if (mysqli_num_rows($res) > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
+		}
+
     }
