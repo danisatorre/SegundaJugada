@@ -15,7 +15,7 @@ function loadShop(total_productos, items_por_pagina){
         highlight();
     }else if(buscador_filtros != false){
         console.log("loadShop buscador_filtros");
-        load_buscador_shop();
+        load_buscador_shop(total_productos, items_por_pagina);
     }else{
         console.log("loadshop else (url...getall)");
         ajaxForSearch('module/shop/ctrl/ctrl_shop.php?op=getall');
@@ -708,13 +708,32 @@ function leafleft(shop){
     }
 } // funcion leafleft
 
-function load_buscador_shop(){
+function load_buscador_shop(total_productos = 0, items_por_pagina = 3){
     console.log("hola load_buscador");
+    console.log(total_productos);
+    console.log(items_por_pagina);
     // return false;
     var buscar = JSON.parse(localStorage.getItem('buscar'));
     console.log({'datos buscador shop': buscar});
     // return false;
-    ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_buscador', 'POST', 'JSON', {'buscar': buscar})
+    if (total_productos != 0) {
+        localStorage.setItem('total_prod', total_productos);
+    } else {
+        if (localStorage.getItem('total_prod')) {
+            total_productos = localStorage.getItem('total_prod');
+        } else {
+            total_productos = 0;
+        }
+    }
+
+    const pagina = localStorage.getItem('pagina') || 1;
+    const offset = (pagina - 1) * items_por_pagina;
+
+    const sdata = buscar 
+        ? { 'buscar': buscar, 'offset': offset, 'limit': items_por_pagina } 
+        : { 'offset': offset, 'limit': items_por_pagina };
+
+    ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_buscador', 'POST', 'JSON', sdata)
         .then(function(buscador){
             console.log(buscador)
             // return false;
@@ -746,6 +765,7 @@ function load_buscador_shop(){
                                 "</div>"
                             ); // end .html
                     }
+                    click_buscador();
                     leafleft(buscador);
                     highlight();
                     botones_filtros();
@@ -753,6 +773,12 @@ function load_buscador_shop(){
         }).catch(function(){
             window.location.href = "index.php?module=ctrl_exceptions&op=503";
         });
+}
+
+function click_buscador(){
+    $(document).on('click', '#boton_buscar', function(){
+        paginacion();
+    });
 }
 
 function scrollOnTop(){
@@ -826,8 +852,6 @@ function generarBotonesPaginacion(total_paginas, items_por_pagina, total_product
 
         loadShop(total_productos, items_por_pagina);
 
-        // Desplazar la vista hacia la parte superior
-        $('html, body').animate({ scrollTop: $(".list__content").offset().top }, 500);
     });
 } // end generarBotonesPaginacion
 

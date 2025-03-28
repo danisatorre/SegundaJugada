@@ -117,6 +117,8 @@
             $ciudad = ($buscador[0]['filtro_ciudad']);
             $tipo = ($buscador[1]['filtro_tipo'][0]);
             $categoria = ($buscador[2]['filtro_categoria']);
+            $offset = $_POST['offset'];
+            $limit = $_POST['limit'];
 
             // echo json_encode($ciudad);
             // echo json_encode($tipo);
@@ -127,19 +129,19 @@
             try {
                 $daoshop_buscador = new DAOshop();
                 if (($categoria != "0") && ($tipo == "0") && ($ciudad == "0")) {
-                    $select_buscador = $daoshop_buscador->select_categoria_buscador($categoria);
+                    $select_buscador = $daoshop_buscador->select_categoria_buscador($categoria, $offset, $limit);
                 } else if (($categoria == "0") && ($tipo != "0") && ($ciudad == "0")) {
-                    $select_buscador = $daoshop_buscador->select_tipo_buscador($tipo);
+                    $select_buscador = $daoshop_buscador->select_tipo_buscador($tipo, $offset, $limit);
                 } else if (($categoria == "0") && ($tipo == "0") && ($ciudad != "0")) {
-                    $select_buscador = $daoshop_buscador->select_ciudad_buscador($ciudad);
+                    $select_buscador = $daoshop_buscador->select_ciudad_buscador($ciudad, $offset, $limit);
                 } else if (($categoria != "0") && ($tipo != "0") && ($ciudad == "0")) {
-                    $select_buscador = $daoshop_buscador->select_categoria_tipo_buscador($categoria, $tipo);
+                    $select_buscador = $daoshop_buscador->select_categoria_tipo_buscador($categoria, $tipo, $offset, $limit);
                 } else if (($categoria == "0") && ($tipo != "0") && ($ciudad != "0")) {
-                    $select_buscador = $daoshop_buscador->select_tipo_ciudad_buscador($tipo, $ciudad);
+                    $select_buscador = $daoshop_buscador->select_tipo_ciudad_buscador($tipo, $ciudad, $offset, $limit);
                 } else if (($categoria != "0") && ($tipo == "0") && ($ciudad != "0")) {
-                    $select_buscador = $daoshop_buscador->select_categoria_ciudad_buscador($categoria, $ciudad);
+                    $select_buscador = $daoshop_buscador->select_categoria_ciudad_buscador($categoria, $ciudad, $offset, $limit);
                 } else if (($categoria != "0") && ($tipo != "0") && ($ciudad != "0")) {
-                    $select_buscador = $daoshop_buscador->select_all_buscador($categoria, $tipo, $ciudad);
+                    $select_buscador = $daoshop_buscador->select_all_buscador($categoria, $tipo, $ciudad, $offset, $limit);
                 } else {
                     $select_buscador = $daoshop_buscador->get_all();
                 }
@@ -190,7 +192,7 @@
 
             try{
                 $daoshop_c_p_f = new DAOshop();
-                $select_c_p_f = $daoshop_c_p_f->count_buscador($categoria, $tipo, $categoria);
+                $select_c_p_f = $daoshop_c_p_f->count_buscador($categoria, $tipo, $ciudad);
             }catch (Exception $e){
                 echo json_encode("error");
                 exit;

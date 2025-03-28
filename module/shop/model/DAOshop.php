@@ -165,14 +165,17 @@
 			return $retrArray;
 		}
 
-		function select_categoria_buscador($categoria){
+		// FILTROS BUSCADOR
+
+		function select_categoria_buscador($categoria, $offset, $limit){
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
 			LEFT JOIN teams t ON p.equipo = t.id_team
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria
-			WHERE c.id_categoria = '$categoria'";
+			WHERE c.id_categoria = '$categoria'
+			LIMIT $offset, $limit";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
@@ -187,14 +190,15 @@
 			return $categoria_buscador;
 		}
 
-		function select_tipo_buscador($tipo){
+		function select_tipo_buscador($tipo, $offset, $limit){
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
 			LEFT JOIN teams t ON p.equipo = t.id_team
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria
-			WHERE ti.id_tipo = '$tipo'";
+			WHERE ti.id_tipo = '$tipo'
+			LIMIT $offset, $limit";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
@@ -209,14 +213,15 @@
 			return $tipo_buscador;
 		}
 
-		function select_ciudad_buscador($ciudad){
+		function select_ciudad_buscador($ciudad, $offset, $limit){
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
 			LEFT JOIN teams t ON p.equipo = t.id_team
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria
-			WHERE p.ciudad = '$ciudad'";
+			WHERE p.ciudad = '$ciudad'
+			LIMIT $offset, $limit";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
@@ -231,7 +236,7 @@
 			return $ciudad_buscador;
 		}
 
-		function select_categoria_tipo_buscador($categoria, $tipo){
+		function select_categoria_tipo_buscador($categoria, $tipo, $offset, $limit){
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
@@ -239,7 +244,8 @@
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria
 			WHERE c.id_categoria = '$categoria'
-			AND ti.id_tipo = '$tipo'";
+			AND ti.id_tipo = '$tipo'
+			LIMIT $offset, $limit";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
@@ -254,7 +260,7 @@
 			return $categoria_tipo_buscador;
 		}
 
-		function select_tipo_ciudad_buscador($tipo, $ciudad){
+		function select_tipo_ciudad_buscador($tipo, $ciudad, $offset, $limit){
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
@@ -262,7 +268,8 @@
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria
 			WHERE p.ciudad = '$ciudad'
-			AND ti.id_tipo = '$tipo'";
+			AND ti.id_tipo = '$tipo'
+			LIMIT $offset, $limit";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
@@ -277,7 +284,7 @@
 			return $tipo_ciudad_buscador;
 		}
 
-		function select_categoria_ciudad_buscador($categoria, $ciudad){
+		function select_categoria_ciudad_buscador($categoria, $ciudad, $offset, $limit){
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
@@ -285,7 +292,8 @@
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria
 			WHERE p.ciudad = '$ciudad'
-			AND c.id_categoria = '$categoria'";
+			AND c.id_categoria = '$categoria'
+			LIMIT $offset, $limit";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
@@ -300,7 +308,7 @@
 			return $categoria_ciudad_buscador;
 		}
 
-		function select_all_buscador($categoria, $tipo, $ciudad){
+		function select_all_buscador($categoria, $tipo, $ciudad, $offset, $limit){
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
@@ -309,7 +317,8 @@
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria
 			WHERE p.ciudad = '$ciudad'
 			AND c.id_categoria = '$categoria'
-			AND ti.id_tipo = '$tipo'";
+			AND ti.id_tipo = '$tipo'
+			LIMIT $offset, $limit";
 
 			// return $sql;
 
