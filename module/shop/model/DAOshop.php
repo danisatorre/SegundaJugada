@@ -489,6 +489,10 @@
 		function select_productos_relacionados($tipo, $loaded, $items){
 			$sql = "SELECT * 
 				FROM productos p
+				LEFT JOIN marcas m ON p.marca = m.id_marca
+				LEFT JOIN teams t ON p.equipo = t.id_team
+				LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+				LEFT JOIN categorias c ON p.categoria = c.id_categoria
 				WHERE p.tipo = '$tipo'
 				LIMIT $loaded, $items";
 

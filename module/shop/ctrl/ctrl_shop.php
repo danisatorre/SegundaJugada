@@ -234,8 +234,8 @@
         case 'count_productos_relacionados';
             $tipo = $_POST['tipo'];
             
-            echo json_encode($tipo);
-            exit;
+            // echo json_encode($tipo);
+            // exit;
 
             try {
                 $daoshop_c_p_r = new DAOshop();

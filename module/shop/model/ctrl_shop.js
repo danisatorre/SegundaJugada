@@ -625,6 +625,8 @@ function loadProductoDetails(id_producto){
                 items: 1,
                 nav :true
             });
+            // console.log("loadProductoDetails:\nTipo: ", shop[0][0].id_tipo)
+            // return false;
             mas_productos_relacionados(shop[0][0].id_tipo);
     }).catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
@@ -639,10 +641,12 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
     let tipo_producto = tipo;
     let total_producto = total_productos;
     console.log("productos relacionados:\nItems: ", items +"\nLoaded: ", loaded + "\nTipo_producto: ", tipo_producto + "\nTotal_producto: ", total_producto)
-    return false;
+    // return false;
 
-    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=productos_relacionados", 'POST', 'JSON', { 'tipo_producto': tipo_producto, 'loaded': loadeds, 'items': items })
+    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=productos_relacionados", 'POST', 'JSON', { 'tipo_producto': tipo_producto, 'loaded': loaded, 'items': items })
         .then(function(data) {
+            console.log("productos relacionads data:\n", data)
+            // return false;
             if (loaded == 0) {
                 $('<div></div>').attr({ 'id': 'productos_relacionados', class: 'productos_relacionados' }).appendTo('.details_productos_relacionados')
                     .html(
@@ -665,7 +669,7 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
                 }
                 $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.productos_relacionados')
                     .html(
-                        '<button class="load_more_button" id="load_more_button">cargar mas productos</button>'
+                        '<button class="cargar_mas_productos" id="load_more_button">Cargar mas productos</button>'
                     )
             }
             if (loaded >= 3) {
@@ -709,16 +713,17 @@ function mas_productos_relacionados(tipo){
     console.log("hola mas productos relacionados")
     // console.log(tipo)
     // return false;
-    var items = 0;
-    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=count_productos_relacionados", "POST", "JSON", {"tipo": tipo})
+    var tipo_producto = tipo;
+    let items = 0;
+    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=count_productos_relacionados", "POST", "JSON", {"tipo": tipo_producto})
         .then(function(data){
-            var total_productos = data;
-            // console.log(total_productos)
+            var total_productos = data[0].contador;
+            // console.log("Mas productos relacionados:\nTotal_productos: ", total_productos, "\nTipo: ", tipo_producto)
             // return false;
             productos_relacionados(0, total_productos, tipo);
             $(document).on("click", '.cargar_mas_productos', function(){
                 items = items + 3;
-                $('.mas_productos_boton').empty();
+                // $('.mas_productos_boton').empty();
                 productos_relacionados(items, total_productos, tipo);
             });
         }).catch(function(){
