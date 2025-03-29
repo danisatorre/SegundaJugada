@@ -569,6 +569,13 @@ function loadProductoDetails(id_producto){
                     "</div>" // end .content-img-details
                 )
         }
+
+        // Owl Carousel
+        $('.productos_img').owlCarousel({
+            items: 1,
+            nav :true
+        });
+
         // console.log(shop[0][0]);
         // return false;
         let extra_entrega = "";
@@ -620,11 +627,6 @@ function loadProductoDetails(id_producto){
                     "</div" + // end .extras-details
                     "</div>" // end .inf-prod
                 ) // end .html
-            // Owl Carousel
-            $('.productos_img').owlCarousel({
-                items: 1,
-                nav :true
-            });
             // console.log("loadProductoDetails:\nTipo: ", shop[0][0].id_tipo)
             // return false;
             mas_productos_relacionados(shop[0][0].id_tipo);
@@ -654,11 +656,11 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
                     )
                 for (row in data) {
                     if (data[row].id_producto != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'more_info_list' }).appendTo('.productos_relacionados')
+                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.productos_relacionados')
                             .html(
-                                "<li class='portfolio-item'>" +
-                                "<div class='item-main'>" +
-                                "<div class='portfolio-image'>" +
+                                "<li class='prelacionado-producto'>" +
+                                "<div class='prelacionado-item'>" +
+                                "<div class='prelacionado-img'>" +
                                 "<img src = " + data[row].img_producto + " alt='imagen producto' </img> " +
                                 "</div>" +
                                 "<h5>" + data[row].nom_marca + "  " + data[row].nom_prod + "</h5>" +
@@ -675,11 +677,11 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
             if (loaded >= 3) {
                 for (row in data) {
                     if (data[row].id_producto != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'more_info_list' }).appendTo('.productos_relacionados')
+                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.productos_relacionados')
                             .html(
-                                "<li class='portfolio-item'>" +
-                                "<div class='item-main'>" +
-                                "<div class='portfolio-image'>" +
+                                "<li class='prelacionado-producto'>" +
+                                "<div class='prelacionado-item'>" +
+                                "<div class='prelacionado-img'>" +
                                 "<img src = " + data[row].img_producto + " alt='imagen producto' </img> " +
                                 "</div>" +
                                 "<h5>" + data[row].nom_marca + "  " + data[row].nom_prod + "</h5>" +
@@ -741,6 +743,15 @@ function loadDetails() {
     // cargar details desde el mapa
     $(document).on("click", ".product_popup", function() {
         var id_producto = this.getAttribute('id');
+        loadProductoDetails(id_producto);
+    });
+    // cargar details desde productos relacionados
+    $(document).on("click", ".producto_relacionado", function(){
+        var id_producto = this.getAttribute('id');
+        $('.productos_img').owlCarousel('destroy'); // destruir owl carousel para volver a cargar el nuevo
+        $('.details_productos_relacionados').empty();
+        $('.inf-details').empty();
+        $('.productos_img').empty();
         loadProductoDetails(id_producto);
     });
 } // funcion loadDetails
