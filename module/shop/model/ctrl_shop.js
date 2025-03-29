@@ -340,6 +340,7 @@ function eliminar_filtros() {
     localStorage.removeItem('buscar');
     localStorage.removeItem('filtro_ciudad');
     localStorage.removeItem('pagina');
+    localStorage.removeItem('items');
     $("#nofiltros").empty();
     $("#texto-nofiltros").empty();
     location.reload();
@@ -359,6 +360,7 @@ function eliminar_filtros_filtrar(){
     localStorage.removeItem('buscar');
     localStorage.removeItem('filtro_ciudad');
     localStorage.removeItem('pagina');
+    localStorage.removeItem('items');
 }
 
 function getall(total_productos, items_por_pagina) {
@@ -638,7 +640,7 @@ function loadProductoDetails(id_producto){
 function productos_relacionados(loadeds = 0, total_productos, tipo){
     console.log("hola productos relaconados")
     // return false;
-    let items = 3;
+    let items = parseInt(localStorage.getItem('items')) || 3;
     let loaded = loadeds;
     let tipo_producto = tipo;
     let total_producto = total_productos;
@@ -650,13 +652,13 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
             console.log("productos relacionads data:\n", data)
             // return false;
             if (loaded == 0) {
-                $('<div></div>').attr({ 'id': 'productos_relacionados', class: 'productos_relacionados' }).appendTo('.details_productos_relacionados')
+                $('<div></div>').attr({ 'id': 'productos_relacionados', class: 'productos_relacionados' }).appendTo('.titulo-productos-relacionados')
                     .html(
-                        '<h2 class="cat">Productos relacionados</h2>'
+                        '<h2 class="title-prelacionados">Productos relacionados</h2>'
                     )
                 for (row in data) {
                     if (data[row].id_producto != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.productos_relacionados')
+                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.cargar-prelacionados')
                             .html(
                                 "<li class='prelacionado-producto'>" +
                                 "<div class='prelacionado-item'>" +
@@ -669,7 +671,7 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
                             )
                     }
                 }
-                $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.productos_relacionados')
+                $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.boton-cargar-mas-productos')
                     .html(
                         '<button class="cargar_mas_productos" id="load_more_button">Cargar mas productos</button>'
                     )
@@ -677,7 +679,7 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
             if (loaded >= 3) {
                 for (row in data) {
                     if (data[row].id_producto != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.productos_relacionados')
+                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.cargar-prelacionados')
                             .html(
                                 "<li class='prelacionado-producto'>" +
                                 "<div class='prelacionado-item'>" +
@@ -693,13 +695,13 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
                 var total_prod = total_producto - 3;
                 if (total_prod <= loaded) {
                     $('.mas_productos_boton').empty();
-                    $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.productos_relacionados')
+                    $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.boton-cargar-mas-productos')
                         .html(
                             "</br><button class='no_mas_productos' id='no_mas_productos'>No hay mas productos para cargar</button>"
                         )
                 } else {
                     $('.mas_productos_boton').empty();
-                    $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.productos_relacionados')
+                    $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.boton-cargar-mas-productos')
                         .html(
                             '<button class="cargar_mas_productos" id="load_more_button">Cargar más productos</button>'
                         )
@@ -716,7 +718,8 @@ function mas_productos_relacionados(tipo){
     // console.log(tipo)
     // return false;
     var tipo_producto = tipo;
-    let items = 0;
+    // let items = 0;
+    let items = parseInt(localStorage.getItem('items')) || 0;
     ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=count_productos_relacionados", "POST", "JSON", {"tipo": tipo_producto})
         .then(function(data){
             var total_productos = data[0].contador;
@@ -724,7 +727,8 @@ function mas_productos_relacionados(tipo){
             // return false;
             productos_relacionados(0, total_productos, tipo);
             $(document).on("click", '.cargar_mas_productos', function(){
-                items = items + 3;
+                items += 3;
+                localStorage.setItem('items', items);
                 // $('.mas_productos_boton').empty();
                 productos_relacionados(items, total_productos, tipo);
             });
@@ -747,9 +751,12 @@ function loadDetails() {
     });
     // cargar details desde productos relacionados
     $(document).on("click", ".producto_relacionado", function(){
+        localStorage.removeItem('items'); // eliminar el items de localstorage para que al hacer click en cargar más productos solamente cargue 3 productos
         var id_producto = this.getAttribute('id');
         $('.productos_img').owlCarousel('destroy'); // destruir owl carousel para volver a cargar el nuevo
-        $('.details_productos_relacionados').empty();
+        $('.titulo-productos-relacionados').empty();
+        $('.cargar-prelacionados').empty();
+        $('.boton-cargar-mas-productos').empty();
         $('.inf-details').empty();
         $('.productos_img').empty();
         loadProductoDetails(id_producto);
