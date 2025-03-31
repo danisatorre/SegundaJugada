@@ -486,3 +486,171 @@ body {
     box-shadow: none;
     transform: none;
 }
+
+/* RESPONSIVE DESIGN PARA DISPOSITIVOS MÓVILES */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+    }
+
+    #title-shop {
+        padding-top: 10%;
+        width: 100%;
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .container-shop-list {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* FILTROS */
+    .container-filtros {
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .filtro_tipo, .filtro_categoria, .filtro_precio, .filtro_equipo, .filtro_marca, .filtro_ciudad {
+        width: 90%;
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .boton_filtrar, .boton_remover, .boton_mapa, .sotButton {
+        width: 90%;
+        margin: 10px 0;
+    }
+
+    /* LISTA DE PRODUCTOS */
+    .container-productos {
+        width: 100%;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .producto {
+        padding: 10px;
+    }
+
+    .producto img {
+        width: 100%;
+        height: auto;
+    }
+
+    .inf-producto h3 {
+        font-size: 16px;
+    }
+
+    .inf-producto p {
+        font-size: 12px;
+    }
+
+    .precio {
+        font-size: 14px;
+    }
+
+    /* MAPA */
+    #map {
+        width: 100%;
+        height: 300px;
+        margin: 0 auto;
+    }
+
+    /* DETALLES DEL PRODUCTO */
+    .container-details {
+        flex-direction: column;
+        width: 95%;
+        padding: 10px;
+    }
+
+    .prodsimg {
+        width: 100%;
+        height: auto;
+    }
+
+    .inf-details {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .extras-details {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .icon-container-details {
+        width: 40px;
+        height: 40px;
+    }
+
+    .icon-container-details i {
+        font-size: 20px;
+    }
+
+    /* PRODUCTOS RELACIONADOS */
+    .cargar-prelacionados {
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas en lugar de tres */
+        gap: 15px;
+    }
+
+    .prelacionado-producto {
+        width: 100%;
+        aspect-ratio: 1 / 1; /* Mantiene la proporción cuadrada */
+    }
+
+    .prelacionado-img {
+        height: 60%; /* Ajusta la altura de la imagen */
+    }
+
+    .prelacionado-item h5 {
+        font-size: 14px;
+    }
+
+    .prelacionado-item p {
+        font-size: 12px;
+    }
+
+    .prelacionado-precio {
+        font-size: 14px;
+    }
+
+    /* BOTÓN CARGAR MÁS PRODUCTOS */
+    .mas_productos_boton button {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* PAGINACIÓN */
+    #paginacion {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .pagina, .pagina-previa, .pagina-siguiente {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+        line-height: 38px;
+    }
+
+    /* TÍTULOS */
+    .title-prelacionados {
+        font-size: 20px;
+    }
+
+    .details_productos_relacionados h2 {
+        font-size: 20px;
+    }
+}
