@@ -67,7 +67,7 @@ function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina
                                 "</div>"
                             ); // end .html
                     }
-                    leafleft(shop);
+                    leafleft(shop, 6);
                     highlight();
                     botones_filtros();
                 } catch (error){
@@ -553,6 +553,7 @@ function botones_filtros(){
 function loadProductoDetails(id_producto){
     console.log("hola loadProductoDetails");
     // return false;
+    localStorage.removeItem('items');
     ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=details&id_producto=' + id_producto, 'GET', 'JSON')
     .then(function(shop){
         $('.container-productos').empty(); // vaciar todos los productos para dejar la web vacia y pintar el details
@@ -562,7 +563,7 @@ function loadProductoDetails(id_producto){
         $('#paginacion').empty();
         console.log(shop);
         // return false;
-        leafleft(shop[0][0]);
+        leafleft(shop[0][0], 16);
         for (row in shop[1][0]) {
             $('<div></div>').attr({ 'id': shop[1][0].id_pimg, class: 'pimg' }).appendTo('.productos_img')
                 .html(
@@ -640,14 +641,14 @@ function loadProductoDetails(id_producto){
 function productos_relacionados(loadeds = 0, total_productos, tipo){
     console.log("hola productos relaconados")
     // return false;
-    let items = parseInt(localStorage.getItem('items')) || 3;
+    let prelacionados_visibles = 3;
     let loaded = loadeds;
     let tipo_producto = tipo;
     let total_producto = total_productos;
-    console.log("productos relacionados:\nItems: ", items +"\nLoaded: ", loaded + "\nTipo_producto: ", tipo_producto + "\nTotal_producto: ", total_producto)
+    console.log("productos relacionados:\nPrelacionados_visibles: ", prelacionados_visibles +"\nLoaded: ", loaded + "\nTipo_producto: ", tipo_producto + "\nTotal_producto: ", total_producto)
     // return false;
 
-    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=productos_relacionados", 'POST', 'JSON', { 'tipo_producto': tipo_producto, 'loaded': loaded, 'items': items })
+    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=productos_relacionados", 'POST', 'JSON', { 'tipo_producto': tipo_producto, 'loaded': loaded, 'items': prelacionados_visibles })
         .then(function(data) {
             console.log("productos relacionads data:\n", data)
             // return false;
@@ -719,13 +720,16 @@ function mas_productos_relacionados(tipo){
     // return false;
     var tipo_producto = tipo;
     // let items = 0;
-    let items = parseInt(localStorage.getItem('items')) || 0;
+    let items = 0;
     ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=count_productos_relacionados", "POST", "JSON", {"tipo": tipo_producto})
         .then(function(data){
             var total_productos = data[0].contador;
             // console.log("Mas productos relacionados:\nTotal_productos: ", total_productos, "\nTipo: ", tipo_producto)
             // return false;
             productos_relacionados(0, total_productos, tipo);
+
+            $(document).off("click", ".cargar_mas_productos"); // eliminar eventos anteriores
+
             $(document).on("click", '.cargar_mas_productos', function(){
                 items += 3;
                 localStorage.setItem('items', items);
@@ -751,6 +755,8 @@ function loadDetails() {
     });
     // cargar details desde productos relacionados
     $(document).on("click", ".producto_relacionado", function(){
+        console.log("click producto relacionado")
+        // return false;
         localStorage.removeItem('items'); // eliminar el items de localstorage para que al hacer click en cargar más productos solamente cargue 3 productos
         var id_producto = this.getAttribute('id');
         $('.productos_img').owlCarousel('destroy'); // destruir owl carousel para volver a cargar el nuevo
@@ -763,7 +769,7 @@ function loadDetails() {
     });
 } // funcion loadDetails
 
-function leafleft(shop){
+function leafleft(shop, zoom){
     // console.log("leafleft shop: ", shop);
     // return false;
 
@@ -781,7 +787,7 @@ function leafleft(shop){
 
     try{
         // var map = L.map('map').setView([38.821, -0.610547], 15);
-        var map = L.map('map').setView([shop.altitud || 40.41664790865264, shop.longitud || -3.70093721305357], 6);
+        var map = L.map('map').setView([shop.altitud || 40.41664790865264, shop.longitud || -3.70093721305357], zoom);
     }catch (error){
         console.error("ERROR AL INICIALIZAR EL MAPA");
         return false;
@@ -887,7 +893,7 @@ function load_buscador_shop(total_productos = 0, items_por_pagina = 3){
                             ); // end .html
                     }
                     click_buscador();
-                    leafleft(buscador);
+                    leafleft(buscador, 6);
                     highlight();
                     botones_filtros();
             }

@@ -33,18 +33,19 @@
             $tipo_producto = $_POST['tipo_producto'];
             $categoria_producto = $_POST['categoria_producto'];
             $completar = $_POST['completar'];
-            try{
+            
+            try {
                 $daosearch_autocompletar = new DAOsearch();
-                if(!empty($tipo_producto) && empty($categoria_producto)){
-                    $select_autocompletar = $daosearch_autocompletar -> select_producto_tipo($completar, $tipo_producto);
-                }else if(!empty($tipo_producto) && !empty($categoria_producto)){
-                    $select_autocompletar = $daosearch_autocompletar -> select_producto_tipo_categoria($completar, $tipo_producto, $categoria_producto);
-                }else if(empty($tipo_producto) && !empty($categoria_producto)){
-                    $select_autocompletar = $daosearch_autocompletar -> select_producto_categoria($completar, $categoria);
-                }else{
-                    $select_autocompletar = $daosearch_autocompletar -> select_producto($completar);
+                if ($tipo_producto !== '0' && $categoria_producto === '0') {
+                    $select_autocompletar = $daosearch_autocompletar->select_producto_tipo($completar, $tipo_producto);
+                } else if ($tipo_producto !== '0' && $categoria_producto !== '0') {
+                    $select_autocompletar = $daosearch_autocompletar->select_producto_tipo_categoria($completar, $tipo_producto, $categoria_producto);
+                } else if ($tipo_producto === '0' && $categoria_producto !== '0') {
+                    $select_autocompletar = $daosearch_autocompletar->select_producto_categoria($completar, $categoria_producto);
+                } else {
+                    $select_autocompletar = $daosearch_autocompletar->select_producto($completar);
                 }
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 echo json_encode("error");
                 exit;
             }
