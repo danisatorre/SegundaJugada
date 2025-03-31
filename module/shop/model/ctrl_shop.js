@@ -276,7 +276,15 @@ function print_filtros() {
                         '</optgroup>' +
                     '</select>' +
                 '</div>' + // end .options-ciudad
-            '</div>' + // end .f_marca
+            '</div>' + // end .f_ciudad
+            // radiobutton popularidad (visitas)
+            '<div class="f_visitas">' +
+                '<h4 class="desplegable_visitas">Popularidad⬇️</h4>' +
+                '<div class="radio-visitas" style="display: none;">' +
+                    '<input type="radio" name="precio" value="maymen" class="filtro_visitas">De mayor a menor popularidad</br>' +
+                    '<input type="radio" name="precio" value="menmay" class="filtro_visitas">De menor a mayor popularidad</br>' +
+                '</div>' + // end .radio-visitas
+            '</div>' + // end f_visitas
             '<div id="overlay">' +
             '<div class= "cv-spinner" >' +
             '<span class="spinner"></span>' +
@@ -328,6 +336,10 @@ function print_filtros() {
     $(document).on('click', '.desplegable-ciudad', function(){
         $('.options-ciudad').slideToggle();
     });
+    // desplegable popularidad
+    $(document).on('click', '.desplegable_visitas', function(){
+        $('.radio-visitas').slideToggle();
+    });
 }
 
 function eliminar_filtros() {
@@ -361,6 +373,7 @@ function eliminar_filtros_filtrar(){
     localStorage.removeItem('filtro_ciudad');
     localStorage.removeItem('pagina');
     localStorage.removeItem('items');
+    localStorage.removeItem('popularidad');
 }
 
 function getall(total_productos, items_por_pagina) {
@@ -550,9 +563,20 @@ function botones_filtros(){
     });
 }
 
+function update_visitas(id_producto){
+    console.log("hola update_visitas")
+    console.log("update_visitas: id_producto:\n", id_producto)
+    // return false;
+    ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=update_visitas', 'POST', 'JSON', {'id_producto': id_producto})
+        // .then(function(id){
+        //     console.log("update_visitas id ctrl php:\n", id);
+        // });
+}
+
 function loadProductoDetails(id_producto){
     console.log("hola loadProductoDetails");
     // return false;
+    update_visitas(id_producto);
     localStorage.removeItem('items');
     ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=details&id_producto=' + id_producto, 'GET', 'JSON')
     .then(function(shop){

@@ -510,4 +510,16 @@
 			return $retrArray;
 		}
 
+		// UPDATE VISITAS
+
+		function update_visitas($id_producto){
+			$sql = "UPDATE productos p
+			SET p.visitas = p.visitas + 1
+			WHERE id_producto = $id_producto";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+		}
+
     }

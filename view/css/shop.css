@@ -50,7 +50,7 @@ body {
     margin: 10px 0;
 }
 
-.filtro_tipo, .filtro_categoria, .filtro_precio, .f_precio, .f_tipo, .f_categoria, .f_equipo, .filtro_equipo, .filtro_marca, .f_marca, .filtro_ciudad, .f_ciudad {
+.filtro_tipo, .filtro_categoria, .filtro_precio, .f_precio, .f_tipo, .f_categoria, .f_equipo, .filtro_equipo, .filtro_marca, .f_marca, .filtro_ciudad, .f_ciudad, .f_visitas, .filtro_visitas {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -63,17 +63,17 @@ body {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.filtro_tipo:focus, .filtro_categoria:focus, .filtro_precio:focus, .filtro_equipo:focus, .filtro_marca:focus, .filtro_ciudad:focus {
+.filtro_tipo:focus, .filtro_categoria:focus, .filtro_precio:focus, .filtro_equipo:focus, .filtro_marca:focus, .filtro_ciudad:focus, .filtro_visitas:focus {
     border-color: goldenrod;
     box-shadow: 0 0 8px orange;
     outline: none;
 }
 
-.filtro_precio, .filtro_equipo{
+.filtro_precio, .filtro_equipo, .filtro_visitas{
     width:8%;
 }
 
-.f_precio:hover, .f_tipo:hover, .f_categoria:hover, .f_equipo:hover, .f_marca:hover, .f_ciudad:hover{
+.f_precio:hover, .f_tipo:hover, .f_categoria:hover, .f_equipo:hover, .f_marca:hover, .f_ciudad:hover, .filtro_visitas:hover{
     border-color: goldenrod;
     box-shadow: 0 0 8px orange;
     outline: none;
@@ -100,7 +100,7 @@ body {
     display:none;
 }
 
-.desplegable-tipo, .desplegable-categoria, .desplegable-precio, .desplegable-equipo, .desplegable-marca, .desplegable-ciudad{
+.desplegable-tipo, .desplegable-categoria, .desplegable-precio, .desplegable-equipo, .desplegable-marca, .desplegable-ciudad, .desplegable_visitas{
     cursor:pointer;
 }
 

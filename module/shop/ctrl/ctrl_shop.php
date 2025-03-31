@@ -278,6 +278,21 @@
                 echo json_encode($dinfo);
             }
         break;
+        
+        case 'update_visitas';
+            $id_producto = $_POST['id_producto'];
+
+            // echo json_encode($id_producto);
+            // exit;
+
+            try{
+                $daoshop_u_v = new DAOshop();
+                $select_u_v = $daoshop_u_v->update_visitas($id_producto);
+            } catch(Exception $e){
+                echo json_encode("error");
+                exit;
+            }
+        break;
 
     }
 
