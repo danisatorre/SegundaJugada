@@ -670,7 +670,8 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
                                 "<div class='prelacionado-img'>" +
                                 "<img src = " + data[row].img_producto + " alt='imagen producto' </img> " +
                                 "</div>" +
-                                "<h5>" + data[row].nom_marca + "  " + data[row].nom_prod + "</h5>" +
+                                "<h5> <b>" + data[row].nom_marca + "</b> <br><br> " + data[row].nom_prod + "</h5>" +
+                                "<h5><a class='prelacionado-precio'>" + data[row].precio + "€</a></h5>" +
                                 "</div>" +
                                 "</li>"
                             )
@@ -691,7 +692,8 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
                                 "<div class='prelacionado-img'>" +
                                 "<img src = " + data[row].img_producto + " alt='imagen producto' </img> " +
                                 "</div>" +
-                                "<h5>" + data[row].nom_marca + "  " + data[row].nom_prod + "</h5>" +
+                                "<h5> <b>" + data[row].nom_marca + "</b> <br><br> " + data[row].nom_prod + "</h5>" +
+                                "<h5><a class='prelacionado-precio'>" + data[row].precio + "€</a></h5>" +
                                 "</div>" +
                                 "</li>"
                             )
