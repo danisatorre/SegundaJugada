@@ -111,8 +111,17 @@ function autocompletar(){
                 $('#buscar_producto').fadeOut(500);
             });
     });
-    $("#autocompletar").on("focus", function() {
-        $('#buscar_producto').fadeIn(10000000);
+
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest('#autocompletar, #buscar_producto').length) {
+            $('#buscar_producto').fadeOut(300);
+        }
+    });
+
+    $("#autocompletar").on("focus", function () {
+        if ($('#buscar_producto').children().length > 0) {
+            $('#buscar_producto').fadeIn(300);
+        }
     });
 } // autocompletar
 

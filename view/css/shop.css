@@ -216,6 +216,7 @@ body {
     padding-right: 2%;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position:relative;
 }
 
 .productos_img {
@@ -456,18 +457,18 @@ body {
 }
 
 .pagina-previa:hover, .pagina-siguiente:hover {
-    background-color: white; /* Fondo blanco al pasar el puntero */
-    color: black; /* Texto negro */
+    background-color: white;
+    color: black;
     border-color: goldenrod;
     box-shadow: 0 0 10px orange;
-    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+    transform: scale(1.1);
 }
 
 .pagina-previa:disabled, .pagina-siguiente:disabled {
-    background-color: #f5f5f5; /* Color gris claro para indicar deshabilitado */
+    background-color: #f5f5f5;
     color: #ccc;
     border-color: #ddd;
     cursor: not-allowed;
     box-shadow: none;
-    transform: none; /* Sin animación */
+    transform: none;
 }

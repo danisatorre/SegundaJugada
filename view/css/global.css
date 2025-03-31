@@ -61,6 +61,8 @@ body {
 }
 
 .buscarElemento {
+    background-color:rgb(231, 196, 131);
+    color:rgb(236, 52, 52);
     padding: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;

@@ -576,7 +576,11 @@ function loadProductoDetails(id_producto){
         // Owl Carousel
         $('.productos_img').owlCarousel({
             items: 1,
-            nav :true
+            nav :true,
+            navText: [
+                '<button class="owl-prev">⟨</button>',
+                '<button class="owl-next">⟩</button>'
+            ]
         });
 
         // console.log(shop[0][0]);
