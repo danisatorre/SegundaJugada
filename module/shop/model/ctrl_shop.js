@@ -601,6 +601,7 @@ function update_visitas(id_producto){
 
 function loadProductoDetails(id_producto){
     console.log("hola loadProductoDetails");
+    localStorage.removeItem('details_home');
     // return false;
     update_visitas(id_producto);
     localStorage.removeItem('items');
@@ -681,6 +682,9 @@ function loadProductoDetails(id_producto){
                     "<div class='icon-container-details'>" +
                     "<p class='applepay-icon-details'> <i class='fa-brands fa-apple-pay fa-2xl' style='color: #077bd5;'></i> </p>" +
                     "</div>" + // end .icon-container (apple-pay)
+                    "<div class='icon-container-details-location'>" +
+                    "<p class='location-icon-details'> <i class='fa-solid fa-location-dot fa-2xl' style='color: #077bd5;'></i>" + shop[0][0].ciudad + "</p>" +
+                    "</div>" + // end .icon-container (location)
                     "</div" + // end .extras-details
                     "</div>" // end .inf-prod
                 ) // end .html

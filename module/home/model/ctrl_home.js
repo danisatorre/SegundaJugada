@@ -13,7 +13,8 @@ function carouselMarcas() {
                 // return false;
                 $('<div></div>').attr('class', "div_marca").attr('id_marca', data[row].id_marca).appendTo(".carousel-home")
                 .html(
-                    "<img src='" + data[row].img_marca + "' alt='foto' >"
+                    "<img src='" + data[row].img_marca + "' alt='foto' >" +
+                    "<h5>" + data[row].nom_marca + "</h5>"
                 )
             }
 
