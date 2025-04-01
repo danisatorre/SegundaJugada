@@ -111,8 +111,23 @@
             }
         break;
 
+        case 'homePagePopulares';
+            try{
+                $daohome = new DAOhome();
+                $selectpopulares = $daohome->select_populares();
+            }catch(Exception $e){
+                echo json_encode("error");
+            }
+
+            if(!empty($selectpopulares)){
+                echo json_encode($selectpopulares);
+            }else{
+                echo json_encode("error");
+            }
+        break;
+
         default;
-            include("module/exceptions/ctrl/ctrl_exceptions.php?&op=404");
+            include("index.php?module=ctrl_exceptions&op=404");
         break;
     }
 ?>

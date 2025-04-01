@@ -38,7 +38,7 @@ function carouselMarcas() {
         .catch(function() {
             // console.log("hola CATCH CAROUSELMARCAS");
             // return false;
-            window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+            window.location.href = "index.php?module=ctrl_exceptions&op=503";
         });
 }
 
@@ -67,7 +67,7 @@ function loadCategorias() {
     }).catch(function() {
         // console.log("ERROR loadCategorias");
         // return false;
-        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+        window.location.href = "index.php?module=ctrl_exceptions&op=503";
     });
 }
 
@@ -106,7 +106,7 @@ function loadCatTipos() {
         .catch(function() {
             // console.log("hola CATCH CAROUSELMARCAS");
             // return false;
-            window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+            window.location.href = "index.php?module=ctrl_exceptions&op=503";
         });
 }
 
@@ -147,7 +147,7 @@ function loadProductos() {
         .catch(function() {
             // console.log("hola CATCH loadProductos");
             // return false;
-            window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php&op=503";
+            window.location.href = "index.php?module=ctrl_exceptions&op=503";
         });
 }
 
@@ -177,7 +177,37 @@ function loadAccesorios(){
         }); // END FUNCTION OWL
     }) // END FUNCTION DATA
     .catch(function(){
-        window.location.href = "module/exceptions/ctrl/ctrl_exceptions.php?&op=503";
+        window.location.href = "index.php?module=ctrl_exceptions&op=503";
+    })
+}
+
+function loadPopulares(){
+    // console.log("hola loadPpopulares");
+    // return false;
+    ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePagePopulares', 'GET', 'JSON')
+    .then(function(data){
+        for (row in data){
+            $('<div></div>').attr('class', "div_popular").attr('id_popular', data[row].id_producto).appendTo(".carousel-popular")
+            .html(
+                "<img src=' " + data[row].img_producto + " 'alt='foto'>" +
+                "<h5>" + data[row].nom_prod + "</h5>"
+            )
+        }
+
+        // CAROUSEL
+
+        $(function(){
+            var owl = $(".carousel-popular");
+            owl.owlCarousel({
+                items: 4,
+                margin: 10,
+                loop: true,
+                nav: true,
+            }); // END owl.owlCarousel
+        }); // END FUNCTION OWL
+    }) // END FUNCTION DATA
+    .catch(function(){
+        window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
 }
 
@@ -190,6 +220,9 @@ function goToShop(){
         localStorage.removeItem('filtro_precio');
         localStorage.removeItem('filtro_equipo');
         localStorage.removeItem('filtro_marca');
+        localStorage.removeItem('filtro_visitas');
+        localStorage.removeItem('pagina');
+        localStorage.removeItem('details_home');
         localStorage.setItem('filtro_categoria', filtro_categoria);
 
         var filtro = [];
@@ -218,6 +251,9 @@ function goToShop(){
         localStorage.removeItem('filtro_precio');
         localStorage.removeItem('filtro_equipo');
         localStorage.removeItem('filtro_categoria');
+        localStorage.removeItem('filtro_visitas');
+        localStorage.removeItem('pagina');
+        localStorage.removeItem('details_home');
         localStorage.setItem('filtro_marca', filtro_marca);
 
         var filtro = [];
@@ -246,6 +282,9 @@ function goToShop(){
         localStorage.removeItem('filtro_precio');
         localStorage.removeItem('filtro_equipo');
         localStorage.removeItem('filtro_categoria');
+        localStorage.removeItem('filtro_visitas');
+        localStorage.removeItem('pagina');
+        localStorage.removeItem('details_home');
         localStorage.setItem('filtro_tipo', filtro_tipo);
 
         var filtro = [];
@@ -274,6 +313,9 @@ function goToShop(){
         localStorage.removeItem('filtro_precio');
         localStorage.removeItem('filtro_equipo');
         localStorage.removeItem('filtro_categoria');
+        localStorage.removeItem('filtro_visitas');
+        localStorage.removeItem('pagina');
+        localStorage.removeItem('details_home');
         localStorage.setItem('filtro_tipo', filtro_accesorio);
 
         var filtro = [];
@@ -294,6 +336,23 @@ function goToShop(){
             })
         }, 500);
     });
+    // popular
+    $(document).on("click", '.div_popular', function(){
+        var filtro_visitas = this.getAttribute('id_popular');
+        localStorage.removeItem('filtro');
+        localStorage.removeItem('filtro_marca');
+        localStorage.removeItem('filtro_precio');
+        localStorage.removeItem('filtro_equipo');
+        localStorage.removeItem('filtro_categoria');
+        localStorage.removeItem('filtro_tipo');
+        localStorage.removeItem('filtro_visitas');
+        localStorage.removeItem('pagina');
+        localStorage.setItem('details_home', filtro_visitas);
+
+        setTimeout(function(){
+            window.location.href = 'index.php?module=ctrl_shop&op=list';
+        }, 500);
+    });
 }
 
 $(document).ready(function() {
@@ -302,5 +361,6 @@ $(document).ready(function() {
     loadCatTipos();
     loadProductos();
     loadAccesorios();
+    loadPopulares();
     goToShop();
 });

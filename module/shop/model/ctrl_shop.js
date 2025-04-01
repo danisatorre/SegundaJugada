@@ -2,22 +2,29 @@
 // return false;
 
 function loadShop(total_productos, items_por_pagina){
-    console.log("hola loadShop");
+    // console.log("hola loadShop");
     // console.log(total_productos)
     // return false;
     var verificar_filtros = localStorage.getItem('filtro') || false;
     var buscador_filtros = localStorage.getItem('buscar') || false;
-    console.log("loadShop verificar_filtros: ", verificar_filtros);
-    console.log("loadShop buscador_filtros: ", buscador_filtros);
+    var details_home = localStorage.getItem('details_home') || false;
+    // console.log("loadShop verificar_filtros: ", verificar_filtros);
+    // console.log("loadShop buscador_filtros: ", buscador_filtros);
+    // console.log("loadShop details_home id producto: ", details_home);
+    // return false;
     if(verificar_filtros != false){
-        console.log("loadShop verificar_filtros");
+        // console.log("loadShop verificar_filtros");
         getall(total_productos, items_por_pagina);
         highlight();
     }else if(buscador_filtros != false){
-        console.log("loadShop buscador_filtros");
+        // console.log("loadShop buscador_filtros");
         load_buscador_shop(total_productos, items_por_pagina);
+    }else if(details_home != false) {
+        // console.log("loadShop details_home");
+        $('#paginacion').empty();
+        loadProductoDetails(details_home);
     }else{
-        console.log("loadshop else (url...getall)");
+        // console.log("loadshop else (url...getall)");
         ajaxForSearch('module/shop/ctrl/ctrl_shop.php?op=getall');
     }
 }
@@ -1075,6 +1082,12 @@ function generarBotonesPaginacion(total_paginas, items_por_pagina, total_product
 
 } // end generarBotonesPaginacion
 
+function delete_home_details(){
+    $(document).on("click", "#page-productos", function(){
+        localStorage.removeItem('details_home');
+    });
+} // end delete_home_details
+
 $(document).ready(function(){
     print_filtros();
     loadEquipos();
@@ -1088,6 +1101,8 @@ $(document).ready(function(){
     scrollOnTop();
 
     paginacion();
+
+    delete_home_details();
 });
 
 // $(document).ready(function(){
