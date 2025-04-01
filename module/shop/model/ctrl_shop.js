@@ -689,20 +689,21 @@ function loadProductoDetails(id_producto){
                 ) // end .html
             // console.log("loadProductoDetails:\nTipo: ", shop[0][0].id_tipo)
             // return false;
-            mas_productos_relacionados(shop[0][0].id_tipo);
+            mas_productos_relacionados(shop[0][0].id_tipo, id_producto);
     }).catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
 } // funcion loadProductoDetails
 
-function productos_relacionados(loadeds = 0, total_productos, tipo){
+function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto){
     console.log("hola productos relaconados")
+    // console.log("productos_relacionados id producto: ", id_producto)
     // return false;
     let prelacionados_visibles = 3;
     let loaded = loadeds;
     let tipo_producto = tipo;
     let total_producto = total_productos;
-    console.log("productos relacionados:\nPrelacionados_visibles: ", prelacionados_visibles +"\nLoaded: ", loaded + "\nTipo_producto: ", tipo_producto + "\nTotal_producto: ", total_producto)
+    // console.log("productos relacionados:\nPrelacionados_visibles: ", prelacionados_visibles +"\nLoaded: ", loaded + "\nTipo_producto: ", tipo_producto + "\nTotal_producto: ", total_producto)
     // return false;
 
     ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=productos_relacionados", 'POST', 'JSON', { 'tipo_producto': tipo_producto, 'loaded': loaded, 'items': prelacionados_visibles })
@@ -715,19 +716,21 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
                         '<h2 class="title-prelacionados">Productos relacionados</h2>'
                     )
                 for (row in data) {
-                    if (data[row].id_producto != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.cargar-prelacionados')
-                            .html(
-                                "<li class='prelacionado-producto'>" +
-                                "<div class='prelacionado-item'>" +
-                                "<div class='prelacionado-img'>" +
-                                "<img src = " + data[row].img_producto + " alt='imagen producto' </img> " +
-                                "</div>" +
-                                "<h5> <b>" + data[row].nom_marca + "</b> <br><br> " + data[row].nom_prod + "</h5>" +
-                                "<h5><a class='prelacionado-precio'>" + data[row].precio + "€</a></h5>" +
-                                "</div>" +
-                                "</li>"
-                            )
+                    if(id_producto != data[row].id_producto){
+                        if (data[row].id_producto != undefined) {
+                            $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.cargar-prelacionados')
+                                .html(
+                                    "<li class='prelacionado-producto'>" +
+                                    "<div class='prelacionado-item'>" +
+                                    "<div class='prelacionado-img'>" +
+                                    "<img src = " + data[row].img_producto + " alt='imagen producto' </img> " +
+                                    "</div>" +
+                                    "<h5> <b>" + data[row].nom_marca + "</b> <br><br> " + data[row].nom_prod + "</h5>" +
+                                    "<h5><a class='prelacionado-precio'>" + data[row].precio + "€</a></h5>" +
+                                    "</div>" +
+                                    "</li>"
+                                )
+                        }
                     }
                 }
                 $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.boton-cargar-mas-productos')
@@ -737,19 +740,21 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
             }
             if (loaded >= 3) {
                 for (row in data) {
-                    if (data[row].id_producto != undefined) {
-                        $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.cargar-prelacionados')
-                            .html(
-                                "<li class='prelacionado-producto'>" +
-                                "<div class='prelacionado-item'>" +
-                                "<div class='prelacionado-img'>" +
-                                "<img src = " + data[row].img_producto + " alt='imagen producto' </img> " +
-                                "</div>" +
-                                "<h5> <b>" + data[row].nom_marca + "</b> <br><br> " + data[row].nom_prod + "</h5>" +
-                                "<h5><a class='prelacionado-precio'>" + data[row].precio + "€</a></h5>" +
-                                "</div>" +
-                                "</li>"
-                            )
+                    if(id_producto != data[row].id_producto){
+                        if (data[row].id_producto != undefined) {
+                            $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.cargar-prelacionados')
+                                .html(
+                                    "<li class='prelacionado-producto'>" +
+                                    "<div class='prelacionado-item'>" +
+                                    "<div class='prelacionado-img'>" +
+                                    "<img src = " + data[row].img_producto + " alt='imagen producto' </img> " +
+                                    "</div>" +
+                                    "<h5> <b>" + data[row].nom_marca + "</b> <br><br> " + data[row].nom_prod + "</h5>" +
+                                    "<h5><a class='prelacionado-precio'>" + data[row].precio + "€</a></h5>" +
+                                    "</div>" +
+                                    "</li>"
+                                )
+                        }
                     }
                 }
                 var total_prod = total_producto - 3;
@@ -773,19 +778,19 @@ function productos_relacionados(loadeds = 0, total_productos, tipo){
         });
 } // funcion productos_relacionados
 
-function mas_productos_relacionados(tipo){
+function mas_productos_relacionados(tipo, id_producto){
     console.log("hola mas productos relacionados")
     // console.log(tipo)
+    // console.log("mas_productos_relacionados id producto: ", id_producto)
     // return false;
     var tipo_producto = tipo;
-    // let items = 0;
     let items = 0;
     ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=count_productos_relacionados", "POST", "JSON", {"tipo": tipo_producto})
         .then(function(data){
             var total_productos = data[0].contador;
             // console.log("Mas productos relacionados:\nTotal_productos: ", total_productos, "\nTipo: ", tipo_producto)
             // return false;
-            productos_relacionados(0, total_productos, tipo);
+            productos_relacionados(0, total_productos, tipo, id_producto);
 
             $(document).off("click", ".cargar_mas_productos"); // eliminar eventos anteriores
 
@@ -793,7 +798,7 @@ function mas_productos_relacionados(tipo){
                 items += 3;
                 localStorage.setItem('items', items);
                 // $('.mas_productos_boton').empty();
-                productos_relacionados(items, total_productos, tipo);
+                productos_relacionados(items, total_productos, tipo, id_producto);
             });
         }).catch(function(){
             console.error("mas_productos_relacionados ERROR total_productos");
