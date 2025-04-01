@@ -66,6 +66,9 @@
             $offset = $_POST['offset'];
             $limit = $_POST['limit'];
 
+            // echo json_encode($filtro);
+            // exit;
+
             $dahoshop_filtros = new DAOshop();
             $select_filtros = $dahoshop_filtros -> filtros($filtro, $offset, $limit);
             if (!empty($select_filtros)) {

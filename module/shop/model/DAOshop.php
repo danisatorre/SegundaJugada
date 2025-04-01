@@ -67,6 +67,8 @@
 
 		function filtros($filtro, $offset, $limit){
 
+			// return $filtro;
+
 			$sql = "SELECT *
 			FROM productos p
 			LEFT JOIN marcas m ON p.marca = m.id_marca
@@ -75,6 +77,7 @@
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria";
 			
 			$primeraCondicion = true;
+			$primeraCondicionOredrBy = true;
 			$orderby = "";
 
 				for ($i=0; $i < count($filtro); $i++){
@@ -98,7 +101,13 @@
 						}else if($filtro[$i][1] == "maymen"){
 							$orderby = " ORDER BY p.precio DESC";
 						}
-					}else{
+					}else if($filtro[$i][0] == 'visitas'){
+						if($filtro[$i][1] == "menmay"){
+							$orderby = " ORDER BY p.visitas ASC";
+						}else if($filtro[$i][1] == "maymen"){
+							$orderby = " ORDER BY p.visitas DESC";
+						}
+					}else {
 						if($primeraCondicion){
 							$sql .= " WHERE p." . $filtro[$i][0] . " = '" . $filtro[$i][1] . "'";
                 			$primeraCondicion = false;

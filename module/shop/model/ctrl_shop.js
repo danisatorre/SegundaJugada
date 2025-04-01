@@ -200,13 +200,19 @@ function print_filtros() {
                     '</select>' +
                 '</div>' + // end .options-categoria
             '</div>' +
-            // radiobutton precio
-            '<div class="f_precio">' +
-                '<h4 class="desplegable-precio">Precio⬇️</h4>' +
+            // radiobutton precio / popularidad
+            '<div class="f_orderby">' +
+                '<h4 class="desplegable-orderby">Ordenar⬇️</h4>' +
                 '<div class="radio-precio" style="display: none;">' +
-                    '<input type="radio" name="precio" value="maymen" class="filtro_precio">De mayor a menor precio</br>' +
-                    '<input type="radio" name="precio" value="menmay" class="filtro_precio">De menor a mayor precio</br>' +
+                    '<b>Ordenar por precio</b> <br>' +
+                    '<input type="radio" name="orderby" value="maymen" class="filtro_precio">De mayor a menor precio</br>' +
+                    '<input type="radio" name="orderby" value="menmay" class="filtro_precio">De menor a mayor precio</br>' +
                 '</div>' + // end .radio-precio
+                '<div class="radio-visitas" style="display: none;">' +
+                    '<br> <b>Ordenar por popularidad</b> <br>' +
+                    '<input type="radio" name="orderby" value="maymen" class="filtro_visitas">De mayor a menor popularidad</br>' +
+                    '<input type="radio" name="orderby" value="menmay" class="filtro_visitas">De menor a mayor popularidad</br>' +
+                '</div>' + // end .radio-visitas
             '</div>' +
             // checkbox equipo (dinamico)
             '<div class="f_equipo">' +
@@ -277,14 +283,6 @@ function print_filtros() {
                     '</select>' +
                 '</div>' + // end .options-ciudad
             '</div>' + // end .f_ciudad
-            // radiobutton popularidad (visitas)
-            '<div class="f_visitas">' +
-                '<h4 class="desplegable_visitas">Popularidad⬇️</h4>' +
-                '<div class="radio-visitas" style="display: none;">' +
-                    '<input type="radio" name="precio" value="maymen" class="filtro_visitas">De mayor a menor popularidad</br>' +
-                    '<input type="radio" name="precio" value="menmay" class="filtro_visitas">De menor a mayor popularidad</br>' +
-                '</div>' + // end .radio-visitas
-            '</div>' + // end f_visitas
             '<div id="overlay">' +
             '<div class= "cv-spinner" >' +
             '<span class="spinner"></span>' +
@@ -321,8 +319,9 @@ function print_filtros() {
         $('.options-categoria').slideToggle();
     });
     // desplegable precio
-    $(document).on('click', '.desplegable-precio', function(){
+    $(document).on('click', '.desplegable-orderby', function(){
         $('.radio-precio').slideToggle();
+        $('.radio-visitas').slideToggle();
     });
     // desplegable equipo
     $(document).on('click', '.desplegable-equipo', function(){
@@ -353,6 +352,7 @@ function eliminar_filtros() {
     localStorage.removeItem('filtro_ciudad');
     localStorage.removeItem('pagina');
     localStorage.removeItem('items');
+    localStorage.removeItem('filtro_visitas');
     $("#nofiltros").empty();
     $("#texto-nofiltros").empty();
     location.reload();
@@ -373,7 +373,7 @@ function eliminar_filtros_filtrar(){
     localStorage.removeItem('filtro_ciudad');
     localStorage.removeItem('pagina');
     localStorage.removeItem('items');
-    localStorage.removeItem('popularidad');
+    localStorage.removeItem('filtro_visitas');
 }
 
 function getall(total_productos, items_por_pagina) {
@@ -414,7 +414,7 @@ function highlight(){
                 document.getElementById('select_categoria').value = filtroValor;
             }
 
-            if (filtroTipo === 'precio' && filterValue != '*') {
+            if (filtroTipo === 'precio' && filtroValor != '*') {
                 document.querySelector(`input[name="precio"][value="${filtroValor}"]`).setAttribute('checked', true);
             }
 
@@ -430,6 +430,10 @@ function highlight(){
 
             if (filtroTipo === 'ciudad' && filtroValor != '*') {
                 document.getElementById('select_ciudad').value = filtroValor;
+            }
+
+            if (filtroTipo === 'visitas' && filtroValor != '*') {
+                document.querySelector(`input[name="visitas"][value="${filtroValor}"]`).setAttribute('checked', true);
             }
         }
     }
@@ -497,6 +501,17 @@ function botones_filtros(){
         // return false;
         $('.filtro_ciudad').val(localStorage.getItem('filtro_ciudad'));
     }
+    // filtro de popularidad
+    $('.filtro_visitas').change(function (){
+        localStorage.setItem('filtro_visitas', this.value);
+    });
+    if(localStorage.getItem('filtro_visitas')){
+        $('.filtro_visitas').each(function() {
+            if ($(this).val() === localStorage.getItem('filtro_visitas')) {
+                $(this).prop('checked', true);
+            }
+        });
+    }
 
     $(document).on('click', '.boton_filtrar', function(){
 
@@ -546,6 +561,10 @@ function botones_filtros(){
         // ciudad
         if(localStorage.getItem('filtro_ciudad')){
             filtro.push(['ciudad', localStorage.getItem('filtro_ciudad')])
+        }
+        // popularidad
+        if(localStorage.getItem('filtro_visitas')){
+            filtro.push(['visitas', localStorage.getItem('filtro_visitas')])
         }
 
         localStorage.setItem('filtro', JSON.stringify(filtro));
