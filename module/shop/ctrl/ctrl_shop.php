@@ -236,13 +236,15 @@
 
         case 'count_productos_relacionados';
             $tipo = $_POST['tipo'];
+            $id_producto = $_POST['id_producto'];
             
+            // echo json_encode($id_producto);
             // echo json_encode($tipo);
             // exit;
 
             try {
                 $daoshop_c_p_r = new DAOshop();
-                $select_c_p_r = $daoshop_c_p_r->count_productos_relacionados($tipo);
+                $select_c_p_r = $daoshop_c_p_r->count_productos_relacionados($tipo, $id_producto);
             } catch (Exception $e) {
                 echo json_encode("error");
                 exit;
@@ -263,9 +265,10 @@
             $tipo = $_POST['tipo_producto'];
             $loaded =  $_POST['loaded'];
             $items =  $_POST['items'];
+            $id_producto = $_POST['id_producto'];
             try {
                 $daoshop_p_r = new DAOshop();
-                $select_p_r = $daoshop_p_r->select_productos_relacionados($tipo, $loaded, $items);
+                $select_p_r = $daoshop_p_r->select_productos_relacionados($tipo, $loaded, $items, $id_producto);
             } catch (Exception $e) {
                 echo json_encode("error");
                 exit;

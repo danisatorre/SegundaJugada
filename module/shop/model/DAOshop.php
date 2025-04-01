@@ -477,10 +477,11 @@
 
 		// PRODUCTOS RELACIONADOS
 
-		function count_productos_relacionados($tipo){
+		function count_productos_relacionados($tipo, $id_producto){
 			$sql = "SELECT COUNT(*) contador
 			FROM productos p 
-			WHERE p.tipo = '$tipo'";
+			WHERE p.tipo = '$tipo'
+			AND p.id_producto <> $id_producto";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);
@@ -495,7 +496,7 @@
 			return $retrArray;
 		}
 
-		function select_productos_relacionados($tipo, $loaded, $items){
+		function select_productos_relacionados($tipo, $loaded, $items, $id_producto){
 			$sql = "SELECT * 
 				FROM productos p
 				LEFT JOIN marcas m ON p.marca = m.id_marca
@@ -503,6 +504,7 @@
 				LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 				LEFT JOIN categorias c ON p.categoria = c.id_categoria
 				WHERE p.tipo = '$tipo'
+				AND p.id_producto <> $id_producto
 				LIMIT $loaded, $items";
 
 			$conexion = connect::con();

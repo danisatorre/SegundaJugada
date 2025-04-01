@@ -706,7 +706,7 @@ function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto)
     // console.log("productos relacionados:\nPrelacionados_visibles: ", prelacionados_visibles +"\nLoaded: ", loaded + "\nTipo_producto: ", tipo_producto + "\nTotal_producto: ", total_producto)
     // return false;
 
-    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=productos_relacionados", 'POST', 'JSON', { 'tipo_producto': tipo_producto, 'loaded': loaded, 'items': prelacionados_visibles })
+    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=productos_relacionados", 'POST', 'JSON', { 'tipo_producto': tipo_producto, 'loaded': loaded, 'items': prelacionados_visibles, 'id_producto': id_producto })
         .then(function(data) {
             console.log("productos relacionads data:\n", data)
             // return false;
@@ -716,7 +716,6 @@ function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto)
                         '<h2 class="title-prelacionados">Productos relacionados</h2>'
                     )
                 for (row in data) {
-                    if(id_producto != data[row].id_producto){
                         if (data[row].id_producto != undefined) {
                             $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.cargar-prelacionados')
                                 .html(
@@ -731,7 +730,6 @@ function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto)
                                     "</li>"
                                 )
                         }
-                    }
                 }
                 $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.boton-cargar-mas-productos')
                     .html(
@@ -740,7 +738,6 @@ function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto)
             }
             if (loaded >= 3) {
                 for (row in data) {
-                    if(id_producto != data[row].id_producto){
                         if (data[row].id_producto != undefined) {
                             $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.cargar-prelacionados')
                                 .html(
@@ -755,7 +752,6 @@ function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto)
                                     "</li>"
                                 )
                         }
-                    }
                 }
                 var total_prod = total_producto - 3;
                 if (total_prod <= loaded) {
@@ -785,8 +781,10 @@ function mas_productos_relacionados(tipo, id_producto){
     // return false;
     var tipo_producto = tipo;
     let items = 0;
-    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=count_productos_relacionados", "POST", "JSON", {"tipo": tipo_producto})
+    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=count_productos_relacionados", "POST", "JSON", {"tipo": tipo_producto, "id_producto": id_producto})
         .then(function(data){
+            // console.log("mpr id: ", data)
+            // return false;
             var total_productos = data[0].contador;
             // console.log("Mas productos relacionados:\nTotal_productos: ", total_productos, "\nTipo: ", tipo_producto)
             // return false;
