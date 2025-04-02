@@ -16,7 +16,6 @@
 <div id="wrapper">		
 	<?php
     if (!isset($_GET['module']) || $_GET['module'] !== "ctrl_auth") { 
-        // Si 'module' no está definido o es distinto de 'ctrl_auth', incluir el header
     ?>
         <div id="header">    	
             <?php include("view/inc/header.html"); ?>    

@@ -141,3 +141,7 @@
     border-color: orange;
     box-shadow: 3px -3px 5px rgba(218, 165, 32, 0.5); /* Sombra dorada */
 }
+
+.error{
+    color:red;
+}
