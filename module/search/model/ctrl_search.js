@@ -1,5 +1,5 @@
 function load_tipo(){
-    ajaxPromise('module/search/ctrl/ctrl_search.php?op=tipo', 'POST', 'JSON')
+    return ajaxPromise('module/search/ctrl/ctrl_search.php?op=tipo', 'POST', 'JSON')
         .then(function(data){
             // console.log("load_tipo data: ", data)
             $('#tipo_producto').empty();
@@ -17,13 +17,13 @@ function load_tipo(){
 function load_categoria(data){
     if(data == undefined){
         console.log("load_categoria data(undefined)");
-        ajaxPromise('module/search/ctrl/ctrl_search.php?op=categoria', 'POST', 'JSON')
+        return ajaxPromise('module/search/ctrl/ctrl_search.php?op=categoria', 'POST', 'JSON')
             // console.log("load_categoria data undefined: ", data)
-            .then(function(data) {
+            .then(function(categoria) {
                 $('#categoria_producto').empty();
                 $('#categoria_producto').append('<option value = "0">Categoria</option>');
-                for (row in data) {
-                    $('#categoria_producto').append('<option value = "' + data[row].id_categoria + '">' + data[row].categoria + '</option>');
+                for (row in categoria) {
+                    $('#categoria_producto').append('<option value = "' + categoria[row].id_categoria + '">' + categoria[row].categoria + '</option>');
                 }
             }).catch(function() {
                 console.log("load_categoria ERROR al cargar las categorias en el controlador del buscador de js");
@@ -32,13 +32,13 @@ function load_categoria(data){
             });
     }else{
         console.log("load_categoria data(defined)");
-        ajaxPromise('module/search/ctrl/ctrl_search.php?op=categoria', 'POST', 'JSON', data)
+        return ajaxPromise('module/search/ctrl/ctrl_search.php?op=categoria', 'POST', 'JSON', data)
             // console.log("load_categoria data defined: ", data)
-            .then(function(data) {
+            .then(function(categoria) {
                 $('#categoria_producto').empty();
                 $('#categoria_producto').append('<option value = "0">Categoria</option>');
-                for (row in data) {
-                    $('#categoria_producto').append('<option value = "' + data[row].id_categoria + '">' + data[row].categoria + '</option>');
+                for (row in categoria) {
+                    $('#categoria_producto').append('<option value = "' + categoria[row].id_categoria + '">' + categoria[row].categoria + '</option>');
                 }
             }).catch(function() {
                 console.log("load_categoria ERROR al cargar las categorias en el controlador del buscador de js");
@@ -49,8 +49,12 @@ function load_categoria(data){
 } // load_tipo
 
 function load_buscador(){
-    load_tipo();
-    load_categoria();
+    Promise.all([load_tipo(), load_categoria()]).then(() =>{
+        highlight_buscador();
+    }); // cargar el highligth despues de cargar los datos de los select
+    // load_tipo();
+    // load_categoria();
+    // highlight_buscador();
     $('#tipo_producto').on('change', function(){
         let tipo = $(this).val();
         if(tipo === 0){
@@ -58,6 +62,7 @@ function load_buscador(){
         }else{
             load_categoria({tipo});
         }
+        // highlight_buscador();
     });
 } // load_buscador
 
@@ -172,7 +177,7 @@ function highlight_buscador(){
 
     if(buscador_filtros){
         var ciudad = (buscador_filtros[0]['filtro_ciudad']);
-        var tipo = (buscador_filtros[1]['filtro_tipo'][0]);
+        var tipo = (buscador_filtros[1]['filtro_tipo']);
         var categoria = (buscador_filtros[2]['filtro_categoria']);
 
         // console.log(ciudad)
@@ -198,5 +203,5 @@ $(document).ready(function() {
     load_buscador();
     autocompletar();
     boton_buscar();
-    highlight_buscador();
+    // highlight_buscador();
 });
