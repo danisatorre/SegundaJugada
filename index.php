@@ -5,6 +5,8 @@
 		include("view/inc/top_page_shop.html");
 	}else if((isset($_GET['module'])) && ($_GET['module']==="ctrl_exceptions")){
 		include("view/inc/top_page_home.html");
+	}else if((isset($_GET['module'])) && ($_GET['module']==="ctrl_auth")){
+		include("view/inc/top_page_auth.html");
 	}
 	else{
 		include("view/inc/top_page_home.html");
@@ -12,11 +14,16 @@
 	//session_start();
 ?>
 <div id="wrapper">		
-    <div id="header">    	
-    	<?php
-    	    include("view/inc/header.html");
-    	?>        
-    </div>  
+	<?php
+    if (!isset($_GET['module']) || $_GET['module'] !== "ctrl_auth") { 
+        // Si 'module' no está definido o es distinto de 'ctrl_auth', incluir el header
+    ?>
+        <div id="header">    	
+            <?php include("view/inc/header.html"); ?>    
+        </div>
+    <?php 
+    } 
+	?>  
     <div id="menu">
 		<?php
 		    include("view/inc/menu.html");

@@ -15,6 +15,9 @@
 			case "ctrl_shop";
 				include("module/shop/ctrl/".$_GET['module'].".php");
 				break;
+			case "ctrl_auth";
+				include("module/AUTH/ctrl/".$_GET['module'].".php");
+				break;
 		}
 	}else{
 		include("module/home/view/home.html");
