@@ -1,4 +1,4 @@
-console.log("hola ctrl_login.js")
+// console.log("hola ctrl_login.js")
 
 // return false;
 
