@@ -73,6 +73,36 @@
             }
         break;
 
+        case 'login';
+            $username = $_POST['username'];
+            $pwd = $_POST['password'];
+            try {
+                $daoauth = new DAOauth();
+                $rdo = $daoauth->select_user_log($username);
+
+                if ($rdo == "error_user") {
+                    echo json_encode("error_user");
+                    exit;
+                } else {
+                    if (password_verify($pwd, $rdo['pwd'])) {
+                        // $token= create_token($rdo["username"]);
+                        echo json_encode($rdo['username']);
+                        exit;
+                        $_SESSION['username'] = $rdo['username']; //Guardamos el usario 
+                        $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
+                        echo json_encode($token);
+                        exit;
+                    } else {
+                        echo json_encode("error_pwd");
+                        exit;
+                    }
+                }
+            } catch (Exception $e) {
+                echo json_encode("error");
+                exit;
+            }
+        break;
+
     } // switch
 
 ?>

@@ -4,7 +4,39 @@
 function login() {
     // console.log("hola login")
     if (validate_login() != 0) {
-        alert('Validación de login correcta');
+        // alert('Validación de login correcta');
+        var data = $('.login-form').serialize();
+        ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=login', 'POST', 'JSON', data)
+            .then(function(login) {
+                console.log('Login: ', login)
+                if (login == "error_user") {
+                    document.getElementById('error_username_log').innerHTML = "El usario no existe, asegurase de que lo a escrito correctamente"
+                } else if (login == "error_pwd") {
+                    document.getElementById('error_pwd_log').innerHTML = "La contraseña es incorrecta"
+                } else {
+                    localStorage.setItem("token", login);
+                    Swal.fire({
+                        title: "Has iniciado sesión",
+                        text: "Pulsa en Continuar para ver todos nuestros productos",
+                        icon: "success",
+                        confirmButtonText: "Continuar"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "index.php";
+                        }
+                    });
+
+                    // if (localStorage.getItem('redirect_like')) {
+                    //     setTimeout(' window.location.href = "index.php?module=ctrl_shop&op=list"; ', 1000);
+                    // } else {
+                    //     setTimeout(' window.location.href = "index.php?module=ctrl_home&op=list"; ', 1000);
+                    // }
+                }
+            }).catch(function(textStatus) {
+                if (console && console.log) {
+                    console.log("La solicitud ha fallado: " + textStatus);
+                }
+            });
     }
 }
 
