@@ -1,12 +1,50 @@
 // console.log("hola ctrl_register.js")
+// return false;
 
 function register() {
+    // console.log("hola register")
     if (validate_register() != 0) {
-        alert("Validación de register correcta")
+        // Swal.fire({
+        //     title: "Registro",
+        //     text: "Formulario de registro correcto",
+        //     icon: "success",
+        //     confirmButtonText: "Aceptar"
+        // }).then((result) => {
+        //     if (result.isConfirmed) {
+        //         window.location.href = "index.php?module=ctrl_auth&op=login-view";
+        //     }
+        // });
+        // return false;
+        var data = $('.register-form').serialize();
+        // alert("Validación de register correcta\nDatos introducidos:\n" + data)
+        // return false;
+        console.log("Validación de register correcta\nDatos introducidos:\n" + data)
+        ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=register', 'POST', 'JSON', data)
+            .then(function(register){
+                // console.log(register)
+                // return false;
+                if(register == "error_email"){
+                    document.getElementById('error_email_reg').innerHTML = "El correo introducido ya esta en úso por otro usuario, intenta con iniciar sesión"
+                }else if(register == "error_username"){
+                    document.getElementById('error_username_reg').innerHTML = "El nombre de usuario introducido ya esta en uso por otro usuario, introduce otro nombre de usuario"
+                }else{
+                    Swal.fire({
+                        title: "Cuenta creada",
+                        text: "Pulsa en Iniciar Sesión para acceder a tu cuenta",
+                        icon: "success",
+                        confirmButtonText: "Iniciar Sesión"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "index.php?module=ctrl_auth&op=login-view";
+                        }
+                    });
+                }
+            })
     }
 }
 
 function key_register() {
+    // console.log("hola key_register")
     $(".register-button").keypress(function(e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
@@ -17,6 +55,7 @@ function key_register() {
 }
 
 function button_register() {
+    // console.log("hola button_register")
     $('.register-button').on('click', function(e) {
         e.preventDefault();
         register();
@@ -24,6 +63,7 @@ function button_register() {
 }
 
 function validate_register() {
+    // console.log("hola validate_register")
     var username_regex = /^(?=.{5,}$)(?=.*[a-zA-Z0-9]).*$/;
     var mail_regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     var pwd_regex = /^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/;

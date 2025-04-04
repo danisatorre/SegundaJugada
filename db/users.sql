@@ -7,17 +7,15 @@ CREATE TABLE `users`(
     `username` varchar(50) NOT NULL,
     `pwd` varchar(50) NOT NULL,
     `email` varchar(50) NOT NULL,
-    `img_perfil` varchar(255) NOT NULL,
-    `dir` varchar(100) NOT NULL,
-    `sexo` varchar(20) NOT NULL
+    `avatar` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `users`(`id_user`, `username`, `pwd`, `email`, `img_perfil`, `dir`, `sexo`) VALUES
-(1, 'user1', 'user1pwd', 'user1@gmail.com', 'img1.jpg', 'dir1', 'masculino'),
-(2, 'user2', 'user2pwd', 'user2@gmail.com', 'img2.jpg', 'dir2', 'femenino'),
-(3, 'user3', 'user3pwd', 'user3@gmail.com', 'img3.jpg', 'dir3', 'femenino'),
-(4, 'user4', 'user4pwd', 'user4@gmail.com', 'img4.jpg', 'dir4', 'masculino'),
-(5, 'user5', 'user5pwd', 'user5@gmail.com', 'img5.jpg', 'dir5', 'masculino');
+INSERT INTO `users`(`id_user`, `username`, `pwd`, `email`, `avatar`) VALUES
+(1, 'user1', 'user1pwd', 'user1@gmail.com', 'img1.jpg'),
+(2, 'user2', 'user2pwd', 'user2@gmail.com', 'img2.jpg'),
+(3, 'user3', 'user3pwd', 'user3@gmail.com', 'img3.jpg'),
+(4, 'user4', 'user4pwd', 'user4@gmail.com', 'img4.jpg'),
+(5, 'user5', 'user5pwd', 'user5@gmail.com', 'img5.jpg');
 
 -- FAVORITOS
 

@@ -1,14 +1,15 @@
 // console.log("hola ctrl_login.js")
-
 // return false;
 
 function login() {
+    // console.log("hola login")
     if (validate_login() != 0) {
         alert('Validación de login correcta');
     }
 }
 
 function key_login() {
+    // console.log("hola key_login")
     $(".login-button").keypress(function(e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
@@ -19,6 +20,7 @@ function key_login() {
 }
 
 function button_login() {
+    // console.log("hola button_login")
     $('.login-button').on('click', function(e) {
         e.preventDefault();
         login();
@@ -26,6 +28,7 @@ function button_login() {
 }
 
 function validate_login() {
+    // console.log("hola validate_login")
     var error = false;
 
     if (document.getElementById('username').value.length === 0) {
