@@ -10,7 +10,7 @@ function login() {
             .then(function(login) {
                 console.log('Login: ', login)
                 if (login == "error_user") {
-                    document.getElementById('error_username_log').innerHTML = "El usario no existe, asegurase de que lo a escrito correctamente"
+                    document.getElementById('error_username_log').innerHTML = "El usario o correo electrónico introducido no existe, asegurase de que lo a escrito correctamente"
                 } else if (login == "error_pwd") {
                     document.getElementById('error_pwd_log').innerHTML = "La contraseña es incorrecta"
                 } else {

@@ -35,6 +35,20 @@
             }
         }
 
+        function select_email_log($email){
+            $sql = "SELECT `username`, `pwd`, `email`, `tipo_usuario`, `avatar` FROM `users` WHERE email='$email'";
+			$conexion = connect::con();
+            $res = mysqli_query($conexion, $sql)->fetch_object();
+            connect::close($conexion);
+
+            if ($res) {
+                $value = get_object_vars($res);
+                return $value;
+            }else {
+                return "error_email";
+            }
+        }
+
         function insert_user($username, $email, $pwd){
             $hashpwd = password_hash($pwd, PASSWORD_DEFAULT, ['cost' => 12]); // encriptar la contraseña
             $hashemail = md5(strtolower(trim($email)));

@@ -81,17 +81,34 @@
                 $rdo = $daoauth->select_user_log($username);
 
                 if ($rdo == "error_user") {
-                    echo json_encode("error_user");
-                    exit;
-                } else {
+                    $rdo_email = $daoauth->select_email_log($username);
+
+                    if($rdo_email == "error_email"){
+                        echo json_encode("error_user");
+                        exit;
+                    }else{
+                        if (password_verify($pwd, $rdo_email['pwd'])) {
+                            // $token= create_token($rdo_email["username"]);
+                            echo json_encode($rdo_email);
+                            exit;
+                            // $_SESSION['username'] = $rdo_email['username']; //Guardamos el usario 
+                            // $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
+                            // echo json_encode($token);
+                            // exit;
+                        } else {
+                            echo json_encode("error_pwd");
+                            exit;
+                        }
+                    }
+                }else{
                     if (password_verify($pwd, $rdo['pwd'])) {
                         // $token= create_token($rdo["username"]);
                         echo json_encode($rdo);
                         exit;
-                        $_SESSION['username'] = $rdo['username']; //Guardamos el usario 
-                        $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
-                        echo json_encode($token);
-                        exit;
+                        // $_SESSION['username'] = $rdo['username']; //Guardamos el usario 
+                        // $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
+                        // echo json_encode($token);
+                        // exit;
                     } else {
                         echo json_encode("error_pwd");
                         exit;
