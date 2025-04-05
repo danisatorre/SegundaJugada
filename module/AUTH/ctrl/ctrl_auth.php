@@ -86,7 +86,7 @@
                 } else {
                     if (password_verify($pwd, $rdo['pwd'])) {
                         // $token= create_token($rdo["username"]);
-                        echo json_encode($rdo['username']);
+                        echo json_encode($rdo);
                         exit;
                         $_SESSION['username'] = $rdo['username']; //Guardamos el usario 
                         $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
@@ -101,6 +101,18 @@
                 echo json_encode("error");
                 exit;
             }
+        break;
+
+        case 'data_user';
+            $data_user = $_POST['token'];
+            echo json_encode($data_user['username']);
+            exit;
+            // $json = decode_token($_POST['token']);
+            $daoauth = new DAOauth();
+            // $rdo = $daoauth->select_data_user($json['username']);
+            $rdo = $daoauth->select_data_user($data_user['username']);
+            echo json_encode($rdo);
+            exit;
         break;
 
     } // switch

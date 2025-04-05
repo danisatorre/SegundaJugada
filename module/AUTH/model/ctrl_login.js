@@ -14,7 +14,7 @@ function login() {
                 } else if (login == "error_pwd") {
                     document.getElementById('error_pwd_log').innerHTML = "La contraseña es incorrecta"
                 } else {
-                    localStorage.setItem("token", login);
+                    localStorage.setItem("token", JSON.stringify(login));
                     Swal.fire({
                         title: "Has iniciado sesión",
                         text: "Pulsa en Continuar para ver todos nuestros productos",
