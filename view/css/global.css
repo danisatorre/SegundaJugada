@@ -124,6 +124,6 @@ body {
     /* background-color: darkorange; */
 }
 
-#logout{
+#logout, #switch-cuenta{
     cursor:pointer;
 }

@@ -25,6 +25,7 @@ function load_menu() {
                 $('<a href="javascript:;"><img src="' + token.avatar + '" id="user-icon">' + token.username + '</a>' +
                     '<ul>' +
                     '<li id="logout"><a>Cerrar sesión</a></li>' +
+                    '<li id="switch-cuenta"><a href="index.php?module=ctrl_auth&op=login-view">Cambiar de cuenta</a></li>' +
                     '</ul>' 
                 ).appendTo('.submenu-cuenta');
                 // $('<p></p>').attr({ 'id': 'user_info' }).appendTo('#des_inf_user')
