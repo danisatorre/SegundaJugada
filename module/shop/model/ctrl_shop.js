@@ -74,6 +74,7 @@ function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina
                                 "</div>"
                             ); // end .html
                     }
+                    paginacion();
                     leafleft(shop, 6);
                     highlight();
                     botones_filtros();
@@ -1024,7 +1025,7 @@ function generarBotonesPaginacion(total_paginas, items_por_pagina, total_product
     // return false;
     $('#paginacion').empty();
 
-    var pagina = localStorage.getItem('pagina');
+    var pagina = parseInt(localStorage.getItem('pagina')) || 1;
 
     // if(pagina == null | pagina == 1){
     //     $('.pagina-previa').remove();
@@ -1034,12 +1035,22 @@ function generarBotonesPaginacion(total_paginas, items_por_pagina, total_product
     //     );
     // }
 
-    $('#paginacion').append(
-        '<button class="pagina-previa">⟨</button>'
-    );
+    // $('#paginacion').append(
+    //     '<button class="pagina-previa">⟨</button>'
+    // );
+
+    if (pagina > 1) {
+        $('#paginacion').append('<button class="pagina-previa">⟨</button>');
+    }
+
+    // for (let i = 1; i <= total_paginas; i++) {
+    //     $('#paginacion').append(`<button class="pagina" data-pagina="${i}">${i}</button>`);
+    // }
 
     for (let i = 1; i <= total_paginas; i++) {
-        $('#paginacion').append(`<button class="pagina" data-pagina="${i}">${i}</button>`);
+        $('#paginacion').append(
+            `<button class="pagina ${pagina === i ? 'active' : ''}" data-pagina="${i}">${i}</button>`
+        );
     }
 
     // if(pagina == total_paginas){
@@ -1050,41 +1061,73 @@ function generarBotonesPaginacion(total_paginas, items_por_pagina, total_product
     //     );
     // }
 
-    $('#paginacion').append(
-        '<button class="pagina-siguiente">⟩</button>'
-    );
+    // $('#paginacion').append(
+    //     '<button class="pagina-siguiente">⟩</button>'
+    // );
 
-    $(document).on('click', '.pagina', function() {
-        const pagina = $(this).data('pagina');
-        const offset = (pagina - 1) * items_por_pagina;
+    if (pagina < total_paginas) {
+        $('#paginacion').append('<button class="pagina-siguiente">⟩</button>');
+    }
 
-        localStorage.setItem('pagina', pagina);
+    // $(document).on('click', '.pagina', function() {
+    //     const pagina = $(this).data('pagina');
+    //     const offset = (pagina - 1) * items_por_pagina;
 
-        console.log("generarBotonesPaginacion:\nPagina: ", pagina, "\nOffset: ", offset, "\nTotal paginas: ", total_paginas, "\nItems por pagina: ", items_por_pagina)
+    //     localStorage.setItem('pagina', pagina);
+
+    //     console.log("generarBotonesPaginacion:\nPagina: ", pagina, "\nOffset: ", offset, "\nTotal paginas: ", total_paginas, "\nItems por pagina: ", items_por_pagina)
+    //     // return false;
+
+    //     loadShop(total_productos, items_por_pagina);
+    // });
+
+    $(document).off('click', '.pagina').on('click', '.pagina', function () {
+        const nuevaPagina = parseInt($(this).data('pagina'));
+        localStorage.setItem('pagina', nuevaPagina);
+        console.log("Página seleccionada: ", nuevaPagina);
         // return false;
-
         loadShop(total_productos, items_por_pagina);
     });
 
-    $(document).on('click', '.pagina-previa', function () {
-        const pagina = parseInt(localStorage.getItem('pagina')) || 1;
-        if (pagina > 1) {
-            localStorage.setItem('pagina', pagina - 1);
-            console.log("Página anterior: ", pagina - 1);
-            // return false;
+    // $(document).on('click', '.pagina-previa', function () {
+    //     const pagina = parseInt(localStorage.getItem('pagina')) || 1;
+    //     if (pagina > 1) {
+    //         localStorage.setItem('pagina', pagina - 1);
+    //         console.log("Página anterior: ", pagina - 1);
+    //         // return false;
+    //         loadShop(total_productos, items_por_pagina);
+    //     }
+    // });
+
+    $(document).off('click', '.pagina-previa').on('click', '.pagina-previa', function () {
+        let paginaActual = parseInt(localStorage.getItem('pagina')) || 1;
+        if (paginaActual > 1) {
+            paginaActual -= 1;
+            localStorage.setItem('pagina', paginaActual);
+            console.log("Página anterior: ", paginaActual);
             loadShop(total_productos, items_por_pagina);
         }
     });
 
-    $(document).on('click', '.pagina-siguiente', function () {
-        const pagina = parseInt(localStorage.getItem('pagina')) || 1;
-        if (pagina < total_paginas) {
-            localStorage.setItem('pagina', pagina + 1);
-            console.log("Página siguiente: ", pagina + 1);
-            // return false;
+    $(document).off('click', '.pagina-siguiente').on('click', '.pagina-siguiente', function () {
+        let paginaActual = parseInt(localStorage.getItem('pagina')) || 1;
+        if (paginaActual < total_paginas) {
+            paginaActual += 1;
+            localStorage.setItem('pagina', paginaActual);
+            console.log("Página siguiente: ", paginaActual);
             loadShop(total_productos, items_por_pagina);
         }
     });
+
+    // $(document).on('click', '.pagina-siguiente', function () {
+    //     const pagina = parseInt(localStorage.getItem('pagina')) || 1;
+    //     if (pagina < total_paginas) {
+    //         localStorage.setItem('pagina', pagina + 1);
+    //         console.log("Página siguiente: ", pagina + 1);
+    //         // return false;
+    //         loadShop(total_productos, items_por_pagina);
+    //     }
+    // });
 
 } // end generarBotonesPaginacion
 
@@ -1106,7 +1149,7 @@ $(document).ready(function(){
 
     scrollOnTop();
 
-    paginacion();
+    // paginacion();
 
     delete_home_details();
 });
