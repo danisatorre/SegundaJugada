@@ -65,6 +65,7 @@ function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina
                     for (row in shop) {
                         $("#nofiltros").empty();
                         $("#texto-nofiltros").empty();
+                        $(".nofiltrosdiv").empty();
                         $('<div></div>').attr('class', "producto").attr({'id': shop[row].id_producto}).appendTo('.container-productos')
                             .html(
                                 "<img src = " + shop[row].img_producto + " alt='foto' </img> " +
@@ -88,10 +89,11 @@ function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina
                 $("#nofiltros").empty();
                 $("#texto-nofiltros").empty();
                 $(".nofiltrosdiv").empty();
+                $(".imgnofdiv").empty();
                 $('<div></div>').appendTo('.container-shop-list')
                 .html(
                     "<div class='nofiltrosdiv'>" +
-                    "<img src='view/images/icons/no_productos.png'>" +
+                    "<img class='imgnofdiv' src='view/images/icons/no_productos.png'>" +
                     "<h1 id='nofiltros'>No se han encontrado productos con los filtros especificados</h1>" +
                     "<br>" +
                     "<p id='texto-nofiltros'>Pulse el boton 'remover filtros' para volver a la busqueda</p>" +
@@ -588,6 +590,7 @@ function botones_filtros(){
         }
 
         highlight();
+        highlight_buscador(); // funcion en ctrl_search.js
     });
 }
 

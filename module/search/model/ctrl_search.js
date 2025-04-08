@@ -64,6 +64,10 @@ function load_buscador(){
         }
         // highlight_buscador();
     });
+
+    // $('#categoria_producto').on('change', function(){
+    //     highlight_buscador();
+    // });
 } // load_buscador
 
 function autocompletar(){
@@ -173,6 +177,9 @@ function eliminar_filtros_buscar(){
 function highlight_buscador(){
     console.log("hola highlight buscador")
     // return false;
+
+    // rellenar buscador con filtros aplicados desde el buscador
+
     var buscador_filtros = JSON.parse(localStorage.getItem('buscar'));
 
     if(buscador_filtros){
@@ -197,6 +204,38 @@ function highlight_buscador(){
             document.getElementById('autocompletar').value = ciudad;
         }
     }
+
+    // rellenar opciones con filtros aplicados desde el shop
+
+    var filtro_tipo = localStorage.getItem('filtro_tipo');
+    var filtro_categoria = localStorage.getItem('filtro_categoria');
+    var filtro_ciudad = localStorage.getItem('filtro_ciudad');
+
+    // if(filtro_tipo && filtro_tipo != '0'){
+    //     document.getElementById('tipo_producto').value = filtro_tipo;
+    // }
+
+    if (filtro_tipo && filtro_tipo != '0') {
+        if ($('#tipo_producto').val() != filtro_tipo) {
+            $('#tipo_producto').val(filtro_tipo);
+        }
+    }
+
+    if (filtro_categoria && filtro_categoria != '0') {
+        if ($('#categoria_producto').val() != filtro_categoria) {
+            $('#categoria_producto').val(filtro_categoria);
+        }
+    }
+
+    if(filtro_ciudad && filtro_ciudad != '0'){
+        if($('#autocompletar').val() != filtro_ciudad){
+            $('#autocompletar').val(filtro_ciudad);
+        }
+    }
+
+    // if(filtro_categoria && filtro_categoria != '0'){
+    //     document.getElementById('categoria_producto').value = filtro_categoria;
+    // }
 }
 
 $(document).ready(function() {
