@@ -91,6 +91,7 @@ function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina
                 $('<div></div>').appendTo('.container-shop-list')
                 .html(
                     "<div class='nofiltrosdiv'>" +
+                    "<img src='view/images/icons/no_productos.png'>" +
                     "<h1 id='nofiltros'>No se han encontrado productos con los filtros especificados</h1>" +
                     "<br>" +
                     "<p id='texto-nofiltros'>Pulse el boton 'remover filtros' para volver a la busqueda</p>" +
