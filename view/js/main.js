@@ -7,9 +7,9 @@ function load_menu() {
     // return false;
     $('.submenu-cuenta').empty();
     if (token) {
-        // ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=data_user', 'POST', 'JSON', { 'token': token })
-            // .then(function(data) {
-                // console.log(data)
+        ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=data_user', 'POST', 'JSON', { 'token': token })
+            .then(function(data) {
+                console.log(data)
                 // console.log(token.username);
                 // return false;
                 // if (data.tipo_usuario == "Cliente") {
@@ -22,7 +22,7 @@ function load_menu() {
                 //     $('.opc_exceptions').show();
                 // }
                 $('.submenu-cuenta').empty();
-                $('<a href="javascript:;"><img src="' + token.avatar + '" id="user-icon">' + token.username + '</a>' +
+                $('<a href="javascript:;"><img src="' + data.avatar + '" id="user-icon">' + data.username + '</a>' +
                     '<ul>' +
                     '<li id="logout"><a>Cerrar sesión</a></li>' +
                     '<li id="switch-cuenta"><a href="index.php?module=ctrl_auth&op=login-view">Cambiar de cuenta</a></li>' +
@@ -35,9 +35,9 @@ function load_menu() {
 
                 //     )
 
-            // }).catch(function() {
-            //     console.error("load_menu:\nError al cargar los datos del user");
-            // });
+            }).catch(function() {
+                console.error("load_menu:\nError al cargar los datos del user");
+            });
     } else {
         console.log("No hay token disponible");
         $('.submenu-cuenta').empty();

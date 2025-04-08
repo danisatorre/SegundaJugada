@@ -1,6 +1,9 @@
 <?php
     $path = $_SERVER['DOCUMENT_ROOT'] . '/0_intro/online_shop/SegundaJugada/';
     include($path . "/module/AUTH/model/DAOauth.php");
+    include($path . "/model/middleware_auth.php");
+
+    @session_start();
 
     switch($_GET['op']){
 
@@ -88,13 +91,13 @@
                         exit;
                     }else{
                         if (password_verify($pwd, $rdo_email['pwd'])) {
-                            // $token= create_token($rdo_email["username"]);
-                            echo json_encode($rdo_email);
-                            exit;
-                            // $_SESSION['username'] = $rdo_email['username']; //Guardamos el usario 
-                            // $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
-                            // echo json_encode($token);
+                            $token = create_token($rdo_email["username"]);
+                            // echo json_encode($rdo_email);
                             // exit;
+                            $_SESSION['username'] = $rdo_email['username']; //Guardamos el correo
+                            $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
+                            echo json_encode($token);
+                            exit;
                         } else {
                             echo json_encode("error_pwd");
                             exit;
@@ -102,13 +105,13 @@
                     }
                 }else{
                     if (password_verify($pwd, $rdo['pwd'])) {
-                        // $token= create_token($rdo["username"]);
-                        echo json_encode($rdo);
-                        exit;
-                        // $_SESSION['username'] = $rdo['username']; //Guardamos el usario 
-                        // $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
-                        // echo json_encode($token);
+                        $token= create_token($rdo["username"]);
+                        // echo json_encode($rdo);
                         // exit;
+                        $_SESSION['username'] = $rdo['username']; //Guardamos el usario 
+                        $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
+                        echo json_encode($token);
+                        exit;
                     } else {
                         echo json_encode("error_pwd");
                         exit;
@@ -121,13 +124,14 @@
         break;
 
         case 'data_user';
-            $data_user = $_POST['token'];
-            echo json_encode($data_user['username']);
-            exit;
-            // $json = decode_token($_POST['token']);
+            $token = $_POST['token'];
+            // $data_user = $token;
+            // echo json_encode($data_user['username']);
+            // exit;
+            $json_token = decode_token($token);
             $daoauth = new DAOauth();
-            // $rdo = $daoauth->select_data_user($json['username']);
-            $rdo = $daoauth->select_data_user($data_user['username']);
+            $rdo = $daoauth->select_data_user($json_token['username']);
+            // $rdo = $daoauth->select_data_user($token['username']);
             echo json_encode($rdo);
             exit;
         break;
