@@ -27,7 +27,7 @@ function loadShop(total_productos, items_por_pagina){
         // console.log("loadshop else (url...getall)");
         ajaxForSearch('module/shop/ctrl/ctrl_shop.php?op=getall');
     }
-}
+} // end loadShop (controlador del controlador)
 
 function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina = 3) {
     console.log("hola ajaxForSearch");
@@ -113,7 +113,7 @@ function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina
                     "</div>" // end .nofiltrosdiv
                 );
         });
-} // end ajaxForSearch
+} // end ajaxForSearch (cargar los productos del list del shop)
 
 function loadProductos(){
     console.log("hola loadProductos");
@@ -136,7 +136,7 @@ function loadProductos(){
     }).catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
-} // funcion loadProductos
+} // end loadProductos
 
 function primera_entrada(){
     localStorage.removeItem('filtro');
@@ -146,9 +146,9 @@ function primera_entrada(){
     localStorage.removeItem('filtro_equipo');
     $("#nofiltros").empty();
     $("#texto-nofiltros").empty();
-}
+} // end primera_entrada
 
-function loadEquipos() { // llenar los checkboxes de equipos dinamicamente desde la base de datos
+function loadEquipos() {
     console.log("hola loadEquipos");
     // return false;
     ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_equipos', 'POST', 'JSON')
@@ -169,7 +169,7 @@ function loadEquipos() { // llenar los checkboxes de equipos dinamicamente desde
     }).catch(function(error){
         console.error('Error al cargar los equipos:', error);
     });
-}
+} // end loadEquipos (llenar los checkboxes de equipo dinamicamente desde la base de datos)
 
 function print_filtros() {
     $('<div class="div-filtros"></div>').appendTo('.container-filtros')
@@ -229,7 +229,7 @@ function print_filtros() {
             '<div class="f_equipo">' +
                 '<h4 class="desplegable-equipo">Equipo⬇️</h4>' +
                 '<div class="checkbox-equipo" style="display: none;">' +
-                    
+                    // checkboxes pintados dinamicamente en la función loadEquipos
                 '</div>' + // end .checkbox-equipo
             '</div>' + // end .f_equipo
             // select marca
@@ -350,7 +350,7 @@ function print_filtros() {
     $(document).on('click', '.desplegable_visitas', function(){
         $('.radio-visitas').slideToggle();
     });
-}
+} // end print_filtros (mostrar los filtros en la página)
 
 function eliminar_filtros() {
     localStorage.removeItem('filtro');
@@ -371,7 +371,7 @@ function eliminar_filtros() {
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
         highlight();
     }
-}
+} // end eliminar_filtros (se ejecuta al pulsar en el boton remover filtros)
 
 function eliminar_filtros_filtrar(){
     localStorage.removeItem('filtro');
@@ -385,7 +385,7 @@ function eliminar_filtros_filtrar(){
     localStorage.removeItem('pagina');
     localStorage.removeItem('items');
     localStorage.removeItem('filtro_visitas');
-}
+} // end eliminar_filtros_filtrar
 
 function getall(total_productos, items_por_pagina) {
     var filtro = JSON.parse(localStorage.getItem('filtro'));
@@ -393,7 +393,7 @@ function getall(total_productos, items_por_pagina) {
     console.log("getall total_productos: ", total_productos)
     console.log("getall items por pagina: ", items_por_pagina)
     // return false;
-    if (filtro) {
+    if (filtro) { // cargar list del shop con los filtros seleccionados
         console.log("getall yes filtro")
         var filtroequipo = filtro.find(f => f[0] === 'equipo');
         if (filtroequipo && filtroequipo[1].length === 0) {
@@ -401,11 +401,11 @@ function getall(total_productos, items_por_pagina) {
             localStorage.setItem('filtro', JSON.stringify(filtro));
         }
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filtrar", filtro, total_productos, items_por_pagina);
-    } else {
+    } else { // cargar list del shop sin filtros
         console.log("getall no filtro")
         ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=getall");
     }
-} // end function getall
+} // end getall
 
 function highlight(){
     console.log("hola highlight");
@@ -426,7 +426,7 @@ function highlight(){
             }
 
             if (filtroTipo === 'precio' && filtroValor != '*') {
-                document.querySelector(`input[name="precio"][value="${filtroValor}"]`).setAttribute('checked', true);
+                document.querySelector(`input[name="orderby"][value="${filtroValor}"]`).setAttribute('checked', true);
             }
 
             if (filtroTipo === 'equipo' && filtroValor.length > 0) {
@@ -444,11 +444,11 @@ function highlight(){
             }
 
             if (filtroTipo === 'visitas' && filtroValor != '*') {
-                document.querySelector(`input[name="visitas"][value="${filtroValor}"]`).setAttribute('checked', true);
+                document.querySelector(`input[name="orderby"][value="${filtroValor}"]`).setAttribute('checked', true);
             }
         }
     }
-} // end function highlight
+} // end highlight (dejar marcados los filtros aplicados)
 
 function botones_filtros(){
     // filtros de tipos
@@ -471,6 +471,7 @@ function botones_filtros(){
     }
     // filtro de precio
     $('.filtro_precio').change(function (){
+        localStorage.removeItem('filtro_visitas'); // eliminar filtro de visitas para evitar conflictos con el highlight
         localStorage.setItem('filtro_precio', this.value);
     });
     if(localStorage.getItem('filtro_precio')){
@@ -514,6 +515,7 @@ function botones_filtros(){
     }
     // filtro de popularidad
     $('.filtro_visitas').change(function (){
+        localStorage.removeItem('filtro_precio'); // eliminar filtro de precio para evitar problemas con el highlight
         localStorage.setItem('filtro_visitas', this.value);
     });
     if(localStorage.getItem('filtro_visitas')){
@@ -592,17 +594,17 @@ function botones_filtros(){
         highlight();
         highlight_buscador(); // funcion en ctrl_search.js
     });
-}
+} // end botones_filtros (aplicar los filtros al pulsar sobre el boton filtrar)
 
 function update_visitas(id_producto){
     console.log("hola update_visitas")
-    console.log("update_visitas: id_producto:\n", id_producto)
+    // console.log("update_visitas: id_producto:\n", id_producto)
     // return false;
     ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=update_visitas', 'POST', 'JSON', {'id_producto': id_producto})
         // .then(function(id){
         //     console.log("update_visitas id ctrl php:\n", id);
         // });
-}
+} // end update_visitas (sumar una visita al entrar al details de un producto)
 
 function loadProductoDetails(id_producto){
     console.log("hola loadProductoDetails");
@@ -698,7 +700,7 @@ function loadProductoDetails(id_producto){
     }).catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
-} // funcion loadProductoDetails
+} // end loadProductoDetails (vista del detalle de los productos)
 
 function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto){
     console.log("hola productos relaconados")
@@ -715,12 +717,12 @@ function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto)
         .then(function(data) {
             console.log("productos relacionads data:\n", data)
             // return false;
-            if (loaded == 0) {
+            if (loaded == 0) { // cargar los primeros 3 productos relacionados
                 $('<div></div>').attr({ 'id': 'productos_relacionados', class: 'productos_relacionados' }).appendTo('.titulo-productos-relacionados')
                     .html(
                         '<h2 class="title-prelacionados">Productos relacionados</h2>'
-                    )
-                for (row in data) {
+                    ) // añadir el titulo de productos relacionados
+                for (row in data) { // cargar los productos relacionados
                         if (data[row].id_producto != undefined) {
                             $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.cargar-prelacionados')
                                 .html(
@@ -741,8 +743,8 @@ function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto)
                         '<button class="cargar_mas_productos" id="load_more_button">Cargar mas productos</button>'
                     )
             }
-            if (loaded >= 3) {
-                for (row in data) {
+            if (loaded >= 3) { // cargar los demas productos al darle al boton de cargar mas productos relacionados
+                for (row in data) { // cargar los productos relacionados
                         if (data[row].id_producto != undefined) {
                             $('<div></div>').attr({ 'id': data[row].id_producto, 'class': 'producto_relacionado' }).appendTo('.cargar-prelacionados')
                                 .html(
@@ -764,20 +766,21 @@ function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto)
                     $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.boton-cargar-mas-productos')
                         .html(
                             "</br><button class='no_mas_productos' id='no_mas_productos'>No hay mas productos para cargar</button>"
-                        )
+                        ) // añadir el boton de que no hay más productos para cargar
                 } else {
                     $('.mas_productos_boton').empty();
                     $('<div></div>').attr({ 'id': 'mas_productos_boton', 'class': 'mas_productos_boton' }).appendTo('.boton-cargar-mas-productos')
                         .html(
                             '<button class="cargar_mas_productos" id="load_more_button">Cargar más productos</button>'
-                        )
+                        ) // añadir el boton de cargar más productos
                 }
             }
         }).catch(function() {
             console.error("productos_relacionados ERROR productos_relacionados");
+            // return false;
             window.location.href = "index.php?module=ctrl_exceptions&op=503";
         });
-} // funcion productos_relacionados
+} // end productos_relacionados (cargar los productos relacionados)
 
 function mas_productos_relacionados(tipo, id_producto){
     console.log("hola mas productos relacionados")
@@ -807,7 +810,7 @@ function mas_productos_relacionados(tipo, id_producto){
             console.error("mas_productos_relacionados ERROR total_productos");
             window.location.href = "index.php?module=ctrl_exceptions&op=503";
         })
-} // funcion mas_productos_relacionados
+} // end mas_productos_relacionados (calcular el nº de productos relacionados)
 
 function loadDetails() {
     // cargar details desde el producto
@@ -834,7 +837,7 @@ function loadDetails() {
         $('.productos_img').empty();
         loadProductoDetails(id_producto);
     });
-} // funcion loadDetails
+} // end loadDetails (cargar la vista del details al pulsar sobre uno de los lugares especificados)
 
 function leafleft(shop, zoom){
     // console.log("leafleft shop: ", shop);
@@ -866,41 +869,41 @@ function leafleft(shop, zoom){
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     
-    if(Array.isArray(shop)){
+    if(Array.isArray(shop)){ // cargar el mapa si lo que llega es un array (list del shop)
         console.log("leafleft ARRAY");
         // return false;
         for (row in shop){
-            var mapicon = L.icon({
+            var mapicon = L.icon({ // añadir la imagen del marcador
                 iconUrl: 'view/images/web-logo/favicon.png',
                 iconSize: [50, 50],
                 iconAnchor: [50, 50],
                 popupAnchor: [20, 20]
             });
-            var marker = L.marker([shop[row].altitud, shop[row].longitud], {icon: mapicon}).addTo(map);
-            var popup = marker.bindPopup(
+            var marker = L.marker([shop[row].altitud, shop[row].longitud], {icon: mapicon}).addTo(map); // añadir la localización de cada producto
+            var popup = marker.bindPopup( // añadir la información del popup para cada producto
                 "<div class='product_popup' id='" + shop[row].id_producto + "'>" +
                 "<p>" + shop[row].nom_prod + "</p>" +
                 "<img src = '" + shop[row].img_producto + "' class='img_popup'>" +
                 "</div>");
         }
-    }else{
+    }else{ // cargar el mapa si lo que llega es solo un producto en vez de un array (details)
         console.log("leafleft NO ARRAY");
         // return false;
-        var mapicon = L.icon({
+        var mapicon = L.icon({ // añadir la imagen del marcador
             iconUrl: 'view/images/web-logo/favicon.png',
             iconSize: [50, 50],
             iconAnchor: [50, 50],
             popupAnchor: [20, 20]
         });
-        var marker = L.marker([shop.altitud, shop.longitud], {icon: mapicon}).addTo(map);
-        var popup = marker.bindPopup(
+        var marker = L.marker([shop.altitud, shop.longitud], {icon: mapicon}).addTo(map); // añadir la localización del producto
+        var popup = marker.bindPopup( // añadir la informacion del popup para el producto
             "<div class='product_popup' id='" + shop.id_producto + "'>" +
             "<p>" + shop.nom_prod + "</p>" +
             "<img src = '" + shop.img_producto + "' class='img_popup'>" +
             "</div>"
         );
     }
-} // funcion leafleft
+} // end leafleft (mapa)
 
 function load_buscador_shop(total_productos = 0, items_por_pagina = 3){
     console.log("hola load_buscador");
@@ -940,6 +943,7 @@ function load_buscador_shop(total_productos = 0, items_por_pagina = 3){
                 $('<div></div>').appendTo('.container-productos')
                     .html(
                         "<div class='nofiltrosdiv'>" +
+                        "<img class='imgnofdiv' src='view/images/icons/no_productos.png'>" +
                         "<h1 id='nofiltros'>No se han encontrado productos con los filtros especificados</h1>" +
                         "<br>" +
                         "<p id='texto-nofiltros'>Pulse el boton 'remover filtros' para volver a la busqueda</p>" +
@@ -950,6 +954,8 @@ function load_buscador_shop(total_productos = 0, items_por_pagina = 3){
                     for (row in buscador) {
                         $("#nofiltros").empty();
                         $("#texto-nofiltros").empty();
+                        $('.imgnofdiv').empty();
+                        $('.nofiltrosdiv').empty();
                         $('<div></div>').attr('class', "producto").attr({'id': buscador[row].id_producto}).appendTo('.container-productos')
                             .html(
                                 "<img src = " + buscador[row].img_producto + " alt='foto' </img> " +
@@ -959,6 +965,7 @@ function load_buscador_shop(total_productos = 0, items_por_pagina = 3){
                                 "</div>"
                             ); // end .html
                     }
+                    paginacion();
                     click_buscador();
                     leafleft(buscador, 6);
                     highlight();
@@ -967,13 +974,13 @@ function load_buscador_shop(total_productos = 0, items_por_pagina = 3){
         }).catch(function(){
             window.location.href = "index.php?module=ctrl_exceptions&op=503";
         });
-}
+} // end load_buscador_shop (cargar los productos del list del shop al filtrar por el buscador)
 
 function click_buscador(){
     $(document).on('click', '#boton_buscar', function(){
         paginacion();
     });
-}
+} // end click_buscador (calcular nº paginas al filtrar por el buscador)
 
 function scrollOnTop(){
     $('.sot').append(
@@ -982,7 +989,7 @@ function scrollOnTop(){
     $(document).on("click", ".sotButton", function() {
         window.scrollTo(0, 0);
     });
-}
+} // end scrollOnTop (situarse en la parte de arriba del todo de la página)
 
 function paginacion() {
     console.log("hola paginacion")

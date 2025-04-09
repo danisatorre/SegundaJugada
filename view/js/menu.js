@@ -7,6 +7,9 @@ function goToShopMenu(){
         localStorage.removeItem('filtro_precio');
         localStorage.removeItem('filtro_equipo');
         localStorage.removeItem('filtro_marca');
+        localStorage.removeItem('filtro_ciudad');
+        localStorage.removeItem('buscar');
+        localStorage.removeItem('pagina');
         localStorage.setItem('filtro_categoria', filtro_categoria);
 
         var filtro = [];

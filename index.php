@@ -21,7 +21,7 @@
             <?php include("view/inc/header.html"); ?>    
         </div>
     <?php 
-    } 
+    } // no añadir el buscador al estar en la página de login o de register
 	?>  
     <div id="menu">
 		<?php

@@ -41,7 +41,7 @@ function carouselMarcas() {
             // return false;
             window.location.href = "index.php?module=ctrl_exceptions&op=503";
         });
-}
+} // end carouselMarcas
 
 function loadCategorias() {
     // console.log("hola LOADCATEGORIAS");
@@ -70,7 +70,7 @@ function loadCategorias() {
         // return false;
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     });
-}
+} // end loadCategoiras
 
 function loadCatTipos() {
     // console.log("hola loadCatTipos");
@@ -109,7 +109,7 @@ function loadCatTipos() {
             // return false;
             window.location.href = "index.php?module=ctrl_exceptions&op=503";
         });
-}
+} // end loadCatTipos
 
 function loadProductos() {
     // console.log("hola loadProductos");
@@ -150,7 +150,7 @@ function loadProductos() {
             // return false;
             window.location.href = "index.php?module=ctrl_exceptions&op=503";
         });
-}
+} // end loadProductos
 
 function loadAccesorios(){
     // console.log("hola loadAccesorios");
@@ -180,7 +180,7 @@ function loadAccesorios(){
     .catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
-}
+} // end loadAccesorios
 
 function loadPopulares(){
     // console.log("hola loadPpopulares");
@@ -210,10 +210,10 @@ function loadPopulares(){
     .catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
-}
+} // end loadPopulares
 
 function goToShop(){
-    // categoria (home)
+    // categoria
     $(document).on("click", '.div_categoria', function(){
         var filtro_categoria = this.getAttribute('id_categoria');
         localStorage.removeItem('filtro');
@@ -224,6 +224,8 @@ function goToShop(){
         localStorage.removeItem('filtro_visitas');
         localStorage.removeItem('pagina');
         localStorage.removeItem('details_home');
+        localStorage.removeItem('filtro_ciudad');
+        localStorage.removeItem('buscar'); // eliminar filtro de buscar al hacer el salto para que no se quede marcado el select en el buscador
         localStorage.setItem('filtro_categoria', filtro_categoria);
 
         var filtro = [];
@@ -255,6 +257,8 @@ function goToShop(){
         localStorage.removeItem('filtro_visitas');
         localStorage.removeItem('pagina');
         localStorage.removeItem('details_home');
+        localStorage.removeItem('filtro_ciudad');
+        localStorage.removeItem('buscar');
         localStorage.setItem('filtro_marca', filtro_marca);
 
         var filtro = [];
@@ -286,6 +290,8 @@ function goToShop(){
         localStorage.removeItem('filtro_visitas');
         localStorage.removeItem('pagina');
         localStorage.removeItem('details_home');
+        localStorage.removeItem('filtro_ciudad');
+        localStorage.removeItem('buscar');
         localStorage.setItem('filtro_tipo', filtro_tipo);
 
         var filtro = [];
@@ -317,6 +323,8 @@ function goToShop(){
         localStorage.removeItem('filtro_visitas');
         localStorage.removeItem('pagina');
         localStorage.removeItem('details_home');
+        localStorage.removeItem('filtro_ciudad');
+        localStorage.removeItem('buscar');
         localStorage.setItem('filtro_tipo', filtro_accesorio);
 
         var filtro = [];
@@ -348,13 +356,15 @@ function goToShop(){
         localStorage.removeItem('filtro_tipo');
         localStorage.removeItem('filtro_visitas');
         localStorage.removeItem('pagina');
+        localStorage.removeItem('filtro_ciudad');
+        localStorage.removeItem('buscar');
         localStorage.setItem('details_home', filtro_visitas);
 
         setTimeout(function(){
             window.location.href = 'index.php?module=ctrl_shop&op=list';
         }, 500);
     });
-}
+} // end goToShop (saltar del home al shop con filtros aplicados)
 
 $(document).ready(function() {
     carouselMarcas();
