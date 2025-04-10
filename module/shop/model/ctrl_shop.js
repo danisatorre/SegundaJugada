@@ -606,6 +606,63 @@ function update_visitas(id_producto){
         // });
 } // end update_visitas (sumar una visita al entrar al details de un producto)
 
+function update_rating(id_producto, rating){
+    console.log("hola update_rating")
+    // console.log("update_rating: id_producto:\n", id_producto)
+    // console.log("update_rating: rating seleccionado:\n", rating)
+    // return false;
+    ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=update_rating', 'POST', 'JSON', {'id_producto': id_producto, 'rating': rating})
+        // .then(function(rating){
+        //     console.log("update_rating valor del ctrl php:\n", rating);
+        // });
+}
+
+function update_visitas_categoria(id_categoria){
+    console.log("hola update_visitas_categoria")
+    // console.log("update_visitas_categoria: categoria seleccionada:\n", id_categoria)
+    // return false;
+    var filtro = [];
+    ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=update_visitas_categoria', 'POST', 'JSON', {'id_categoria': id_categoria})
+        // .then(function(rating){
+        //     console.log("update_rating valor del ctrl php:\n", rating);
+        // });
+    setTimeout(function(){
+        eliminar_filtros_filtrar();
+        localStorage.setItem('filtro_categoria', id_categoria);
+        if(localStorage.getItem('filtro_categoria')){
+            filtro.push(['categoria', localStorage.getItem('filtro_categoria')])
+        }
+        localStorage.setItem('filtro', JSON.stringify(filtro));
+        window.location.href = 'index.php?module=ctrl_shop&op=list';
+        // botones_filtros();
+        // location.reload();
+        // loadShop();
+    }, 1000);
+}
+
+function update_visitas_tipo(id_tipo){
+    console.log("hola update_visitas_tipo")
+    // console.log("update_visitas_tipo: tipo seleccionado:\n", id_tipo)
+    // return false;
+    var filtro = [];
+    ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=update_visitas_tipo', 'POST', 'JSON', {'id_tipo': id_tipo})
+        // .then(function(rating){
+        //     console.log("update_rating valor del ctrl php:\n", rating);
+        // });
+    setTimeout(function(){
+        eliminar_filtros_filtrar();
+        localStorage.setItem('filtro_tipo', id_tipo);
+        if(localStorage.getItem('filtro_tipo')){
+            filtro.push(['tipo', localStorage.getItem('filtro_tipo')])
+        }
+        localStorage.setItem('filtro', JSON.stringify(filtro));
+        window.location.href = 'index.php?module=ctrl_shop&op=list';
+        // botones_filtros();
+        // location.reload();
+        // loadShop();
+    }, 1000);
+}
+
 function loadProductoDetails(id_producto){
     console.log("hola loadProductoDetails");
     localStorage.removeItem('details_home');
@@ -672,6 +729,27 @@ function loadProductoDetails(id_producto){
                     "<p class='desc-details'>" + shop[0][0].descripcion + "</p>" +
                     "<p class='stock-details'>Hay " + shop[0][0].stock + " unidades disponibles</p>" +
                     "<p class='entrega-details'>" + shop[0][0].entrega + "</p>" +
+                    "<br>" +
+                    "<p class='cat_tip_details'>" +
+                        "<a class='text-cat_tip' style='color:green; font-weight:bolder;'>Relacionado con este producto</a>" +
+                        "<br>" +
+                        "<a class='cat_rel_details' style='cursor:pointer;'>" + shop[0][0].categoria + "</a>" +
+                        "<br>" +
+                        "<a class='tipo_rel_details' style='cursor:pointer;'>" + shop[0][0].tipo + "</a>" +
+                    "</p>" + // end .cat_tip_details
+                    "<p class='rating-details'>" +
+                        "<a class='text-rating' style='color:green; font-weight:bolder;'>Evalua este producto del 1 al 5 siendo 5 lo mejor y 1 lo peor</a>" +
+                        "<br>" +
+                        '<select class="rating_select" name="select_rating" id="select_rating">' +
+                        '<optgroup label="Valoración">' +
+                            '<option value="1">1</option>' +
+                            '<option value="2">2</option>' +
+                            '<option value="3">3</option>' +
+                            '<option value="4">4</option>' +
+                            '<option value="5">5</option>' +
+                        '</optgroup>' +
+                    '</select>' +
+                    "</p>" + // end .rating-details
                     "<div class='extras-details'>" +
                     "<div class='icon-container-details'>" +
                     "<p class='entrega-icon-details'>" + extra_entrega + "</p>" +
@@ -697,6 +775,18 @@ function loadProductoDetails(id_producto){
             // console.log("loadProductoDetails:\nTipo: ", shop[0][0].id_tipo)
             // return false;
             mas_productos_relacionados(shop[0][0].id_tipo, id_producto);
+
+            $('.rating_select').change(function (){
+                update_rating(id_producto, this.value);
+            });
+
+            $(document).on("click", '.cat_rel_details', function(){
+                update_visitas_categoria(shop[0][0].id_categoria);
+            });
+
+            $(document).on("click", '.tipo_rel_details', function(){
+                update_visitas_tipo(shop[0][0].id_tipo);
+            });
     }).catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })

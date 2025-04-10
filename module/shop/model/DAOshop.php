@@ -30,6 +30,7 @@
 			LEFT JOIN marcas m ON p.marca = m.id_marca
 			LEFT JOIN teams t ON p.equipo = t.id_team
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
+			LEFT JOIN categorias c ON p.categoria = c.id_categoria
 			WHERE p.id_producto = $id_producto";
 
 			// die('<script>console.log('.json_encode( $sql ) .');</script>');
@@ -482,6 +483,8 @@
 			return $retrArray;
         }
 
+		// --- DETAILS ---
+
 		// PRODUCTOS RELACIONADOS
 
 		function count_productos_relacionados($tipo, $id_producto){
@@ -528,12 +531,42 @@
 			return $retrArray;
 		}
 
-		// UPDATE VISITAS
+		// UPDATE VALORES
 
 		function update_visitas($id_producto){
 			$sql = "UPDATE productos p
 			SET p.visitas = p.visitas + 1
 			WHERE id_producto = $id_producto";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+		}
+
+		function update_rating($id_producto, $rating){
+			$sql = "UPDATE productos p
+			SET p.rating = $rating
+			WHERE id_producto = $id_producto";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+		}
+
+		function update_visitas_categoria($id_categoria){
+			$sql = "UPDATE categorias c
+			SET c.visitas_cat = c.visitas_cat + 1
+			WHERE id_categoria = $id_categoria";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+		}
+
+		function update_visitas_tipo($id_tipo){
+			$sql = "UPDATE tipo t
+			SET t.visitas_tipo = t.visitas_tipo + 1
+			WHERE id_tipo = $id_tipo";
 
 			$conexion = connect::con();
 			$res = mysqli_query($conexion, $sql);

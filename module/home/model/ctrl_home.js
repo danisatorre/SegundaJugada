@@ -212,6 +212,105 @@ function loadPopulares(){
     })
 } // end loadPopulares
 
+function loadMostRating(){
+    // console.log("hola loadMostRating");
+    // return false;
+    ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageRating', 'GET', 'JSON')
+    .then(function(data){
+        for (row in data){
+            $('<div></div>').attr('class', "div_rating").attr('id_rating', data[row].id_producto).appendTo(".carousel-rating")
+            .html(
+                "<img src=' " + data[row].img_producto + " 'alt='foto'>" +
+                "<h5>" + data[row].nom_prod + 
+                "<br>" +
+                "Valoración: " + data[row].rating +
+                "</h5>"
+            )
+        }
+
+        // CAROUSEL
+
+        $(function(){
+            var owl = $(".carousel-rating");
+            owl.owlCarousel({
+                items: 4,
+                margin: 10,
+                loop: true,
+                nav: true,
+            }); // END owl.owlCarousel
+        }); // END FUNCTION OWL
+    }) // END FUNCTION DATA
+    .catch(function(){
+        window.location.href = "index.php?module=ctrl_exceptions&op=503";
+    })
+} // end loadMostRating
+
+function loadMostRatingCategoria(){
+    // console.log("hola loadMostRatingCategoria");
+    // return false;
+    ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageRatingCategoria', 'GET', 'JSON')
+    .then(function(data){
+        for (row in data){
+            $('<div></div>').attr('class', "div_rating_categoria").attr('id_rating_categoria', data[row].id_categoria).appendTo(".carousel-rating-categoria")
+            .html(
+                "<img src=' " + data[row].img_categoria + " 'alt='foto'>" +
+                "<h5>" + data[row].categoria + 
+                "<br>" +
+                "Visitas: " + data[row].visitas_cat +
+                "</h5>"
+            )
+        }
+
+        // CAROUSEL
+
+        $(function(){
+            var owl = $(".carousel-rating-categoria");
+            owl.owlCarousel({
+                items: 4,
+                margin: 10,
+                loop: true,
+                nav: true,
+            }); // END owl.owlCarousel
+        }); // END FUNCTION OWL
+    }) // END FUNCTION DATA
+    .catch(function(){
+        window.location.href = "index.php?module=ctrl_exceptions&op=503";
+    })
+} // end loadMostRatingCategoria
+
+function loadMostRatingTipo(){
+    // console.log("hola loadMostRatingTipo");
+    // return false;
+    ajaxPromise('module/home/ctrl/ctrl_home.php?op=homePageRatingTipo', 'GET', 'JSON')
+    .then(function(data){
+        for (row in data){
+            $('<div></div>').attr('class', "div_rating_tipo").attr('id_rating_tipo', data[row].id_tipo).appendTo(".carousel-rating-tipo")
+            .html(
+                "<img src=' " + data[row].img_tipo + " 'alt='foto'>" +
+                "<h5>" + data[row].tipo + 
+                "<br>" +
+                "Visitas: " + data[row].visitas_tipo +
+                "</h5>"
+            )
+        }
+
+        // CAROUSEL
+
+        $(function(){
+            var owl = $(".carousel-rating-tipo");
+            owl.owlCarousel({
+                items: 4,
+                margin: 10,
+                loop: true,
+                nav: true,
+            }); // END owl.owlCarousel
+        }); // END FUNCTION OWL
+    }) // END FUNCTION DATA
+    .catch(function(){
+        window.location.href = "index.php?module=ctrl_exceptions&op=503";
+    })
+}
+
 function goToShop(){
     // categoria
     $(document).on("click", '.div_categoria', function(){
@@ -345,7 +444,7 @@ function goToShop(){
             })
         }, 500);
     });
-    // popular
+    // popular (go to details)
     $(document).on("click", '.div_popular', function(){
         var filtro_visitas = this.getAttribute('id_popular');
         localStorage.removeItem('filtro');
@@ -364,6 +463,91 @@ function goToShop(){
             window.location.href = 'index.php?module=ctrl_shop&op=list';
         }, 500);
     });
+    // rating (go to detials)
+    $(document).on("click", '.div_rating', function(){
+        var rating = this.getAttribute('id_rating');
+        localStorage.removeItem('filtro');
+        localStorage.removeItem('filtro_marca');
+        localStorage.removeItem('filtro_precio');
+        localStorage.removeItem('filtro_equipo');
+        localStorage.removeItem('filtro_categoria');
+        localStorage.removeItem('filtro_tipo');
+        localStorage.removeItem('filtro_visitas');
+        localStorage.removeItem('pagina');
+        localStorage.removeItem('filtro_ciudad');
+        localStorage.removeItem('buscar');
+        localStorage.setItem('details_home', rating);
+
+        setTimeout(function(){
+            window.location.href = 'index.php?module=ctrl_shop&op=list';
+        }, 500);
+    });
+    // rating categoria
+    $(document).on("click", '.div_rating_categoria', function(){
+        var rating_categoria = this.getAttribute('id_rating_categoria');
+        localStorage.removeItem('filtro');
+        localStorage.removeItem('filtro_tipo');
+        localStorage.removeItem('filtro_precio');
+        localStorage.removeItem('filtro_equipo');
+        localStorage.removeItem('filtro_marca');
+        localStorage.removeItem('filtro_visitas');
+        localStorage.removeItem('pagina');
+        localStorage.removeItem('details_home');
+        localStorage.removeItem('filtro_ciudad');
+        localStorage.removeItem('buscar');
+        localStorage.setItem('filtro_categoria', rating_categoria);
+
+        var filtro = [];
+        if(localStorage.getItem('filtro_categoria')){
+            filtro.push(['categoria', localStorage.getItem('filtro_categoria')])
+        }
+        localStorage.setItem('filtro', JSON.stringify(filtro)); 
+
+        setTimeout(function(){
+            ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_home', 'POST', 'JSON', {filtro_categoria: rating_categoria})
+            .then(function(data) {
+                console.log(data);
+                // return false
+                window.location.href = 'index.php?module=ctrl_shop&op=list';
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+        }, 500);
+    });
+    // rating tipo
+    $(document).on("click", '.div_rating_tipo', function(){
+        var rating_tipo = this.getAttribute('id_rating_tipo');
+        localStorage.removeItem('filtro');
+        localStorage.removeItem('filtro_categoria');
+        localStorage.removeItem('filtro_precio');
+        localStorage.removeItem('filtro_equipo');
+        localStorage.removeItem('filtro_marca');
+        localStorage.removeItem('filtro_visitas');
+        localStorage.removeItem('pagina');
+        localStorage.removeItem('details_home');
+        localStorage.removeItem('filtro_ciudad');
+        localStorage.removeItem('buscar');
+        localStorage.setItem('filtro_tipo', rating_tipo);
+
+        var filtro = [];
+        if(localStorage.getItem('filtro_tipo')){
+            filtro.push(['tipo', localStorage.getItem('filtro_tipo')])
+        }
+        localStorage.setItem('filtro', JSON.stringify(filtro));
+
+        setTimeout(function(){
+            ajaxPromise('module/shop/ctrl/ctrl_shop.php?op=filtro_home', 'POST', 'JSON', {filtro_tipo: rating_tipo})
+            .then(function(data) {
+                console.log(data);
+                // return false
+                window.location.href = 'index.php?module=ctrl_shop&op=list';
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+        }, 500);
+    });
 } // end goToShop (saltar del home al shop con filtros aplicados)
 
 $(document).ready(function() {
@@ -373,5 +557,8 @@ $(document).ready(function() {
     loadProductos();
     loadAccesorios();
     loadPopulares();
+    loadMostRating();
+    loadMostRatingCategoria();
+    loadMostRatingTipo();
     goToShop();
 });

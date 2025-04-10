@@ -108,6 +108,58 @@
 			}
 			return $retrArray;
 		}
+
+		function select_rating(){
+			$sql= "SELECT * FROM productos ORDER BY rating DESC LIMIT 20";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$retrArray = array();
+			if (mysqli_num_rows($res) > 0){
+				while($row = mysqli_fetch_assoc($res)){
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
+		}
+
+		function select_rating_categoria(){
+			$sql= "SELECT * FROM categorias ORDER BY visitas_cat DESC";
+
+			// die('<script>console.log('.json_encode( $sql ) .');</script>');
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$retrArray = array();
+			if (mysqli_num_rows($res) > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
+		}
+
+		function select_rating_tipo(){
+			$sql= "SELECT * FROM tipo ORDER BY visitas_tipo DESC";
+
+			// die('<script>console.log('.json_encode( $sql ) .');</script>');
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$retrArray = array();
+			if (mysqli_num_rows($res) > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
+		}
 	
 		
 	}

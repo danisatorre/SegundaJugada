@@ -15,7 +15,7 @@
     margin-left:20%;
 }
 
-.div_categoria, .div_tipo, .div_producto, .div_accesorio, .div_popular{
+.div_categoria, .div_tipo, .div_producto, .div_accesorio, .div_popular, .div_rating, .div_rating_categoria, .div_rating_tipo{
     margin-top:4%;
 }
 
@@ -55,7 +55,7 @@
     margin-top: 10%;
 }
 
-#title-carousel-home, #title-carousel-tipo, #title-carousel-producto, #title-carousel-accesorio, #title-carousel-popularidad{
+#title-carousel-home, #title-carousel-tipo, #title-carousel-producto, #title-carousel-accesorio, #title-carousel-popularidad, #title-carousel-rating, #title-carousel-rating-categoria, #title-carousel-rating-tipo{
     text-align: center;
 }
 
@@ -73,7 +73,10 @@
 .carousel-tipo .div_tipo,
 .carousel-producto .div_producto,
 .carousel-accesorio .div_accesorio,
-.carousel-popular .div_popular {
+.carousel-popular .div_popular,
+.carousel-rating .div_rating,
+.carousel-rating-categoria .div_rating_categoria,
+.carousel-rating-tipo .div_rating_tipo{
     background-color: white;
     border-radius: 8px;
     overflow: hidden;
@@ -93,7 +96,10 @@
 .carousel-tipo .div_tipo:hover,
 .carousel-producto .div_producto:hover,
 .carousel-accesorio .div_accesorio:hover,
-.carousel-popular .div_popular:hover {
+.carousel-popular .div_popular:hover,
+.carousel-rating .div_rating:hover,
+.carousel-rating-categoria .div_rating_categoria:hover,
+.carousel-rating-tipo .div_rating_tipo:hover{
     transform: translateY(-5px);
     box-shadow: 0 0 10px orange;
     border-color: goldenrod;
@@ -103,7 +109,10 @@
 .carousel-tipo .div_tipo img,
 .carousel-producto .div_producto img,
 .carousel-accesorio .div_accesorio img,
-.carousel-popular .div_popular img {
+.carousel-popular .div_popular img,
+.carousel-rating .div_rating img,
+.carousel-rating-categoria .div_rating_categoria img,
+.carousel-rating-tipo .div_rating_tipo img{
     width: 100%;
     height: 75%; /* Ajusta la imagen para ocupar más espacio */
     object-fit: cover;
@@ -114,7 +123,10 @@
 .carousel-tipo .div_tipo h5,
 .carousel-producto .div_producto h5,
 .carousel-accesorio .div_accesorio h5,
-.carousel-popular .div_popular h5 {
+.carousel-popular .div_popular h5,
+.carousel-rating .div_rating h5,
+.carousel-rating-categoria .div_rating_categoria h5
+.carousel-rating-tipo .div_rating_tipo h5{
     font-size: 18px; /* Aumenta el tamaño del texto */
     color: #333;
     text-align: center;
@@ -128,7 +140,10 @@
 .carousel-tipo .div_tipo:hover h5,
 .carousel-producto .div_producto:hover h5,
 .carousel-accesorio .div_accesorio:hover h5,
-.carousel-popular .div_popular:hover h5 {
+.carousel-popular .div_popular:hover h5,
+.carousel-rating .div_rating:hover h5,
+.carousel-rating-categoria .div_rating_categoria:hover h5,
+.carousel-rating-tipo .div_rating_tipo:hover h5{
     color: orange;
     text-shadow: 0 0 5px goldenrod;
 }

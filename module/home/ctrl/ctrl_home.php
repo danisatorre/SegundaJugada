@@ -126,6 +126,51 @@
             }
         break;
 
+        case 'homePageRating';
+            try{
+                $daohome = new DAOhome();
+                $selectrating = $daohome->select_rating();
+            }catch(Exception $e){
+                echo json_encode("error");
+            }
+
+            if(!empty($selectrating)){
+                echo json_encode($selectrating);
+            }else{
+                echo json_encode("error");
+            }
+        break;
+
+        case 'homePageRatingCategoria';
+            try{
+                $daohome = new DAOhome();
+                $selectrating_categoria = $daohome->select_rating_categoria();
+            }catch(Exception $e){
+                echo json_encode("error");
+            }
+
+            if(!empty($selectrating_categoria)){
+                echo json_encode($selectrating_categoria);
+            }else{
+                echo json_encode("error");
+            }
+        break;
+
+        case 'homePageRatingTipo';
+            try{
+                $daohome = new DAOhome();
+                $selectrating_tipo = $daohome->select_rating_tipo();
+            }catch(Exception $e){
+                echo json_encode("error");
+            }
+
+            if(!empty($selectrating_tipo)){
+                echo json_encode($selectrating_tipo);
+            }else{
+                echo json_encode("error");
+            }
+        break;
+
         default;
             include("index.php?module=ctrl_exceptions&op=404");
         break;

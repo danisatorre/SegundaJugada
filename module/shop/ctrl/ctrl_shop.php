@@ -300,6 +300,55 @@
             }
         break;
 
+        case 'update_rating';
+            $id_producto = $_POST['id_producto'];
+            $rating = $_POST['rating'];
+
+            // echo json_encode($id_producto);
+            // echo json_encode($rating);
+            // exit;
+
+            try{
+                $daoshop_u_r = new DAOshop();
+                $select_u_r = $daoshop_u_r->update_rating($id_producto, $rating);
+            } catch(Exception $e){
+                echo json_encode("error");
+                exit;
+            }
+        break;
+
+        case 'update_visitas_categoria';
+            $id_categoria = $_POST['id_categoria'];
+
+            // echo json_encode($id_producto);
+            // echo json_encode($rating);
+            // exit;
+
+            try{
+                $daoshop_u_v_c = new DAOshop();
+                $select_u_v_c = $daoshop_u_v_c->update_visitas_categoria($id_categoria);
+            } catch(Exception $e){
+                echo json_encode("error");
+                exit;
+            }
+        break;
+
+        case 'update_visitas_tipo';
+            $id_tipo = $_POST['id_tipo'];
+
+            // echo json_encode($id_producto);
+            // echo json_encode($rating);
+            // exit;
+
+            try{
+                $daoshop_u_v_t = new DAOshop();
+                $select_u_v_t = $daoshop_u_v_t->update_visitas_tipo($id_tipo);
+            } catch(Exception $e){
+                echo json_encode("error");
+                exit;
+            }
+        break;
+
     }
 
 ?>
