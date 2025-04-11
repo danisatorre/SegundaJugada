@@ -716,6 +716,15 @@ function loadProductoDetails(id_producto){
                     "#map{margin-top:3%;}" +
                     "</style>" +
                     "<div class='inf-prod'>" +
+                    // estrellas de valoración
+                    "<div class='estrellas-rating'>" +
+                        "<div class='estrella'>★</div>" +
+                        "<div class='estrella'>★</div>" +
+                        "<div class='estrella'>★</div>" +
+                        "<div class='estrella'>★</div>" +
+                        "<div class='estrella'>★</div>" +
+                    "</div>" + // end .estrellas-rating
+                    // end estrellas de valoración
                     "<h3>" + shop[0][0].nom_prod + "</h5>" +
                     "<p class='precio-details'>" + shop[0][0].precio + "€</p>" +
                     "<p class='marca-details'>" + shop[0][0].nom_marca + "</p>" +
@@ -737,19 +746,19 @@ function loadProductoDetails(id_producto){
                         "<br>" +
                         "<a class='tipo_rel_details' style='cursor:pointer;'>" + shop[0][0].tipo + "</a>" +
                     "</p>" + // end .cat_tip_details
-                    "<p class='rating-details'>" +
-                        "<a class='text-rating' style='color:green; font-weight:bolder;'>Evalua este producto del 1 al 5 siendo 5 lo mejor y 1 lo peor</a>" +
-                        "<br>" +
-                        '<select class="rating_select" name="select_rating" id="select_rating">' +
-                        '<optgroup label="Valoración">' +
-                            '<option value="1">1</option>' +
-                            '<option value="2">2</option>' +
-                            '<option value="3">3</option>' +
-                            '<option value="4">4</option>' +
-                            '<option value="5">5</option>' +
-                        '</optgroup>' +
-                    '</select>' +
-                    "</p>" + // end .rating-details
+                    // "<p class='rating-details'>" +
+                    //     "<a class='text-rating' style='color:green; font-weight:bolder;'>Evalua este producto del 1 al 5 siendo 5 lo mejor y 1 lo peor</a>" +
+                    //     "<br>" +
+                    //     '<select class="rating_select" name="select_rating" id="select_rating">' +
+                    //     '<optgroup label="Valoración">' +
+                    //         '<option value="1">1</option>' +
+                    //         '<option value="2">2</option>' +
+                    //         '<option value="3">3</option>' +
+                    //         '<option value="4">4</option>' +
+                    //         '<option value="5">5</option>' +
+                    //     '</optgroup>' +
+                    // '</select>' +
+                    // "</p>" + // end .rating-details
                     "<div class='extras-details'>" +
                     "<div class='icon-container-details'>" +
                     "<p class='entrega-icon-details'>" + extra_entrega + "</p>" +
@@ -769,16 +778,16 @@ function loadProductoDetails(id_producto){
                     "<div class='icon-container-details-location'>" +
                     "<p class='location-icon-details'> <i class='fa-solid fa-location-dot fa-2xl' style='color: #077bd5;'></i>" + shop[0][0].ciudad + "</p>" +
                     "</div>" + // end .icon-container (location)
-                    "</div" + // end .extras-details
+                    "</div>" + // end .extras-details
                     "</div>" // end .inf-prod
                 ) // end .html
             // console.log("loadProductoDetails:\nTipo: ", shop[0][0].id_tipo)
             // return false;
             mas_productos_relacionados(shop[0][0].id_tipo, id_producto);
 
-            $('.rating_select').change(function (){
-                update_rating(id_producto, this.value);
-            });
+            // $('.rating_select').change(function (){
+            //     update_rating(id_producto, this.value);
+            // });
 
             $(document).on("click", '.cat_rel_details', function(){
                 update_visitas_categoria(shop[0][0].id_categoria);
@@ -787,10 +796,70 @@ function loadProductoDetails(id_producto){
             $(document).on("click", '.tipo_rel_details', function(){
                 update_visitas_tipo(shop[0][0].id_tipo);
             });
+
+            pintar_estrellas(shop[0][0].rating);
+
+            estrellas_rating(id_producto);
     }).catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
 } // end loadProductoDetails (vista del detalle de los productos)
+
+function pintar_estrellas(rating) {
+    var estrellas = document.querySelectorAll('.estrella');
+    estrellas.forEach(function (estrella, i) {
+        if (i < rating) {
+            estrella.style.color = 'orangered'; // pintar hasta la estrella que tenga el atributo rating
+        } else {
+            estrella.style.color = 'black'; // dejar las demas estrellas de color negro
+        }
+    });
+} // end pintar_estrellas
+
+function estrellas_rating(id_producto) {
+    var estrellas = document.querySelectorAll('.estrella');
+    var estrella_click = -1; // última estrella seleccionada
+
+    var clickHandler = function () {
+        var index = Array.from(estrellas).indexOf(this); // obtener la estrella pulsada
+        estrella_click = index; // guardar la estrella pulsada
+        estrellas.forEach(function (estrella, i) {
+            if (i <= index) {
+                estrella.style.color = 'orangered'; // pintar de naranja de la primera hasta la estrella pulsada
+            } else {
+                estrella.style.color = 'black'; // pintar de negro las estrellas no pulsadas
+            }
+        });
+        update_rating(id_producto, index + 1); // guardar la estrella pulsada como rating en la bd (se suma uno ya que el indice empieza por 0)
+    };
+
+    var mouseOverHandler = function () { // manejar el puntero sobre una estrella
+        var index = Array.from(estrellas).indexOf(this); // obtener en que estrella esta el puntero
+        estrellas.forEach(function (estrella, i) {
+            if (i <= index) {
+                estrella.style.color = 'orangered'; // pintar desde la primera estrella hasta la pulsada
+            } else {
+                estrella.style.color = 'black'; // pintar de negro las estrellas no seleccionadas
+            }
+        });
+    };
+
+    var mouseLeaveHandler = function () { // manejar cuando el puntero sale de las estrellas
+        estrellas.forEach(function (estrella, i) {
+            if (i <= estrella_click) {
+                estrella.style.color = 'orangered'; // pintar de naranja las estrellas seleccionadas
+            } else {
+                estrella.style.color = 'black'; // pintar de negro las estrellas no seleccionadas
+            }
+        });
+    };
+
+    estrellas.forEach(function (estrella) {
+        estrella.addEventListener('click', clickHandler);
+        estrella.addEventListener('mouseover', mouseOverHandler);
+        estrella.addEventListener('mouseleave', mouseLeaveHandler);
+    });
+} // end estrellas_rating (controlar las estrellas de las valoraciones del details)
 
 function productos_relacionados(loadeds = 0, total_productos, tipo, id_producto){
     console.log("hola productos relaconados")

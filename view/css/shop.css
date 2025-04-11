@@ -314,6 +314,44 @@ body {
     color: white;
 }
 
+.cat_tip_details a {
+    color: goldenrod;
+    background-color: whitesmoke;
+    text-decoration: none; /* Sin subrayado */
+    font-size: 14px; /* Reducir el tamaño de la fuente */
+    margin: 3px 0; /* Reducir el margen */
+    display: inline-block; /* Mostrar los enlaces en línea */
+    padding: 3px 8px; /* Reducir el padding */
+    border-radius: 3px; /* Bordes redondeados más pequeños */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.cat_tip_details a:hover {
+    background-color: orange; /* Cambiar el fondo al pasar el cursor */
+    color: white; /* Mantener el texto blanco */
+    box-shadow: 0 0 5px orange; /* Efecto de brillo más sutil */
+}
+
+/* ESTRELLAS DETAILS */
+
+.estrellas-rating {
+    display: flex;
+    float:right;
+    flex-direction: column; /* Cambiar a columna */
+    align-items: flex-start; /* Alinear al inicio horizontalmente */
+    gap: 5px; /* Espaciado entre las estrellas */
+}
+
+.estrella {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.estrella .light {
+    color: orangered;
+}
+
+
 /* DETAILS PRODUCTOS RELACIONADOS */
 
 .title-prelacionados {
