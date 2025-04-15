@@ -676,6 +676,7 @@ function loadProductoDetails(id_producto){
         $('.pimg').empty();
         $('.inf-producto').empty();
         $('#paginacion').empty();
+        $('.down-details').empty();
         console.log(shop);
         // return false;
         leafleft(shop[0][0], 16);
@@ -697,6 +698,15 @@ function loadProductoDetails(id_producto){
                 '<button class="owl-next">⟩</button>'
             ]
         });
+
+        $('<div></div>').attr({ class: 'cat_tip_details' }).appendTo('.down-details')
+                .html(
+                    "<a class='text-cat_tip' style='color:green; font-weight:bolder;'>Relacionado con este producto</a>" +
+                    "<br>" +
+                    "<a class='cat_rel_details' style='cursor:pointer;'>" + shop[0][0].categoria + "</a>" +
+                    "<br>" +
+                    "<a class='tipo_rel_details' style='cursor:pointer;'>" + shop[0][0].tipo + "</a>"
+                );
 
         // console.log(shop[0][0]);
         // return false;
@@ -725,6 +735,10 @@ function loadProductoDetails(id_producto){
                         "<div class='estrella'>★</div>" +
                     "</div>" + // end .estrellas-rating
                     // end estrellas de valoración
+                    "<div class='user_details'>" +
+                        "<img class='img_user_details' src='" + shop[0][0].avatar + ">" +
+                        "<a class='nom_user_details'>" + shop[0][0].username + "</a>" +
+                    "</div>" + // end .user_details
                     "<h3>" + shop[0][0].nom_prod + "</h5>" +
                     "<p class='precio-details'>" + shop[0][0].precio + "€</p>" +
                     "<p class='marca-details'>" + shop[0][0].nom_marca + "</p>" +
@@ -739,13 +753,6 @@ function loadProductoDetails(id_producto){
                     "<p class='stock-details'>Hay " + shop[0][0].stock + " unidades disponibles</p>" +
                     "<p class='entrega-details'>" + shop[0][0].entrega + "</p>" +
                     "<br>" +
-                    "<p class='cat_tip_details'>" +
-                        "<a class='text-cat_tip' style='color:green; font-weight:bolder;'>Relacionado con este producto</a>" +
-                        "<br>" +
-                        "<a class='cat_rel_details' style='cursor:pointer;'>" + shop[0][0].categoria + "</a>" +
-                        "<br>" +
-                        "<a class='tipo_rel_details' style='cursor:pointer;'>" + shop[0][0].tipo + "</a>" +
-                    "</p>" + // end .cat_tip_details
                     // "<p class='rating-details'>" +
                     //     "<a class='text-rating' style='color:green; font-weight:bolder;'>Evalua este producto del 1 al 5 siendo 5 lo mejor y 1 lo peor</a>" +
                     //     "<br>" +

@@ -31,6 +31,7 @@
 			LEFT JOIN teams t ON p.equipo = t.id_team
 			LEFT JOIN tipo ti ON p.tipo = ti.id_tipo
 			LEFT JOIN categorias c ON p.categoria = c.id_categoria
+			LEFT JOIN users u ON p.id_vendedor = u.id_user
 			WHERE p.id_producto = $id_producto";
 
 			// die('<script>console.log('.json_encode( $sql ) .');</script>');

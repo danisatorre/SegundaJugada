@@ -1,16 +1,32 @@
 <?php
-	class connect{
-		public static function con(){
-			$host = '127.0.0.1';  
-    		$user = "root";                     
-    		$pass = "root";                             
-    		$db = "segunda_jugada";                      
-    		$port = 3307;
-    		
-    		$conexion = mysqli_connect($host, $user, $pass, $db, $port)or die(mysql_error());
+	class connect {
+		private static function getConfig() {
+			$credenciales_db = $_SERVER['DOCUMENT_ROOT'] . '/0_intro/online_shop/SegundaJugada/model/db.ini';
+			if (!file_exists($credenciales_db)) {
+				die("Error: Archivo de configuración no encontrado.");
+			}
+			return parse_ini_file($credenciales_db, true)['db'];
+		}
+
+		public static function con() {
+			$config = self::getConfig();
+
+			$host = $config['host'];
+			$user = $config['user'];
+			$pwd = $config['pwd'];
+			$db = $config['db'];
+			$port = $config['port'];
+
+			$conexion = mysqli_connect($host, $user, $pwd, $db, $port);
+
+			if (!$conexion) {
+				die("Error de conexión a la base de datos: " . mysqli_connect_error());
+			}
+
 			return $conexion;
 		}
-		public static function close($conexion){
+
+		public static function close($conexion) {
 			mysqli_close($conexion);
 		}
 	}
