@@ -4,6 +4,9 @@
     include($path . "/model/middleware_auth.php");
 
     @session_start();
+    if(isset($_SESSION['tiempo'])){
+        $_SESSION['tiempo'] = time(); // devuelve la fecha actual
+    }
 
     switch($_GET['op']){
 
@@ -129,11 +132,79 @@
             // echo json_encode($data_user['username']);
             // exit;
             $json_token = decode_token($token);
+            // echo json_encode($json_token);
+            // exit();
             $daoauth = new DAOauth();
             $rdo = $daoauth->select_data_user($json_token['username']);
             // $rdo = $daoauth->select_data_user($token['username']);
             echo json_encode($rdo);
+            exit();
+        break;
+
+        case 'logout';
+            unset($_SESSION['username']);
+            unset($_SESSION['tiempo']);
+            session_destroy();
+
+            echo json_encode('logout_correct');
+        break;
+
+        case 'control_user';
+            // header('Content-Type: application/json'); // asegurar que todo lo que se envia sea en formato JSON
+
+            $tokenNormal = $_POST['token'];
+            // echo json_encode($tokenNormal);
+            // exit();
+
+            $tokenDec = decode_token($tokenNormal);
+            // echo json_encode($tokenDec);
+            // echo json_encode($tokenDec['username']);
+            // exit();
+
+            if ($tokenDec['exp'] < time()) {
+                echo json_encode("UsuarioNoValido");
+                exit();
+            }
+
+            if (isset($_SESSION['username']) && ($_SESSION['username']) == $tokenDec['username']) {
+                echo json_encode("UsuarioValido");
+                exit();
+            } else {
+                echo json_encode("UsuarioNoValido");
+                exit();
+            }
+            exit();
+        break;
+
+        case 'actividad';
+            if(!isset($_SESSION["tiempo"])){
+                echo json_encode("inactivo");
+                exit();
+            }else{
+                if((time() - $_SESSION["tiempo"]) >= 60){ // 1800s = 30min
+                    echo json_encode("inactivo");
+                    exit();
+                }else{
+                    echo json_encode("activo");
+                    exit();
+                }
+            }
+        break;
+
+        case 'refresh_token';
+            $oldToken = decode_token($_POST['token']);
+            $newToken = create_token($oldToken['username']);
+            echo json_encode($newToken);
+        break;
+
+        case 'refresh_cookie';
+            session_regenerate_id();
+            echo json_encode("cookie_actualizada");
             exit;
+        break;
+
+        default;
+            include("module/exceptions/view/pages/error404.html");
         break;
 
     } // switch

@@ -56,7 +56,7 @@ function click_logout() {
     $(document).on('click', '#logout', function() {
         // localStorage.removeItem('total_prod');
         // toastr.success("Logout succesfully");
-        // setTimeout('logout(); ', 1000);
+        setTimeout('logout(); ', 1000);
         localStorage.removeItem('token');
         Swal.fire({
             title: "Sesión cerrada",
@@ -72,26 +72,26 @@ function click_logout() {
 }
 
 //================LOG-OUT================
-// function logout() {
-//     ajaxPromise('module/login/ctrl/ctrl_login.php?op=logout', 'POST', 'JSON')
-//         .then(function(data) {
-//             localStorage.removeItem('token');
-//             window.location.href = "index.php?module=ctrl_home&op=list";
-//         }).catch(function() {
-//             console.log('Something has occured');
-//         });
-// }
+function logout() {
+    ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=logout', 'POST', 'JSON')
+        .then(function(data) {
+            localStorage.removeItem('token');
+            console.log('hola logout');
+            window.location.href = "index.php";
+        }).catch(function() {
+            console.error('ERROR al cerrar sesión');
+        });
+}
 
-// Remove localstorage('page') with click in shop
-// function click_shop() {
-//     $(document).on('click', '#opc_shop', function() {
-//         localStorage.removeItem('page');
-//         localStorage.removeItem('total_prod');
-//     });
-// }
+// Eliminar la pagina del localStorage al acceder al shop para entrar siempre desde la 1ª página
+function click_shop() {
+    $(document).on('click', '#page-productos', function() {
+        localStorage.removeItem('pagina');
+    });
+}
 
 $(document).ready(function() {
     load_menu();
     click_logout();
-    // click_shop();
+    click_shop();
 });

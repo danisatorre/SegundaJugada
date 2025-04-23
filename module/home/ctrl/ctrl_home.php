@@ -2,6 +2,11 @@
     $path = $_SERVER['DOCUMENT_ROOT'] . '/0_intro/online_shop/SegundaJugada/';
     include($path . "/module/home/model/DAOhome.php");
 
+    // ACTIVIDAD DEL USUARIO
+    if(isset($_SESSION['tiempo'])){
+        $_SESSION['tiempo'] = time(); // devuelve la fecha actual
+    }
+
     switch ($_GET['op']) {
         case 'list';
             include ('module/home/view/home.html');

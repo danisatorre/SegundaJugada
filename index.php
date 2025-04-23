@@ -1,4 +1,6 @@
 <?php
+	session_start();
+	
     if ((isset($_GET['module'])) && ($_GET['module']==="ctrl_home") ){
 		include("view/inc/top_page_home.html");
 	}else if((isset($_GET['module'])) && ($_GET['module']==="ctrl_shop")){
@@ -11,7 +13,6 @@
 	else{
 		include("view/inc/top_page_home.html");
 	}
-	//session_start();
 ?>
 <div id="wrapper">		
 	<?php
