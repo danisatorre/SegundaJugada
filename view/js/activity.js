@@ -25,6 +25,7 @@ function control_activity(){
             .then(function(actividad){
                 if(actividad == "inactivo"){
                     console.warn("USUARIO INACTIVO");
+                    localStorage.setItem("timeoutSesion", "Si");
                     logout(); // funcion en main.js
                 }else{
                     console.warn("USUARIO ACTIVO");

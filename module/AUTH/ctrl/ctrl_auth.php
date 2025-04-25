@@ -4,9 +4,9 @@
     include($path . "/model/middleware_auth.php");
 
     @session_start();
-    if(isset($_SESSION['tiempo'])){
-        $_SESSION['tiempo'] = time(); // devuelve la fecha actual
-    }
+    // if(isset($_SESSION['tiempo'])){
+    //     $_SESSION['tiempo'] = time(); // devuelve la fecha actual
+    // }
 
     switch($_GET['op']){
 

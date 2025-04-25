@@ -145,3 +145,12 @@
 .error{
     color:red;
 }
+
+#timeout_sesion{
+    display:block;
+    text-align: center;
+    color:rgb(253, 222, 222);
+    background-color: #e4786f;
+    border-color:red;
+    border-radius: 3px;
+}

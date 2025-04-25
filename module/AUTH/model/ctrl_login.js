@@ -38,7 +38,7 @@ function login() {
                 }
             });
     }
-}
+} // login
 
 function key_login() {
     // console.log("hola key_login")
@@ -49,7 +49,7 @@ function key_login() {
             login();
         }
     });
-}
+} // key_login
 
 function button_login() {
     // console.log("hola button_login")
@@ -57,7 +57,7 @@ function button_login() {
         e.preventDefault();
         login();
     });
-}
+} // button_login
 
 function validate_login() {
     // console.log("hola validate_login")
@@ -85,11 +85,20 @@ function validate_login() {
     if (error == true) {
         return 0;
     }
-}
+} // validate_login
+
+function timeoutSesion(){
+    var timeout = localStorage.getItem('timeoutSesion');
+    if(timeout){
+        localStorage.removeItem('timeoutSesion');
+        document.getElementById('timeout_sesion').innerHTML = "Has estado inactivo demasiado tiempo <br> Vuelve a iniciar sesión";
+    }
+} // timeoutSesion
 
 // alert
 
 $(document).ready(function(){
     key_login()
     button_login()
+    timeoutSesion()
 });

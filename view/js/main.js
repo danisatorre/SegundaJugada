@@ -73,14 +73,26 @@ function click_logout() {
 
 //================LOG-OUT================
 function logout() {
-    ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=logout', 'POST', 'JSON')
+    var timeout = localStorage.getItem('timeoutSesion');
+    if(timeout == "Si"){
+        ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=logout', 'POST', 'JSON')
         .then(function(data) {
             localStorage.removeItem('token');
-            console.log('hola logout');
+            // console.log('hola logout');
+            window.location.href="index.php?module=ctrl_auth&op=login-view";
+        }).catch(function() {
+            console.error('ERROR al cerrar sesión');
+        });
+    }else{
+        ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=logout', 'POST', 'JSON')
+        .then(function(data) {
+            localStorage.removeItem('token');
+            // console.log('hola logout');
             window.location.href = "index.php";
         }).catch(function() {
             console.error('ERROR al cerrar sesión');
         });
+    }
 }
 
 // Eliminar la pagina del localStorage al acceder al shop para entrar siempre desde la 1ª página
