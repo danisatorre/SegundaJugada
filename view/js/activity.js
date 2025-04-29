@@ -37,12 +37,15 @@ function control_activity(){
 } // end control_activity
 
 function refresh_token(){
-    var token = localStorage.getItem('token');
+    var token = JSON.parse(localStorage.getItem('token'));
     if(token){
         ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=refresh_token', 'POST', 'JSON', {'token': token})
             .then(function(refToken){
+                console.log(refToken);
                 console.log("refres_token\nToken refrescado correctamente");
-                localStorage.setItem("token", refToken);
+                // localStorage.setItem("token", refToken);
+                // JSON.parse(localStorage.setItem("token", refToken));
+                localStorage.setItem("token", JSON.stringify(refToken));
                 load_menu(); // función en main.js
             });
     }
@@ -51,13 +54,14 @@ function refresh_token(){
 function refresh_cookie(){
     ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=refresh_cookie', 'POST', 'JSON')
         .then(function(cookie){
+            console.log(cookie);
             console.log("refresh_cookie\nCookie actualizada correctamente");
         });
 } // end refresh_cookie
 
 $(document).ready(function(){ // 10min = 600000 | 1min = 60000
-    setInterval(function() {control_activity()}, 60000);
+    setInterval(function() {control_activity()}, 90000);
     protecturl();
-    setInterval(function() {refresh_token()}, 60000);
-    setInterval(function() {refresh_cookie()}, 60000);
+    setInterval(function() {refresh_token()}, 30000);
+    setInterval(function() {refresh_cookie()}, 30000);
 });

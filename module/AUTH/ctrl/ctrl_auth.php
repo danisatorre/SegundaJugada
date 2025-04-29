@@ -150,8 +150,6 @@
         break;
 
         case 'control_user';
-            // header('Content-Type: application/json'); // asegurar que todo lo que se envia sea en formato JSON
-
             $tokenNormal = $_POST['token'];
             // echo json_encode($tokenNormal);
             // exit();
@@ -192,9 +190,14 @@
         break;
 
         case 'refresh_token';
-            $oldToken = decode_token($_POST['token']);
+            $tokenNormal = $_POST['token'];
+            // echo json_encode($tokenNormal);
+            // exit;
+
+            $oldToken = decode_token($tokenNormal);
             $newToken = create_token($oldToken['username']);
             echo json_encode($newToken);
+            exit;
         break;
 
         case 'refresh_cookie';
