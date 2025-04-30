@@ -3,6 +3,22 @@
 	include($path . "/model/connect.php");
     
 	class DAOHome {
+		function select_cphome() {
+			$sql= "SELECT * FROM carousel_home ORDER BY id_cphome ASC";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$retrArray = array();
+			if (mysqli_num_rows($res) > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
+		}
+
 		function select_marca() {
 			$sql= "SELECT * FROM marcas ORDER BY nom_marca ASC LIMIT 30;";
 

@@ -2,6 +2,38 @@
 // console.log("hola ctrl home js");
 // return false;
 
+function carouselPrincipal(){
+    ajaxPromise('module/home/ctrl/ctrl_home.php?op=carouselPrincipal','GET', 'JSON')
+    .then(function(data) {
+            for (row in data) {
+                $('<div></div>').attr('class', "div_cp").attr('id_cphome', data[row].id_cphome).appendTo(".carousel-home-principal")
+                .html(
+                    "<img src='" + data[row].ruta_img + "' alt='foto' >"
+                )
+            }
+
+            // console.log("hola end FOR row in data CAROUSELMARCAS");
+            // return false;
+
+              $(function() {
+                // Owl Carousel
+                var owl = $(".carousel-home-principal");
+                owl.owlCarousel({
+                  items: 1,
+                  margin: 10,
+                  loop: true,
+                  nav: true,
+                  autoplay: true,
+                  autoplayTimeout: 10000, // 10 segundos (10k ms)
+                  autoplaySpeed: 2500,
+                });
+              });
+        })
+        .catch(function() {
+            window.location.href = "index.php?module=ctrl_exceptions&op=503";
+        });
+} // end carouselPrincipal
+
 function carouselMarcas() {
     // console.log("hola CAROUSELMARCAS");
     // return false;
@@ -551,6 +583,7 @@ function goToShop(){
 } // end goToShop (saltar del home al shop con filtros aplicados)
 
 $(document).ready(function() {
+    carouselPrincipal();
     carouselMarcas();
     loadCategorias();
     loadCatTipos();

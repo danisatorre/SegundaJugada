@@ -12,6 +12,22 @@
             include ('module/home/view/home.html');
         break;
 
+
+        case 'carouselPrincipal';
+            try{
+                $daohome = new DAOhome();
+                $selectcphome = $daohome->select_cphome();
+            } catch(Exception $e){
+                echo json_encode("error");
+            }
+            
+            if(!empty($selectcphome)){
+                echo json_encode($selectcphome); 
+            }else{
+                echo json_encode("error");
+            }
+        break;
+
         case 'Carrousel_Marcas';
             try{
                 $daohome = new DAOhome();

@@ -1,3 +1,17 @@
+.div_cp {
+    margin-top: -100px;
+    width: 100%; /* Ocupa todo el ancho de la página */
+    height: 55vh; /* Ocupa toda la altura visible del navegador */
+    overflow: hidden; /* Oculta cualquier contenido que sobresalga */
+    position: relative; /* Para posicionar elementos dentro del carousel */
+}
+
+#carousel-principal .carousel-home-principal img {
+    width: 100%; /* Asegura que las imágenes ocupen todo el ancho */
+    height: 100%; /* Asegura que las imágenes ocupen toda la altura */
+    object-fit: cover; /* Ajusta la imagen para que se recorte proporcionalmente */
+}
+
 .div_categoria, .div_marca, .carousel__elements {
     display: inline-block;
     width: 20%;
