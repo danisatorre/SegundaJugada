@@ -3,7 +3,7 @@ include($_SERVER['DOCUMENT_ROOT'] . "/0_intro/online_shop/SegundaJugada/model/JW
 
 function decode_token($token){
     $jwt = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/0_intro/online_shop/SegundaJugada/model/jwt.ini');
-    $secret = $jwt['secret'];
+    $secret = $jwt['JWT_SECRET'];
 
     $JWT = new JWT;
     $token_dec = $JWT->decode($token, $secret);
@@ -13,8 +13,8 @@ function decode_token($token){
 
 function create_token($username){
     $jwt = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/0_intro/online_shop/SegundaJugada/model/jwt.ini');
-    $header = $jwt['header'];
-    $secret = $jwt['secret'];
+    $header = $jwt['JWT_HEADER'];
+    $secret = $jwt['JWT_SECRET'];
     $payload = '{"iat":"' . time() . '","exp":"' . time() + (600) . '","username":"' . $username . '"}';
 
     $JWT = new JWT;

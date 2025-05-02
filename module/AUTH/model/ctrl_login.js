@@ -22,15 +22,13 @@ function login() {
                         confirmButtonText: "Continuar"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = "index.php";
+                            if(localStorage.getItem('redirect_like')){
+                                setTimeout('window.location.href = "index.php?module=ctrl_shop&op=list";', 2000);
+                            }else{
+                                setTimeout('window.location.href = "index.php";', 2000);
+                            }
                         }
                     });
-
-                    // if (localStorage.getItem('redirect_like')) {
-                    //     setTimeout(' window.location.href = "index.php?module=ctrl_shop&op=list"; ', 1000);
-                    // } else {
-                    //     setTimeout(' window.location.href = "index.php?module=ctrl_home&op=list"; ', 1000);
-                    // }
                 }
             }).catch(function(textStatus) {
                 if (console && console.log) {

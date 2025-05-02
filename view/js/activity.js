@@ -60,8 +60,8 @@ function refresh_cookie(){
 } // end refresh_cookie
 
 $(document).ready(function(){ // 10min = 600000 | 1min = 60000
-    setInterval(function() {control_activity()}, 90000);
+    setInterval(function() {control_activity()}, 1800000); // 30 min
     protecturl();
-    setInterval(function() {refresh_token()}, 30000);
-    setInterval(function() {refresh_cookie()}, 30000);
+    setInterval(function() {refresh_token()}, 300000); // 5 min
+    setInterval(function() {refresh_cookie()}, 300000); // 5 min
 });

@@ -574,4 +574,73 @@
 			connect::close($conexion);
 		}
 
+		// LIKES
+
+		function select_load_likes($username){
+			$sql = "SELECT l.id_producto_like
+			FROM likes l
+			WHERE l.id_user_like = (SELECT u.id_user
+							FROM users u
+							WHERE u.username = '$username')";
+			
+			// return $sql;
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			return $res;
+
+			$retrArray = array();
+			if (mysqli_num_rows($res) > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$retrArray[] = $row;
+				}
+			}
+			return $retrArray;
+		}
+
+		function select_likes($id_producto, $username){
+			$sql = "SELECT l.id_producto_like
+			FROM likes l
+			WHERE l.id_user_like = (SELECT u.id_user
+							FROM users u
+							WHERE u.username = '$username')
+			AND l.id_producto_like = '$id_producto'";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+
+			$likes = array();
+			if ($res && mysqli_num_rows($res) > 0) {
+				while ($row = mysqli_fetch_assoc($res)) {
+					$likes[] = $row;
+				}
+			}
+
+			return $res;
+		}
+
+		function like($id_producto, $username){
+			$sql = "INSERT INTO likes (id_user_like, id_producto_like) VALUES ((SELECT u.id_user FROM users u WHERE u.username = '$username'), '$id_producto');";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+			return $res;
+		}
+
+		function dislike($id_producto, $username){
+			$sql = "DELETE l FROM likes l
+			JOIN users u ON l.id_user_like = u.id_user
+			WHERE l.id_producto_like = '$id_producto'
+			AND u.username = '$username';";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+			return $res;
+		}
+
     }

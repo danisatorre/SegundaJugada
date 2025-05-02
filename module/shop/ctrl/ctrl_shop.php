@@ -2,6 +2,7 @@
 
     $path = $_SERVER['DOCUMENT_ROOT'] . '/0_intro/online_shop/SegundaJugada/';
     include($path . "/module/shop/model/DAOshop.php");
+    include($path . "/model/middleware_auth.php");
 
     // ACTIVIDAD DEL USUARIO
     if(isset($_SESSION['tiempo'])){
@@ -350,6 +351,78 @@
                 $select_u_v_t = $daoshop_u_v_t->update_visitas_tipo($id_tipo);
             } catch(Exception $e){
                 echo json_encode("error");
+                exit;
+            }
+        break;
+
+        case 'ctrl_likes';
+            $tokenNormal = $_POST['token'];
+            $id_producto = $_POST['id_producto'];
+
+            try{
+                $token = decode_token($tokenNormal);
+                // echo json_encode($token['username']);
+                // exit;
+                $daoshop_ctrl_likes = new DAOshop();
+                $select_ctrl_likes = $daoshop_ctrl_likes->select_likes($id_producto, $token['username']);
+            }catch(Exception $e){
+                echo json_encode('error');
+                exit;
+            }
+            if(!$select_ctrl_likes){
+                echo json_encode('error');
+                exit;
+            }else{
+                $dsinfo = array();
+                foreach($select_ctrl_likes as $row){
+                    array_push($dsinfo, $row);
+                }
+                if(count($dsinfo) === 0){
+                    $daoshop_ctrl_likes = new DAOshop();
+                    $select_ctrl_likes = $daoshop_ctrl_likes->like($id_producto, $token['username']);
+                    echo json_encode('0');
+                    exit;
+                }else{
+                    $daoshop_ctrl_likes = new DAOshop();
+                    $select_ctrl_likes = $daoshop_ctrl_likes->dislike($id_producto, $token['username']);
+                    echo json_encode('1');
+                    exit;
+                }
+            }
+        break;
+
+        case 'load_likes_user';
+            try {
+                $tokenNormal = $_POST['token'];
+                // echo json_encode($tokenNormal);
+                // exit;
+                $token = decode_token($tokenNormal);
+                $username = $token['username'];
+                // echo json_encode($username);
+                // exit;
+                $daoshop_l_l_u = new DAOshop();
+                // echo json_encode("DAOshop_inicializado");
+                // exit;
+                $select_l_l_u = $daoshop_l_l_u->select_load_likes($username);
+                // echo json_encode("despues_del_select...");
+                // echo json_encode($select_l_l_u);
+                // exit;
+            } catch (Exception $e) {
+                echo json_encode("error");
+                exit;
+            }
+
+            if (!$select_l_l_u || empty($select_l_l_u)) {
+                echo json_encode("error");
+                exit;
+            } else {
+                // echo json_encode($select_l_l_u);
+                // exit;
+                $dsinfo = array();
+                foreach ($select_l_l_u as $row) {
+                    array_push($dsinfo, $row);
+                }
+                echo json_encode($dsinfo);
                 exit;
             }
         break;

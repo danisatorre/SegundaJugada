@@ -11,11 +11,11 @@
 		public static function con() {
 			$config = self::getConfig();
 
-			$host = $config['host'];
-			$user = $config['user'];
-			$pwd = $config['pwd'];
-			$db = $config['db'];
-			$port = $config['port'];
+			$host = $config['DB_HOST'];
+			$user = $config['DB_USER'];
+			$pwd = $config['DB_PWD'];
+			$db = $config['DB_DB'];
+			$port = $config['DB_PORT'];
 
 			$conexion = mysqli_connect($host, $user, $pwd, $db, $port);
 

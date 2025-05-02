@@ -2,14 +2,14 @@ function load_menu() {
     // var token = localStorage.getItem('token');
     var token = JSON.parse(localStorage.getItem('token'));
     // const token = JSON.parse(localStorage.getItem("token"));
-    console.log(token)
+    // console.log(token)
     // console.log(token.username)
     // return false;
     $('.submenu-cuenta').empty();
     if (token) {
         ajaxPromise('module/AUTH/ctrl/ctrl_auth.php?op=data_user', 'POST', 'JSON', { 'token': token })
             .then(function(data) {
-                console.log(data)
+                // console.log(data)
                 // console.log(token.username);
                 // return false;
                 // if (data.tipo_usuario == "Cliente") {

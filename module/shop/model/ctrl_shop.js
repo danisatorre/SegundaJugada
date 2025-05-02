@@ -8,6 +8,7 @@ function loadShop(total_productos, items_por_pagina){
     var verificar_filtros = localStorage.getItem('filtro') || false;
     var buscador_filtros = localStorage.getItem('buscar') || false;
     var details_home = localStorage.getItem('details_home') || false;
+    var like = localStorage.getItem('redirect_like') || false;
     // console.log("loadShop verificar_filtros: ", verificar_filtros);
     // console.log("loadShop buscador_filtros: ", buscador_filtros);
     // console.log("loadShop details_home id producto: ", details_home);
@@ -23,6 +24,8 @@ function loadShop(total_productos, items_por_pagina){
         // console.log("loadShop details_home");
         $('#paginacion').empty();
         loadProductoDetails(details_home);
+    }else if(like != false){
+        redirect_login_like();
     }else{
         // console.log("loadshop else (url...getall)");
         ajaxForSearch('module/shop/ctrl/ctrl_shop.php?op=getall');
@@ -79,6 +82,7 @@ function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina
                     leafleft(shop, 6);
                     highlight();
                     botones_filtros();
+                    load_likes_user();
                 } catch (error){
                     console.log("ERROR al pintar productos filtrados");
                 }
@@ -638,7 +642,7 @@ function update_visitas_categoria(id_categoria){
         // location.reload();
         // loadShop();
     }, 1000);
-}
+} // end update_visitas_categoria
 
 function update_visitas_tipo(id_tipo){
     console.log("hola update_visitas_tipo")
@@ -661,7 +665,7 @@ function update_visitas_tipo(id_tipo){
         // location.reload();
         // loadShop();
     }, 1000);
-}
+} // end update_visitas_tipo
 
 function loadProductoDetails(id_producto){
     console.log("hola loadProductoDetails");
@@ -739,7 +743,8 @@ function loadProductoDetails(id_producto){
                         "<img class='img_user_details' src='" + shop[0][0].avatar + ">" +
                         "<a class='nom_user_details'>" + shop[0][0].username + "</a>" +
                     "</div>" + // end .user_details
-                    "<h3>" + shop[0][0].nom_prod + "</h5>" +
+                    "<h3>" + shop[0][0].nom_prod + "</h3>" +
+                    "<a class='details_like' id='" + shop[0][0].id_producto + "'><i id=" + shop[0][0].id_producto + " class='fa-solid fa-heart fa-lg'></i></a>" +
                     "<p class='precio-details'>" + shop[0][0].precio + "€</p>" +
                     "<p class='marca-details'>" + shop[0][0].nom_marca + "</p>" +
                     "<p class='sexo-details'>" + shop[0][0].sexo_prod + "</p>" +
@@ -807,6 +812,8 @@ function loadProductoDetails(id_producto){
             pintar_estrellas(shop[0][0].rating);
 
             estrellas_rating(id_producto);
+
+            load_likes_user();
     }).catch(function(){
         window.location.href = "index.php?module=ctrl_exceptions&op=503";
     })
@@ -1136,6 +1143,7 @@ function load_buscador_shop(total_productos = 0, items_por_pagina = 3){
                     leafleft(buscador, 6);
                     highlight();
                     botones_filtros();
+                    load_likes_user();
             }
         }).catch(function(){
             window.location.href = "index.php?module=ctrl_exceptions&op=503";
@@ -1314,6 +1322,82 @@ function delete_home_details(){
     });
 } // end delete_home_details
 
+function like_clicks(){
+    // details
+    $(document).on("click", ".details_like", function(){
+        var id_producto = this.getAttribute('id');
+        click_like(id_producto, "details");
+    });
+    // list
+    $(document).on("click", ".list_like", function(){
+        var id_producto = this.getAttribute('id');
+        click_like(id_producto, "list");
+    });
+} // end like_clicks (manejar los clicks sobre los likes)
+
+function click_like(id_producto, lugar){
+    var token = JSON.parse(localStorage.getItem('token'));
+    if(token){
+        ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=ctrl_likes", 'POST', 'JSON', {'id_producto': id_producto, 'token': token})
+            .then(function(like){
+                console.log(like);
+                // return false;
+                if (like === '0') {
+                    $("#" + id_producto + ".fa-heart").addClass('like_red');
+                } else if (like === '1') {
+                    $("#" + id_producto + ".fa-heart").removeClass('like_red');
+                }
+                // $("#" + id_producto + ".fa-hearth").toggleClass('like_red');
+            }).catch(function(){
+                window.location.href = "index.php?module=ctrl_exceptions&op=503";
+            });
+    }else{
+        const redirect = [];
+        redirect.push(id_producto, lugar);
+
+        localStorage.setItem('redirect_like', redirect);
+        localStorage.setItem('id_producto', id_producto);
+
+        toastr.warning("Inicia sesión para poder guardar en favoritos productos");
+        setTimeout("location.href= 'index.php?module=ctrl_auth&op=login-view';", 1000);
+    }
+} // end click_like (manejar que hacer al hacer click sobre el corazón del like)
+
+function load_likes_user(){
+    var token = JSON.parse(localStorage.getItem('token'));
+    if(token){
+        ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=load_likes_user", 'POST', 'JSON', {'token': token})
+            .then(function(like){
+                console.log(like);
+                // return false;
+                for(row in like){
+                    // console.log(like[row].id_producto_like);
+                    $("#" + like[row].id_producto_like + ".fa-heart").toggleClass('like_red');
+                }
+            }).catch(function(error){
+                console.error("ERROR load_likes_user:\n", error);
+                return false;
+                window.location.href='index.php?module=ctrl_exceptions&op=503';
+            });
+    }
+} // end load_likes_user
+
+function redirect_login_like(){
+    var token = JSON.parse(localStorage.getItem('token'));
+    var id_producto = localStorage.getItem('id_producto');
+    ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=ctrl_likes", 'POST', 'JSON', {'token':token, 'id_producto':id_producto})
+
+    var redirect = localStorage.getItem('redirect_like').split(",");
+    if(redirect[1] == "details"){
+        loadProductoDetails(redirect[0]);
+        localStorage.removeItem('pagina');
+        localStorage.removeItem('redirect_like');
+    }else if(redirect[1] == "list"){
+        localStorage.removeItem('redirect_like');
+        loadShop();
+    }
+} // end redirect_login_like
+
 $(document).ready(function(){
     print_filtros();
     loadEquipos();
@@ -1329,6 +1413,8 @@ $(document).ready(function(){
     // paginacion();
 
     delete_home_details();
+
+    like_clicks();
 });
 
 // $(document).ready(function(){
