@@ -380,11 +380,19 @@
                 if(count($dsinfo) === 0){
                     $daoshop_ctrl_likes = new DAOshop();
                     $select_ctrl_likes = $daoshop_ctrl_likes->like($id_producto, $token['username']);
+
+                    $daoshop_update_likes = new DAOshop();
+                    $update_ctrl_likes = $daoshop_update_likes->sumar_like($id_producto);
+
                     echo json_encode('0');
                     exit;
                 }else{
                     $daoshop_ctrl_likes = new DAOshop();
                     $select_ctrl_likes = $daoshop_ctrl_likes->dislike($id_producto, $token['username']);
+
+                    $daoshop_update_likes = new DAOshop();
+                    $update_ctrl_likes = $daoshop_ctrl_likes->restar_like($id_producto);
+
                     echo json_encode('1');
                     exit;
                 }

@@ -13,7 +13,9 @@ function loadShop(total_productos, items_por_pagina){
     // console.log("loadShop buscador_filtros: ", buscador_filtros);
     // console.log("loadShop details_home id producto: ", details_home);
     // return false;
-    if(verificar_filtros != false){
+    if(like != false){
+        redirect_login_like();
+    }else if(verificar_filtros != false){
         // console.log("loadShop verificar_filtros");
         getall(total_productos, items_por_pagina);
         highlight();
@@ -24,8 +26,6 @@ function loadShop(total_productos, items_por_pagina){
         // console.log("loadShop details_home");
         $('#paginacion').empty();
         loadProductoDetails(details_home);
-    }else if(like != false){
-        redirect_login_like();
     }else{
         // console.log("loadshop else (url...getall)");
         ajaxForSearch('module/shop/ctrl/ctrl_shop.php?op=getall');
@@ -71,11 +71,17 @@ function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina
                         $(".nofiltrosdiv").empty();
                         $('<div></div>').attr('class', "producto").attr({'id': shop[row].id_producto}).appendTo('.container-productos')
                             .html(
-                                "<img src = " + shop[row].img_producto + " alt='foto' </img> " +
-                                "<div class='inf-producto'>" +
-                                "<h3>" + shop[row].nom_prod + "</h5>" +
-                                "<p class='precio'>" + shop[row].precio + "€</p>" +
-                                "</div>"
+                                "<div class='click-producto' id='" + shop[row].id_producto + "'>" +
+                                    "<img src = " + shop[row].img_producto + " alt='foto' </img> " +
+                                    "<div class='inf-producto'>" +
+                                    "<h3>" + shop[row].nom_prod + "</h5>" +
+                                    "<p class='precio'>" + shop[row].precio + "€</p>" +
+                                    "</div>" + // end .inf-producto
+                                "</div>" + // end .click-producto
+                                "<a class='list_like' id='" + shop[row].id_producto + "'>" + 
+                                    "<i id=" + shop[row].id_producto + " class='fa-solid fa-heart fa-lg'></i>" + 
+                                "</a>" + // end .details_like
+                                "<span class='count-likes'>" + shop[row].likes + "</span>"
                             ); // end .html
                     }
                     paginacion();
@@ -83,6 +89,15 @@ function ajaxForSearch(url, filtro = null, total_productos = 0, items_por_pagina
                     highlight();
                     botones_filtros();
                     load_likes_user();
+                    // animacion del producto al que se da like cuando no estas logeado
+                    if(localStorage.getItem('id_producto')){
+                        var id = "#" + localStorage.getItem('id_producto');
+                        $("html, body").animate({scrollTop: $(id).offset().top}, 1000, function(){
+                            $(id).animate({ marginTop: "-20px" }, 200)
+                                .animate({ marginTop: "0px" }, 200);
+                        });
+                        localStorage.removeItem('id_producto');
+                    }
                 } catch (error){
                     console.log("ERROR al pintar productos filtrados");
                 }
@@ -670,6 +685,7 @@ function update_visitas_tipo(id_tipo){
 function loadProductoDetails(id_producto){
     console.log("hola loadProductoDetails");
     localStorage.removeItem('details_home');
+    localStorage.removeItem('id_producto');
     // return false;
     update_visitas(id_producto);
     localStorage.removeItem('items');
@@ -744,7 +760,10 @@ function loadProductoDetails(id_producto){
                         "<a class='nom_user_details'>" + shop[0][0].username + "</a>" +
                     "</div>" + // end .user_details
                     "<h3>" + shop[0][0].nom_prod + "</h3>" +
-                    "<a class='details_like' id='" + shop[0][0].id_producto + "'><i id=" + shop[0][0].id_producto + " class='fa-solid fa-heart fa-lg'></i></a>" +
+                    "<a class='details_like' id='" + shop[0][0].id_producto + "'>" + 
+                        "<i id=" + shop[0][0].id_producto + " class='fa-solid fa-heart fa-lg'></i>" + 
+                    "</a>" + // end .details_like
+                    "<span class='count-likes'>" + shop[0][0].likes + "</span>" +
                     "<p class='precio-details'>" + shop[0][0].precio + "€</p>" +
                     "<p class='marca-details'>" + shop[0][0].nom_marca + "</p>" +
                     "<p class='sexo-details'>" + shop[0][0].sexo_prod + "</p>" +
@@ -987,7 +1006,7 @@ function mas_productos_relacionados(tipo, id_producto){
 
 function loadDetails() {
     // cargar details desde el producto
-    $(document).on("click", ".producto", function() {
+    $(document).on("click", ".click-producto", function() {
         var id_producto = this.getAttribute('id');
         loadProductoDetails(id_producto);
     });
@@ -1131,11 +1150,17 @@ function load_buscador_shop(total_productos = 0, items_por_pagina = 3){
                         $('.nofiltrosdiv').empty();
                         $('<div></div>').attr('class', "producto").attr({'id': buscador[row].id_producto}).appendTo('.container-productos')
                             .html(
-                                "<img src = " + buscador[row].img_producto + " alt='foto' </img> " +
-                                "<div class='inf-producto'>" +
-                                "<h3>" + buscador[row].nom_prod + "</h5>" +
-                                "<p class='precio'>" + buscador[row].precio + "€</p>" +
-                                "</div>"
+                                "<div class='click-producto' id='" + buscador[row].id_producto + "'>" +
+                                    "<img src = " + buscador[row].img_producto + " alt='foto' </img> " +
+                                    "<div class='inf-producto'>" +
+                                        "<h3>" + buscador[row].nom_prod + "</h5>" +
+                                        "<p class='precio'>" + buscador[row].precio + "€</p>" +
+                                    "</div>" + // end .inf-producto
+                                "</div>" + // end .click-producto
+                                "<a class='list_like' id='" + buscador[row].id_producto + "'>" + 
+                                    "<i id=" + buscador[row].id_producto + " class='fa-solid fa-heart fa-lg'></i>" + 
+                                "</a>" + // end .details_like
+                                "<span class='count-likes'>" + buscador[row].likes + "</span>"
                             ); // end .html
                     }
                     paginacion();
@@ -1144,6 +1169,15 @@ function load_buscador_shop(total_productos = 0, items_por_pagina = 3){
                     highlight();
                     botones_filtros();
                     load_likes_user();
+                    // animacion del producto al que se da like cuando no estas logeado
+                    if(localStorage.getItem('id_producto')){
+                        var id = "#" + localStorage.getItem('id_producto');
+                        $("html, body").animate({scrollTop: $(id).offset().top}, 1000, function(){
+                            $(id).animate({ marginTop: "-20px" }, 200)
+                                .animate({ marginTop: "0px" }, 200);
+                        });
+                        localStorage.removeItem('id_producto');
+                    }
             }
         }).catch(function(){
             window.location.href = "index.php?module=ctrl_exceptions&op=503";

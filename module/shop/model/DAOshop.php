@@ -643,4 +643,24 @@
 			return $res;
 		}
 
+		function sumar_like($id_producto){
+			$sql = "UPDATE productos p
+			SET p.likes = p.likes +1
+			WHERE p.id_producto = $id_producto";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+		}
+
+		function restar_like($id_producto){
+			$sql = "UPDATE productos p
+			SET p.likes = p.likes -1
+			WHERE p.id_producto = $id_producto";
+
+			$conexion = connect::con();
+			$res = mysqli_query($conexion, $sql);
+			connect::close($conexion);
+		}
+
     }

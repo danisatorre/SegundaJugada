@@ -387,6 +387,22 @@ body {
     color:red;
 }
 
+.details_like {
+    /* position: relative; */
+    display: inline-block;
+}
+
+.details_like .fa-heart {
+    /* position: relative; */
+    font-size: 30px; /* Ajusta el tamaño del ícono */
+}
+
+.like-count{
+    /* position: absolute; */
+    margin-left:50px;
+    color:aliceblue;
+}
+
 /* DETAILS PRODUCTOS RELACIONADOS */
 
 .title-prelacionados {
