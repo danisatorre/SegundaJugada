@@ -154,3 +154,86 @@
     border-color:red;
     border-radius: 3px;
 }
+
+/* Estilos generales para dispositivos móviles */
+@media (max-width: 768px) {
+    .login-container {
+        margin-top: 20%;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%; /* Ocupa el 90% del ancho de la pantalla */
+        max-width: 400px; /* Mantén un límite máximo */
+        padding: 15px; /* Reduce el padding */
+    }
+
+    .login-title {
+        font-size: 24px; /* Reduce el tamaño del título */
+        margin-bottom: 15px;
+    }
+
+    .login-form {
+        gap: 10px; /* Reduce el espacio entre los elementos */
+    }
+
+    .form-group label {
+        font-size: 12px; /* Reduce el tamaño del texto */
+    }
+
+    .form-group input {
+        font-size: 14px; /* Reduce el tamaño del texto en los inputs */
+        padding: 8px; /* Reduce el padding */
+    }
+
+    .login-button {
+        font-size: 14px; /* Reduce el tamaño del texto */
+        padding: 8px 15px; /* Ajusta el padding */
+    }
+
+    .google-login-button {
+        font-size: 14px; /* Reduce el tamaño del texto */
+        padding: 8px 15px; /* Ajusta el padding */
+    }
+
+    .register-link {
+        font-size: 12px; /* Reduce el tamaño del texto */
+    }
+
+    .google-login-button img {
+        width: 18px; /* Reduce el tamaño del icono */
+        height: 18px;
+        margin-right: 8px;
+    }
+}
+
+/* Estilos para pantallas muy pequeñas (por ejemplo, teléfonos de 320px de ancho) */
+@media (max-width: 480px) {
+    .login-container {
+        margin-top: 15%;
+        width: 95%; /* Ocupa casi todo el ancho de la pantalla */
+    }
+
+    .login-title {
+        font-size: 20px; /* Reduce aún más el tamaño del título */
+    }
+
+    .form-group input {
+        font-size: 12px; /* Reduce el tamaño del texto en los inputs */
+        padding: 6px; /* Reduce el padding */
+    }
+
+    .login-button,
+    .google-login-button {
+        font-size: 12px; /* Reduce el tamaño del texto */
+        padding: 6px 10px; /* Ajusta el padding */
+    }
+
+    .google-login-button img {
+        width: 16px; /* Reduce el tamaño del icono */
+        height: 16px;
+        margin-right: 5px;
+    }
+
+    .register-link {
+        font-size: 10px; /* Reduce el tamaño del texto */
+    }
+}
